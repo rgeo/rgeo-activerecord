@@ -45,7 +45,7 @@ module RGeo
       class TestBasic < ::Test::Unit::TestCase  # :nodoc:
         
         
-        def tc_default_factory_generator
+        def test_default_factory_generator
           ::ActiveRecord::Base.to_generate_rgeo_factory
           factory_ = ::ActiveRecord::Base.rgeo_factory_generator.call(:has_z_coordinate => true, :srid => 4326)
           assert_equal(true, factory_.property(:has_z_coordinate))
@@ -54,7 +54,7 @@ module RGeo
         end
         
         
-        def tc_geometry_types
+        def test_geometry_types
           [:geometry, :point, :line_string, :polygon, :geometry_collection, :multi_line_string, :multi_point, :multi_polygon].each{ |type_| assert(::RGeo::ActiveRecord::GEOMETRY_TYPES.include?(type_), "Type #{type_.inspect} not found" ) }
         end
         
