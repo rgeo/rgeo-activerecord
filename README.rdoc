@@ -1,0 +1,87 @@
+== RGeo ActiveRecord Extension
+
+The RGeo ActiveRecord Extension is an optional RGeo module providing
+spatial extensions to ActiveRecord, as well as common tools and helpers
+for writing RGeo-based spatial ActiveRecord adapters.
+
+=== Summary
+
+RGeo is a key component for writing location-aware applications in the
+Ruby programming language. At its core is an implementation of the
+industry standard OGC Simple Features Specification, which provides data
+representations of geometric objects such as points, lines, and polygons,
+along with a set of geometric analysis operations. See the README for the
+"rgeo" gem for more information.
+
+The RGeo ActiveRecord Extension is an optional RGeo module providing
+spatial extensions to ActiveRecord, as well as common tools and helpers
+for writing RGeo-based spatial ActiveRecord adapters.
+
+=== Installation
+
+The RGeo ActiveRecord Extension has the following requirements:
+
+* RGeo 0.2.0 or later.
+* Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
+* ActiveRecord 3.0.3 or later.
+
+Generally, ActiveRecord adapters which depend on this module should be
+installed as gems, and they should install this module automatically as
+as dependency. However, you can also install it manually as a gem:
+
+ gem install rgeo
+ gem install rgeo-arhelper
+
+See the README for the required "rgeo" gem for further installation
+information.
+
+=== To-do list
+
+* We want to investigate writing some Arel extensions for constructing
+  spatial queries.
+
+=== Development and support
+
+Documentation is available at http://virtuoso.rubyforge.org/rgeo-activerecord/README_rdoc.html
+
+Source code is hosted on Github at http://github.com/dazuma/rgeo-activerecord
+
+Report bugs on Github issues at http://github.org/dazuma/rgeo-activerecord/issues
+
+Contact the author at dazuma at gmail dot com.
+
+=== Acknowledgments
+
+RGeo is written by Daniel Azuma (http://www.daniel-azuma.com).
+
+Development of RGeo is sponsored by GeoPage, Inc. (http://www.geopage.com).
+
+=== License
+
+Copyright 2010 Daniel Azuma
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of the copyright holder, nor the names of any other
+  contributors to this software, may be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
