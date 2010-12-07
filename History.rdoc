@@ -1,4 +1,6 @@
-=== 0.2.0 / 2010-12-06
+=== 0.2.0 / 2010-12-07
 
-Initial public alpha release. Spun rgeo-activerecord off from the core rgeo gem.
+* Initial public alpha release. Spun rgeo-activerecord off from the core rgeo gem.
+* Support for setting factory by column.
+
 For earlier history, see the History file for the rgeo gem.

@@ -46,10 +46,34 @@ module RGeo
         
         
         def test_default_factory_generator
-          ::ActiveRecord::Base.to_generate_rgeo_factory
-          factory_ = ::ActiveRecord::Base.rgeo_factory_generator.call(:has_z_coordinate => true, :srid => 4326)
+          ::ActiveRecord::Base.rgeo_factory_generator = nil
+          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:hello).call(:has_z_coordinate => true, :srid => 4326)
           assert_equal(true, factory_.property(:has_z_coordinate))
           assert_equal(true, factory_.property(:is_cartesian))
+          assert_nil(factory_.property(:is_geographic))
+          assert_equal(4326, factory_.srid)
+        end
+        
+        
+        def test_set_factory_generator
+          ::ActiveRecord::Base.rgeo_factory_generator = ::RGeo::Geographic.method(:spherical_factory)
+          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:hello, :has_z_coordinate => true, :srid => 4326)
+          assert_equal(true, factory_.property(:has_z_coordinate))
+          assert_equal(true, factory_.property(:is_geographic))
+          assert_nil(factory_.property(:is_cartesian))
+          assert_equal(false, factory_.has_projection?)
+          assert_equal(4326, factory_.srid)
+        end
+        
+        
+        def test_specific_factory_for_column
+          ::ActiveRecord::Base.rgeo_factory_generator = nil
+          ::ActiveRecord::Base.set_rgeo_factory_for_column(:foo, ::RGeo::Geographic.simple_mercator_factory(:has_z_coordinate => true))
+          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:foo)
+          assert_equal(true, factory_.property(:has_z_coordinate))
+          assert_equal(true, factory_.property(:is_geographic))
+          assert_nil(factory_.property(:is_cartesian))
+          assert_equal(true, factory_.has_projection?)
           assert_equal(4326, factory_.srid)
         end
         

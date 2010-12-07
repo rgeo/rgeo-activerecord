@@ -57,7 +57,9 @@ module ActiveRecord
   # FactoryGenerator is called with the appropriate configuration to
   # obtain a factory with those properties. This factory is the one
   # associated with the actual geometry properties of the ActiveRecord
-  # object.
+  # object. The result of this generator can be overridden by setting
+  # an explicit factory for a given class and column using the
+  # column_rgeo_factory method.
   
   class Base
     
@@ -66,18 +68,47 @@ module ActiveRecord
     
     
     class_attribute :rgeo_factory_generator, :instance_writer => false
-    self.rgeo_factory_generator = ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-    
-    
-    # This is a convenient way to set the rgeo_factory_generator by
-    # passing a block.
-    
-    def self.to_generate_rgeo_factory(&block_)
-      self.rgeo_factory_generator = block_ || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-    end
+    self.rgeo_factory_generator = nil
     
     
     class << self
+      
+      
+      # This is a convenient way to set the rgeo_factory_generator by
+      # passing a block.
+      
+      def to_generate_rgeo_factory(&block_)
+        self.rgeo_factory_generator = block_
+      end
+      
+      
+      # Set a specific factory for this ActiveRecord class and the given
+      # column name. This setting, if present, overrides the result of the
+      # rgeo_factory_generator.
+      
+      def set_rgeo_factory_for_column(column_, factory_)
+        @rgeo_factory_for_column = {} unless defined?(@rgeo_factory_for_column)
+        @rgeo_factory_for_column[column_.to_sym] = factory_
+      end
+      
+      
+      # Returns the factory generator or specific factory to use for this
+      # ActiveRecord class and the given column name.
+      # If an explicit factory was set for the given column, returns it.
+      # Otherwise, if a params hash is given, passes that has to the
+      # rgeo_factory_generator for this class, and returns the resulting
+      # factory. Otherwise, if no params hash is given, just returns the
+      # rgeo_factory_generator for this class.
+      
+      def rgeo_factory_for_column(column_, params_=nil)
+        @rgeo_factory_for_column = {} unless defined?(@rgeo_factory_for_column)
+        result_ = @rgeo_factory_for_column[column_.to_sym] || rgeo_factory_generator || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
+        if params_ && !result_.kind_of?(::RGeo::Feature::Factory::Instance)
+          result_ = result_.call(params_)
+        end
+        result_
+      end
+      
       
       # :stopdoc:
       alias_method :columns_without_rgeo_modification, :columns
