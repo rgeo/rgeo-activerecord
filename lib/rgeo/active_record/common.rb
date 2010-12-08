@@ -52,7 +52,8 @@ module RGeo
     end
     
     
-    # Index definition struct with a spatial flag field
+    # Index definition struct with a spatial flag field.
+    
     class SpatialIndexDefinition < ::Struct.new(:table, :name, :unique, :columns, :lengths, :spatial)
     end
     

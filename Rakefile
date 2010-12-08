@@ -71,7 +71,7 @@ module RAKEFILE
   EXTRA_RDOC_FILES = ::Dir.glob('*.rdoc')
   ALL_RDOC_FILES = SOURCE_FILES + EXTRA_RDOC_FILES
   MAIN_RDOC_FILE = 'README.rdoc'
-  RDOC_TITLE = "RGeo ActiveRecord Extension #{PRODUCT_VERSION} Documentation"
+  RDOC_TITLE = "RGeo::ActiveRecord #{PRODUCT_VERSION} Documentation"
   
   TESTCASE_FILES = ::Dir.glob('test/**/tc_*.rb')
   ALL_TEST_FILES = ::Dir.glob('test/**/*.{rb,txt,shp,shx,dbf}')
@@ -86,7 +86,7 @@ module RAKEFILE
   GEMSPEC = ::Gem::Specification.new do |s_|
     s_.name = PRODUCT_NAME
     s_.summary = "An RGeo module providing spatial extensions to ActiveRecord."
-    s_.description = "RGeo is a geospatial data library for Ruby. The RGeo ActiveRecord Extension is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
+    s_.description = "RGeo is a geospatial data library for Ruby. RGeo::ActiveRecord is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
     s_.version = "#{PRODUCT_VERSION}"
     s_.author = 'Daniel Azuma'
     s_.email = 'dazuma@gmail.com'

@@ -50,6 +50,17 @@ module RGeo
       @class_num = 0
       
       
+      # When this module is included in a test case class, it
+      # automatically attempts to load the database config file from the
+      # path specified by the class's DATABASE_CONFIG_FILE constant.
+      # It then defines the DATABASE_CONFIG and DEFAULT_AR_CLASS constants
+      # in the testcase class.
+      # 
+      # When you define your test methods, you should wrap them in a call
+      # to the class method define_test_methods. This will cause them to
+      # be defined conditionally based on whether the database config is
+      # present.
+      
       def self.included(klass_)
         database_config_ = ::YAML.load_file(klass_.const_get(:DATABASE_CONFIG_PATH)) rescue nil
         if database_config_
@@ -76,7 +87,7 @@ module RGeo
       end
       
       
-      def self.new_class(param_)
+      def self.new_class(param_)  # :nodoc:
         base_ = param_.kind_of?(::Class) ? param_ : ::ActiveRecord::Base
         config_ = param_.kind_of?(::Hash) ? param_ : nil
         klass_ = ::Class.new(base_)
@@ -90,6 +101,10 @@ module RGeo
       end
       
       
+      # Default setup method that calls cleanup_tables.
+      # It also defines a couple of useful factories: @factory (a
+      # cartesian factory) and @geographic_factory (a spherical factory)
+      
       def setup
         @factory = ::RGeo::Cartesian.preferred_factory(:srid => 4326)
         @geographic_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
@@ -97,10 +112,17 @@ module RGeo
       end
       
       
+      # Default teardown method that calls cleanup_tables.
+      
       def teardown
         cleanup_tables
       end
       
+      
+      # Utility method that attempts to clean up any table that was
+      # created by a test method. Normally called automatically at setup
+      # and teardown. If you override those methods, you'll need to call
+      # this from your method.
       
       def cleanup_tables
         klass_ = self.class.const_get(:DEFAULT_AR_CLASS)
@@ -109,6 +131,9 @@ module RGeo
         end
       end
       
+      
+      # Utility method that creates and returns a new ActiveRecord class
+      # subclassing the DEFAULT_AR_CLASS.
       
       def create_ar_class(opts_={})
         @ar_class = AdapterTestHelper.new_class(self.class.const_get(:DEFAULT_AR_CLASS))
