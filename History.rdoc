@@ -1,3 +1,8 @@
+=== 0.2.1 / 2010-12-27
+
+* Support for RGeo features as nodes in the Arel AST.
+* Basic utility Arel visitor methods for handling spatial equality nodes in where-expressions.
+
 === 0.2.0 / 2010-12-07
 
 * Initial public alpha release. Spun rgeo-activerecord off from the core rgeo gem.

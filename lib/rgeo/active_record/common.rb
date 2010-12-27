@@ -52,6 +52,45 @@ module RGeo
     end
     
     
+    # A set of common Arel visitor hacks for spatial ToSql visitors.
+    
+    module SpatialToSql
+      
+      def st_func(standard_name_)
+        standard_name_
+      end
+      
+      def visit_Arel_Nodes_Equality(node_)
+        right_ = node_.right
+        left_ = node_.left
+        if left_.kind_of?(::Arel::Attributes::Geometry)
+          case right_
+          when ::RGeo::Feature::Instance
+            return "#{st_func('ST_Equals')}(#{visit(left_)}, #{visit(right_)})"
+          when ::String
+            return "#{st_func('ST_Equals')}(#{visit(left_)}, #{st_func('ST_WKTToSQL')}(#{visit(right_)}))"
+          end
+        end
+        super
+      end
+      
+      def visit_Arel_Nodes_NotEqual(node_)
+        right_ = node_.right
+        left_ = node_.left
+        if left_.kind_of?(::Arel::Attributes::Geometry)
+          case right_
+          when ::RGeo::Feature::Instance
+            return "NOT #{st_func('ST_Equals')}(#{visit(left_)}, #{visit(right_)})"
+          when ::String
+            return "NOT #{st_func('ST_Equals')}(#{visit(left_)}, #{st_func('ST_WKTToSQL')}(#{visit(right_)}))"
+          end
+        end
+        super
+      end
+      
+    end
+    
+    
     # Index definition struct with a spatial flag field.
     
     class SpatialIndexDefinition < ::Struct.new(:table, :name, :unique, :columns, :lengths, :spatial)
