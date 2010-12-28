@@ -56,11 +56,13 @@ module RGeo
     
     module SpatialToSql
       
+      # Map a standard OGC SQL function name to the actual name used by
+      # a particular database.
       def st_func(standard_name_)
         standard_name_
       end
       
-      def visit_Arel_Nodes_Equality(node_)
+      def visit_Arel_Nodes_Equality(node_)  # :nodoc:
         right_ = node_.right
         left_ = node_.left
         if left_.kind_of?(::Arel::Attributes::Geometry)
@@ -74,7 +76,7 @@ module RGeo
         super
       end
       
-      def visit_Arel_Nodes_NotEqual(node_)
+      def visit_Arel_Nodes_NotEqual(node_)  # :nodoc:
         right_ = node_.right
         left_ = node_.left
         if left_.kind_of?(::Arel::Attributes::Geometry)

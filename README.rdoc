@@ -15,14 +15,15 @@ along with a set of geometric analysis operations. See the README for the
 
 RGeo::ActiveRecord is an optional \RGeo add-on module providing spatial
 extensions for \ActiveRecord, as well as a set of helpers for writing
-spatial \ActiveRecord adapters based on \RGeo.
+spatial \ActiveRecord adapters based on \RGeo. Generally, you will not
+interact directly with this library
 
 === Installation
 
 RGeo::ActiveRecord has the following requirements:
 
 * Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
-* \RGeo 0.2.0 or later.
+* \RGeo 0.2.3 or later.
 * \ActiveRecord 3.0.3 or later. Earlier versions will not work.
 
 Generally, \ActiveRecord adapters which depend on this module should be
@@ -37,8 +38,7 @@ installation information.
 
 === To-do list
 
-* We want to investigate writing some Arel extensions for constructing
-  spatial queries.
+* Arel extensions for constructing more complex spatial queries.
 
 === Development and support
 
