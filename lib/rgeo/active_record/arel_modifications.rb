@@ -64,52 +64,34 @@ module Arel
   
   # :stopdoc:
   
+  
+  # Hack Attributes dispatcher to recognize geometry columns.
+  # This is deprecated but necessary to support legacy Arel versions.
   module Attributes
-    
-    # New attribute type for geometry-valued column
-    class Geometry < Attribute; end
-    
-    # Hack Attributes dispatcher to recognize geometry columns
     class << self
-      alias_method :for_without_geometry, :for
-      def for(column_)
-        column_.type == :geometry ? Geometry : for_without_geometry(column_)
+      if method_defined?(:for)
+        alias_method :for_without_geometry, :for
+        def for(column_)
+          column_.type == :geometry ? Attribute : for_without_geometry(column_)
+        end
       end
     end
-    
   end
   
   module Visitors
     
-    # Hack visit dispatcher to recognize RGeo features as nodes.
-    # We need a special dispatcher code because the default dispatcher
-    # triggers on class name. RGeo features tend to have opaque classes.
-    class Visitor
-      alias_method :visit_without_rgeo_types, :visit
-      def visit(object_)
-        if object_.kind_of?(::RGeo::Feature::Instance) && respond_to?(:visit_RGeo_Feature_Instance)
-          visit_RGeo_Feature_Instance(object_)
-        else
-          visit_without_rgeo_types(object_)
-        end
-      end
-    end
-    
     # Dot visitor handlers for geometry attributes and values.
     class Dot
-      alias :visit_Arel_Attributes_Geometry :visit_Arel_Attribute
       alias :visit_RGeo_Feature_Instance :visit_String
     end
     
     # DepthFirst visitor handlers for geometry attributes and values.
     class DepthFirst
-      alias :visit_Arel_Attributes_Geometry :visit_Arel_Attribute
       alias :visit_RGeo_Feature_Instance :terminal
     end
     
     # ToSql visitor handlers for geometry attributes and values.
     class ToSql
-      alias :visit_Arel_Attributes_Geometry :visit_Arel_Attributes_Attribute
       alias :visit_RGeo_Feature_Instance :visit_String
     end
     

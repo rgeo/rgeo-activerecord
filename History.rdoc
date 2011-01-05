@@ -1,3 +1,7 @@
+=== 0.2.2 / 2011-01-07
+
+* Some adjustments to the Arel integration for future Arel compatibility. (Thanks to Aaron Patterson.)
+
 === 0.2.1 / 2010-12-27
 
 * Support for RGeo features as nodes in the Arel AST.

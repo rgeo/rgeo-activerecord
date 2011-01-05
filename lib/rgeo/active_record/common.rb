@@ -62,32 +62,55 @@ module RGeo
         standard_name_
       end
       
+      # Returns true if the given node is of spatial type-- that is, if
+      # it is a spatial literal or a reference to a spatial attribute.
+      def node_has_spatial_type?(node_)
+        case node_
+        when ::Arel::Attribute
+          @connection.instance_variable_set(:@_getting_columns, true)
+          begin
+            col_ = @engine.columns_hash[node_.name.to_s]
+            col_ && col_.respond_to?(:spatial?) && col_.spatial?
+          ensure
+            @connection.instance_variable_set(:@_getting_columns, false)
+          end
+        when ::RGeo::Feature::Instance
+          true
+        else
+          false
+        end
+      end
+      
+      # Generates SQL for a spatial node.
+      def visit_spatial(node_)
+        case node_
+        when ::String
+          "#{st_func('ST_WKTToSQL')}(#{visit_String(node_)})"
+        when ::RGeo::Feature::Instance
+          visit_RGeo_Feature_Instance(node_)
+        else
+          visit(node_)
+        end
+      end
+      
       def visit_Arel_Nodes_Equality(node_)  # :nodoc:
         right_ = node_.right
         left_ = node_.left
-        if left_.kind_of?(::Arel::Attributes::Geometry)
-          case right_
-          when ::RGeo::Feature::Instance
-            return "#{st_func('ST_Equals')}(#{visit(left_)}, #{visit(right_)})"
-          when ::String
-            return "#{st_func('ST_Equals')}(#{visit(left_)}, #{st_func('ST_WKTToSQL')}(#{visit(right_)}))"
-          end
+        if !@connection.instance_variable_get(:@_getting_columns) && (node_has_spatial_type?(right_) || node_has_spatial_type?(left_))
+          "#{st_func('ST_Equals')}(#{visit_spatial(left_)}, #{visit_spatial(right_)})"
+        else
+          super
         end
-        super
       end
       
       def visit_Arel_Nodes_NotEqual(node_)  # :nodoc:
         right_ = node_.right
         left_ = node_.left
-        if left_.kind_of?(::Arel::Attributes::Geometry)
-          case right_
-          when ::RGeo::Feature::Instance
-            return "NOT #{st_func('ST_Equals')}(#{visit(left_)}, #{visit(right_)})"
-          when ::String
-            return "NOT #{st_func('ST_Equals')}(#{visit(left_)}, #{st_func('ST_WKTToSQL')}(#{visit(right_)}))"
-          end
+        if !@connection.instance_variable_get(:@_getting_columns) && (node_has_spatial_type?(right_) || node_has_spatial_type?(left_))
+          "NOT #{st_func('ST_Equals')}(#{visit_spatial(left_)}, #{visit_spatial(right_)})"
+        else
+          super
         end
-        super
       end
       
     end
