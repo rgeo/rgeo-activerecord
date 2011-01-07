@@ -39,7 +39,7 @@ module RGeo
   module ActiveRecord
     
     
-    # A set of tools for hacking Rake tasks.
+    # A set of tools for hacking ActiveRecord's Rake tasks.
     
     module TaskHacker
       
@@ -69,6 +69,18 @@ module RGeo
       
       class << self
         
+        
+        # Modify a named ActiveRecord rake task.
+        # The task must be of the form that hinges on the database adapter
+        # name. You must provide the fully-qualified name of the rake task
+        # to modify, the Rails environment for which to get the database
+        # configuration (which may be nil to use the current Rails.env),
+        # a Regexp or String identifying the adapter name for which to
+        # modify the rake task, and a block. If the database adapter
+        # associated with the given environment matches the given pattern,
+        # then the rake task's action(s) will be replaced by the given
+        # block. The block will be passed the environment's database
+        # configuration hash.
         
         def modify(name_, env_, pattern_, &block_)
           ::Rake::Task[name_].actions.unshift(Action.new(env_, pattern_, block_))

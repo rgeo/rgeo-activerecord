@@ -37,37 +37,13 @@
 require 'arel'
 
 
-# The rgeo-activerecord gem installs several hacks into Arel to support
-# geometry values and geometry-valued columns.
-# 
-# To support geometry values as nodes in the Arel AST, we need to provide
-# a way for visitors to handle nodes that are feature objects.
-# Generally, this is accomplished by writing (or aliasing) methods in the
-# visitor of the form "visit_<classname>". Arel will dispatch to a method
-# based on the class of the object in the AST. Unfortunately, RGeo feature
-# objects usually have opaque classes; plus, there are so many different
-# classes as to make it infeasible to list all of them. Therefore, we hack
-# Arel::Visitors::Visitor#visit to explicitly recognize the
-# RGeo::Feature::Instance marker module, and we define the method
-# visit_RGeo_Feature_Instance. In the various visitors (Dot, DepthFirst,
-# and ToSql), this method is aliased in the same way as the other raw
-# values. For the ToSql visitor, this means aliasing to visit_String,
-# which then depends on the quoting implemented by the connection adapter
-# to convert to a SQL literal.
-# 
-# To support geometry columns, we define Arel::Attributes::Geometry, and
-# we hack Arel::Attributes::for to map the :geometry column type to that
-# new attribute. We then add the appropriate alias for the
-# visit_Arel_Attributes_Geometry method to the visitors.
-
+# The rgeo-activerecord gem installs several minor hacks into Arel to
+# support geometry values in the AST.
 module Arel
-  
-  # :stopdoc:
-  
   
   # Hack Attributes dispatcher to recognize geometry columns.
   # This is deprecated but necessary to support legacy Arel versions.
-  module Attributes
+  module Attributes  # :nodoc:
     class << self
       if method_defined?(:for)
         alias_method :for_without_geometry, :for
@@ -78,25 +54,25 @@ module Arel
     end
   end
   
+  # Visitors are modified to handle RGeo::Feature::Instance objects in
+  # the AST.
   module Visitors
     
-    # Dot visitor handlers for geometry attributes and values.
+    # RGeo adds visit_RGeo_Feature_Instance to the Dot visitor.
     class Dot
       alias :visit_RGeo_Feature_Instance :visit_String
     end
     
-    # DepthFirst visitor handlers for geometry attributes and values.
+    # RGeo adds visit_RGeo_Feature_Instance to the DepthFirst visitor.
     class DepthFirst
       alias :visit_RGeo_Feature_Instance :terminal
     end
     
-    # ToSql visitor handlers for geometry attributes and values.
+    # RGeo adds visit_RGeo_Feature_Instance to the ToSql visitor.
     class ToSql
       alias :visit_RGeo_Feature_Instance :visit_String
     end
     
   end
-  
-  # :startdoc:
   
 end

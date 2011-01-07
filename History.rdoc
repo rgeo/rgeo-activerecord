@@ -1,3 +1,7 @@
+=== 0.2.3 / 2011-01-07
+
+* Updated gem dependencies to include Arel 2.0.6, since some earlier Arel versions weren't working. (Reported by Pirmin Kalberer.)
+
 === 0.2.2 / 2011-01-06
 
 * Some adjustments to the Arel integration for future Arel compatibility. (Thanks to Aaron Patterson.)

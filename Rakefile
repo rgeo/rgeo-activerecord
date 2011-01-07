@@ -62,7 +62,7 @@ module RAKEFILE
   PRODUCT_SUMMARY = "An RGeo module providing spatial extensions to ActiveRecord."
   PRODUCT_DESCRIPTION = "RGeo is a geospatial data library for Ruby. RGeo::ActiveRecord is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
   
-  DEPENDENCIES = [['rgeo', '>= 0.2.4'], ['activerecord', '>= 3.0.3']]
+  DEPENDENCIES = [['rgeo', '>= 0.2.4'], ['activerecord', '>= 3.0.3'], ['arel', '>= 2.0.6']]
   DEVELOPMENT_DEPENDENCIES = []
   
 end
