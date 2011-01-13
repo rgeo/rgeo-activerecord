@@ -69,7 +69,7 @@ module RGeo
         when ::Arel::Attribute
           @connection.instance_variable_set(:@_getting_columns, true)
           begin
-            col_ = @engine.columns_hash[node_.name.to_s]
+            col_ = @engine.columns_hash[node_.name.to_s] unless @engine == ::ActiveRecord::Base
             col_ && col_.respond_to?(:spatial?) && col_.spatial?
           ensure
             @connection.instance_variable_set(:@_getting_columns, false)

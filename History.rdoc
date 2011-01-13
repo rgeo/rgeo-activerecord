@@ -1,3 +1,7 @@
+=== 0.2.4 / 2011-01-13
+
+* Fixed a problem that caused a hang during rake db:rollback, as well as probably certain other functions that use ActiveRecord::Base directly rather than a subclass. (Reported by Alexander Graefe.)
+
 === 0.2.3 / 2011-01-07
 
 * Updated gem dependencies to include Arel 2.0.6, since some earlier Arel versions weren't working. (Reported by Pirmin Kalberer.)
