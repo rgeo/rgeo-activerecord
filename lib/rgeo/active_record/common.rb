@@ -72,7 +72,7 @@ module RGeo
             col_ = @engine.columns_hash[node_.name.to_s]
             col_ && col_.respond_to?(:spatial?) && col_.spatial?
           ensure
-            @connection.instance_variable_set(:@_getting_columns, false)
+            @connection.remove_instance_variable(:@_getting_columns)
           end
         when ::RGeo::Feature::Instance
           true
