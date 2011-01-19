@@ -45,6 +45,11 @@ module RGeo
       class TestBasic < ::Test::Unit::TestCase  # :nodoc:
         
         
+        def test_has_version
+          assert_not_nil(::RGeo::ActiveRecord::VERSION)
+        end
+        
+        
         def test_default_factory_generator
           ::ActiveRecord::Base.rgeo_factory_generator = nil
           factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:hello).call(:has_z_coordinate => true, :srid => 4326)

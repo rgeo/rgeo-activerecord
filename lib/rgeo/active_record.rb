@@ -60,7 +60,23 @@ module RGeo
 end
 
 
+# The rgeo-activerecord gem installs several patches to Arel to provide
+# support for spatial queries.
+
+module Arel
+end
+
+
+# The rgeo-activerecord gem installs several patches to ActiveRecord
+# to support services needed by spatial adapters.
+
+module ActiveRecord
+end
+
+
 # Implementation files
-require 'rgeo/active_record/common.rb'
-require 'rgeo/active_record/arel_modifications'
-require 'rgeo/active_record/ar_modifications'
+require 'rgeo/active_record/version.rb'
+require 'rgeo/active_record/spatial_expressions.rb'
+require 'rgeo/active_record/arel_spatial_queries'
+require 'rgeo/active_record/common_adapter_elements.rb'
+require 'rgeo/active_record/ar_factory_settings'

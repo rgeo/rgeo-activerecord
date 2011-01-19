@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Mysqlgeo adapter for ActiveRecord
+# Version of rgeo-activerecord
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2010 Daniel Azuma
@@ -34,44 +34,22 @@
 ;
 
 
-require 'arel'
+begin
+  require 'versionomy'
+rescue ::LoadError
+end
 
 
-# The rgeo-activerecord gem installs several minor hacks into Arel to
-# support geometry values in the AST.
-module Arel
+module RGeo
   
-  # Hack Attributes dispatcher to recognize geometry columns.
-  # This is deprecated but necessary to support legacy Arel versions.
-  module Attributes  # :nodoc:
-    class << self
-      if method_defined?(:for)
-        alias_method :for_without_geometry, :for
-        def for(column_)
-          column_.type == :geometry ? Attribute : for_without_geometry(column_)
-        end
-      end
-    end
-  end
-  
-  # Visitors are modified to handle RGeo::Feature::Instance objects in
-  # the AST.
-  module Visitors
+  module ActiveRecord
     
-    # RGeo adds visit_RGeo_Feature_Instance to the Dot visitor.
-    class Dot
-      alias :visit_RGeo_Feature_Instance :visit_String
-    end
+    # Current version of RGeo::ActiveRecord as a frozen string
+    VERSION_STRING = ::File.read(::File.dirname(__FILE__)+'/../../../Version').strip.freeze
     
-    # RGeo adds visit_RGeo_Feature_Instance to the DepthFirst visitor.
-    class DepthFirst
-      alias :visit_RGeo_Feature_Instance :terminal
-    end
-    
-    # RGeo adds visit_RGeo_Feature_Instance to the ToSql visitor.
-    class ToSql
-      alias :visit_RGeo_Feature_Instance :visit_String
-    end
+    # Current version of RGeo::ActiveRecord as a Versionomy object, if the
+    # Versionomy gem is available; otherwise equal to VERSION_STRING.
+    VERSION = defined?(::Versionomy) ? ::Versionomy.parse(VERSION_STRING) : VERSION_STRING
     
   end
   

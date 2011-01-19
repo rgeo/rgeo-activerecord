@@ -52,70 +52,6 @@ module RGeo
     end
     
     
-    # A set of common Arel visitor hacks for spatial ToSql visitors.
-    
-    module SpatialToSql
-      
-      # Map a standard OGC SQL function name to the actual name used by
-      # a particular database.
-      def st_func(standard_name_)
-        standard_name_
-      end
-      
-      # Returns true if the given node is of spatial type-- that is, if
-      # it is a spatial literal or a reference to a spatial attribute.
-      def node_has_spatial_type?(node_)
-        case node_
-        when ::Arel::Attribute
-          @connection.instance_variable_set(:@_getting_columns, true)
-          begin
-            col_ = @engine.columns_hash[node_.name.to_s] unless @engine == ::ActiveRecord::Base
-            col_ && col_.respond_to?(:spatial?) && col_.spatial?
-          ensure
-            @connection.instance_variable_set(:@_getting_columns, false)
-          end
-        when ::RGeo::Feature::Instance
-          true
-        else
-          false
-        end
-      end
-      
-      # Generates SQL for a spatial node.
-      def visit_spatial(node_)
-        case node_
-        when ::String
-          "#{st_func('ST_WKTToSQL')}(#{visit_String(node_)})"
-        when ::RGeo::Feature::Instance
-          visit_RGeo_Feature_Instance(node_)
-        else
-          visit(node_)
-        end
-      end
-      
-      def visit_Arel_Nodes_Equality(node_)  # :nodoc:
-        right_ = node_.right
-        left_ = node_.left
-        if !@connection.instance_variable_get(:@_getting_columns) && (node_has_spatial_type?(right_) || node_has_spatial_type?(left_))
-          "#{st_func('ST_Equals')}(#{visit_spatial(left_)}, #{visit_spatial(right_)})"
-        else
-          super
-        end
-      end
-      
-      def visit_Arel_Nodes_NotEqual(node_)  # :nodoc:
-        right_ = node_.right
-        left_ = node_.left
-        if !@connection.instance_variable_get(:@_getting_columns) && (node_has_spatial_type?(right_) || node_has_spatial_type?(left_))
-          "NOT #{st_func('ST_Equals')}(#{visit_spatial(left_)}, #{visit_spatial(right_)})"
-        else
-          super
-        end
-      end
-      
-    end
-    
-    
     # Index definition struct with a spatial flag field.
     
     class SpatialIndexDefinition < ::Struct.new(:table, :name, :unique, :columns, :lengths, :spatial)
@@ -145,4 +81,62 @@ module RGeo
     
   end
   
+end
+
+
+# Hack Arel Attributes dispatcher to recognize geometry columns.
+# This is deprecated but necessary to support legacy Arel versions.
+
+module Arel  # :nodoc:
+  module Attributes  # :nodoc:
+    class << self
+      if method_defined?(:for)
+        alias_method :for_without_geometry, :for
+        def for(column_)
+          column_.type == :geometry ? Attribute : for_without_geometry(column_)
+        end
+      end
+    end
+  end
+end
+
+
+  
+# Provide methods for each geometric subtype during table definitions.
+
+module ActiveRecord  # :nodoc:
+  module ConnectionAdapters  # :nodoc:
+    class TableDefinition  # :nodoc:
+      ::RGeo::ActiveRecord::GEOMETRY_TYPES.each do |type_|
+        method_ = <<-END_METHOD
+          def #{type_}(*args_)
+            opts_ = args_.extract_options!
+            args_.each{ |name_| column(name_, '#{type_}', opts_) }
+          end
+        END_METHOD
+        class_eval(method_, __FILE__, __LINE__-5)
+      end
+    end
+  end
+end
+
+
+# When creating column objects, cause the enclosing ActiveRecord class
+# to be set on any column that recognizes it. This is commonly used by
+# spatial column subclasses.
+
+module ActiveRecord  # :nodoc:
+  class Base  # :nodoc:
+    class << self
+      alias_method :columns_without_rgeo_modification, :columns
+      def columns
+        unless defined?(@columns) && @columns
+          columns_without_rgeo_modification.each do |column_|
+            column_.set_ar_class(self) if column_.respond_to?(:set_ar_class)
+          end
+        end
+        @columns
+      end
+    end
+  end
 end
