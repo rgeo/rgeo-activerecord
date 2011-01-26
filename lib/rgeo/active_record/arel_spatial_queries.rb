@@ -111,7 +111,7 @@ module RGeo
       def _check_equality_for_rgeo(node_, negate_)  # :nodoc:
         left_ = node_.left
         right_ = node_.right
-        if !@connection.instance_variable_get(:@_getting_columns) && (node_has_spatial_type?(left_) || node_has_spatial_type?(right_))
+        if !@connection.instance_variable_get(:@_getting_columns) && !right_.nil? && (node_has_spatial_type?(left_) || node_has_spatial_type?(right_))
           "#{negate_ ? 'NOT ' : ''}#{st_func('ST_Equals')}(#{visit_in_spatial_context(left_)}, #{visit_in_spatial_context(right_)})"
         else
           false

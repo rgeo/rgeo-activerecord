@@ -37,10 +37,6 @@
 require 'active_record'
 
 
-# RGeo extensions to ActiveRecord are installed when one of the spatial
-# connection adapters is needed. These modifications require ActiveRecord
-# 3.0.3 or later.
-
 module ActiveRecord
   
   
@@ -62,9 +58,6 @@ module ActiveRecord
   # column_rgeo_factory method.
   
   class Base
-    
-    
-    self.attribute_types_cached_by_default << :geometry
     
     
     class_attribute :rgeo_factory_generator, :instance_writer => false

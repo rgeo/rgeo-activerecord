@@ -53,10 +53,15 @@ module RGeo
         end
         
         def call(task_)
-          config_ = ::ActiveRecord::Base.configurations[@env || ::Rails.env || 'development']
-          if @pattern === config_['adapter']
-            task_.actions.delete_if{ |a_| a_ != self }
-            @proc.call(config_)
+          env_ = @env || ::Rails.env || 'development'
+          config_ = ::ActiveRecord::Base.configurations[env_]
+          if config_
+            if @pattern === config_['adapter']
+              task_.actions.delete_if{ |a_| a_ != self }
+              @proc.call(config_)
+            end
+          else
+            puts "WARNING: Could not find environment #{env_.inspect} in your database.yml"
           end
         end
         

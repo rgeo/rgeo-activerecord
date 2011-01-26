@@ -1,8 +1,14 @@
-=== 0.2.5 / 2011-01-19
+=== 0.3.0 / 2011-01-26
 
-* Better support for geography types in PostGIS.
 * Experimental support for complex spatial queries. (Requires Arel 2.1, which is expected to be released with Rails 3.1.) Currently, only a low-level Arel-based interface is supported.
+* Better support for geography types in PostGIS.
+* Adapters can now define additional column constructors.
+* Support for spatial column constructors on change_table.
+* Fixed column type inference for some cases where the column included Z and/or M.
+* IS NULL predicates now work properly with spatial types.
+* Preferred attribute type is now :spatial rather than :geometry.
 * The gem version is now accessible via an api.
+* Some code reorganization.
 
 === 0.2.4 / 2011-01-13
 

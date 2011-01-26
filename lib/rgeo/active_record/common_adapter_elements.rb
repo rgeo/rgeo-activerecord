@@ -39,8 +39,22 @@ module RGeo
   module ActiveRecord
     
     
-    # Additional column types for geometries.
+    # Additional column types for geometries. (DEPRECATED)
     GEOMETRY_TYPES = [:geometry, :point, :line_string, :polygon, :geometry_collection, :multi_line_string, :multi_point, :multi_polygon].freeze
+    
+    
+    DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
+      :spatial => {:type => 'geometry'},
+      :geometry => {},
+      :point => {},
+      :line_string => {},
+      :polygon => {},
+      :geometry_collection => {},
+      :multi_line_string => {},
+      :multi_point => {},
+      :multi_polygon => {},
+    }.freeze
+        
     
     # The default factory generator for ActiveRecord::Base.
     DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config_|
@@ -58,42 +72,49 @@ module RGeo
     end
     
     
-    class << self
-      
-      
-      # Returns a feature type module given a string type.
-      
-      def geometric_type_from_name(name_)
-        case name_.downcase
-        when 'geometry' then ::RGeo::Feature::Geometry
-        when 'point' then ::RGeo::Feature::Point
-        when 'linestring' then ::RGeo::Feature::LineString
-        when 'polygon' then ::RGeo::Feature::Polygon
-        when 'geometrycollection' then ::RGeo::Feature::GeometryCollection
-        when 'multipoint' then ::RGeo::Feature::MultiPoint
-        when 'multilinestring' then ::RGeo::Feature::MultiLineString
-        when 'multipolygon' then ::RGeo::Feature::MultiPolygon
-        else nil
-        end
+    # Returns a feature type module given a string type.
+    
+    def self.geometric_type_from_name(name_)
+      case name_.to_s
+      when /^geometry/i then ::RGeo::Feature::Geometry
+      when /^point/i then ::RGeo::Feature::Point
+      when /^linestring/i then ::RGeo::Feature::LineString
+      when /^polygon/i then ::RGeo::Feature::Polygon
+      when /^geometrycollection/i then ::RGeo::Feature::GeometryCollection
+      when /^multipoint/i then ::RGeo::Feature::MultiPoint
+      when /^multilinestring/i then ::RGeo::Feature::MultiLineString
+      when /^multipolygon/i then ::RGeo::Feature::MultiPolygon
+      else nil
       end
-      
     end
+    
     
   end
   
 end
 
 
+# :stopdoc:
+
+
+# Make sure a few things are autoloaded.
+::Arel::Attributes
+::ActiveRecord::ConnectionAdapters::AbstractAdapter
+::ActiveRecord::ConnectionAdapters::TableDefinition
+::ActiveRecord::ConnectionAdapters::Table
+::ActiveRecord::Base
+
+
 # Hack Arel Attributes dispatcher to recognize geometry columns.
 # This is deprecated but necessary to support legacy Arel versions.
 
-module Arel  # :nodoc:
-  module Attributes  # :nodoc:
+module Arel
+  module Attributes
     class << self
       if method_defined?(:for)
-        alias_method :for_without_geometry, :for
+        alias_method :for_without_rgeo_modification, :for
         def for(column_)
-          column_.type == :geometry ? Attribute : for_without_geometry(column_)
+          column_.type == :spatial ? Attribute : for_without_rgeo_modification(column_)
         end
       end
     end
@@ -101,21 +122,47 @@ module Arel  # :nodoc:
 end
 
 
-  
 # Provide methods for each geometric subtype during table definitions.
 
-module ActiveRecord  # :nodoc:
-  module ConnectionAdapters  # :nodoc:
-    class TableDefinition  # :nodoc:
-      ::RGeo::ActiveRecord::GEOMETRY_TYPES.each do |type_|
-        method_ = <<-END_METHOD
-          def #{type_}(*args_)
-            opts_ = args_.extract_options!
-            args_.each{ |name_| column(name_, '#{type_}', opts_) }
+module ActiveRecord
+  module ConnectionAdapters
+    class TableDefinition
+      
+      alias_method :method_missing_without_rgeo_modification, :method_missing
+      def method_missing(method_name_, *args_, &block_)
+        if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
+          type_ = (info_.delete(:type) || method_name_).to_s
+          opts_ = args_.extract_options!.merge(info_)
+          args_.each do |name_|
+            column(name_, type_, opts_)
           end
-        END_METHOD
-        class_eval(method_, __FILE__, __LINE__-5)
+        else
+          method_missing_without_rgeo_modification(method_name_, *args_, &block_)
+        end
       end
+      
+    end
+  end
+end
+
+
+module ActiveRecord
+  module ConnectionAdapters
+    class Table
+      
+      alias_method :method_missing_without_rgeo_modification, :method_missing
+      def method_missing(method_name_, *args_, &block_)
+        if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
+          type_ = (info_.delete(:type) || method_name_).to_s
+          opts_ = args_.extract_options!.merge(info_)
+          args_.each do |name_|
+            @base.add_column(@table_name, name_, type_, opts_)
+          end
+        else
+          method_missing_without_rgeo_modification(method_name_, *args_, &block_)
+        end
+      end
+      
     end
   end
 end
@@ -125,8 +172,8 @@ end
 # to be set on any column that recognizes it. This is commonly used by
 # spatial column subclasses.
 
-module ActiveRecord  # :nodoc:
-  class Base  # :nodoc:
+module ActiveRecord
+  class Base
     class << self
       alias_method :columns_without_rgeo_modification, :columns
       def columns
@@ -140,3 +187,12 @@ module ActiveRecord  # :nodoc:
     end
   end
 end
+
+
+# Tell ActiveRecord to cache spatial attribute values so they don't get
+# re-parsed on every access.
+
+::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
+
+
+# :startdoc:
