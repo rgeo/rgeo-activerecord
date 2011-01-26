@@ -103,6 +103,7 @@ end
 ::ActiveRecord::ConnectionAdapters::TableDefinition
 ::ActiveRecord::ConnectionAdapters::Table
 ::ActiveRecord::Base
+::ActiveRecord::SchemaDumper
 
 
 # Hack Arel Attributes dispatcher to recognize geometry columns.
@@ -183,6 +184,31 @@ module ActiveRecord
           end
         end
         @columns
+      end
+    end
+  end
+end
+
+
+# Hack schema dumper to output spatial index flag
+
+module ActiveRecord
+  class SchemaDumper
+    private
+    def indexes(table_, stream_)
+      if (indexes_ = @connection.indexes(table_)).any?
+        add_index_statements_ = indexes_.map do |index_|
+          statement_parts_ = [ ('add_index ' + index_.table.inspect) ]
+          statement_parts_ << index_.columns.inspect
+          statement_parts_ << (':name => ' + index_.name.inspect)
+          statement_parts_ << ':unique => true' if index_.unique
+          statement_parts_ << ':spatial => true' if index_.respond_to?(:spatial) && index_.spatial
+          index_lengths_ = index_.lengths.compact if index_.lengths.is_a?(::Array)
+          statement_parts_ << (':length => ' + ::Hash[*index_.columns.zip(index.lengths).flatten].inspect) if index_lengths_.present?
+          '  ' + statement_parts_.join(', ')
+        end
+        stream_.puts add_index_statements_.sort.join("\n")
+        stream_.puts
       end
     end
   end
