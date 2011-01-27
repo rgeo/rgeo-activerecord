@@ -40,6 +40,10 @@ module RGeo
     
     
     # A set of common Arel visitor hacks for spatial ToSql visitors.
+    # Generally, a spatial ActiveRecord adapter should provide a custom
+    # ToSql Arel visitor that includes and customizes this module.
+    # See the existing spatial adapters (i.e. postgis, spatialite,
+    # mysqlspatial, and mysql2spatial) for usage examples.
     
     module SpatialToSql
       
@@ -145,6 +149,9 @@ end
 # :stopdoc:
 
 
+# This node wraps an RGeo feature and gives it spatial expression
+# constructors.
+
 module RGeo
   module ActiveRecord
     
@@ -208,6 +215,11 @@ if defined?(::Arel::Nodes::NamedFunction)
   end
   
   
+  # A NamedFunction subclass that keeps track of the spatial-ness of
+  # the arguments and return values, so that it can provide context to
+  # visitors that want to interpret syntax differently when dealing with
+  # spatial elements.
+  
   class ::RGeo::ActiveRecord::SpatialNamedFunction < ::Arel::Nodes::NamedFunction
     
     include ::RGeo::ActiveRecord::SpatialExpressions
@@ -229,6 +241,7 @@ if defined?(::Arel::Nodes::NamedFunction)
   
 else
   
+  # A dummy SpatialNamedFunction for pre-2.1 versions of Arel.
   class ::RGeo::ActiveRecord::SpatialNamedFunction; end
   
 end

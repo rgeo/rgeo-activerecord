@@ -39,9 +39,8 @@ module RGeo
   module ActiveRecord
     
     
-    # Additional column types for geometries. (DEPRECATED)
-    GEOMETRY_TYPES = [:geometry, :point, :line_string, :polygon, :geometry_collection, :multi_line_string, :multi_point, :multi_polygon].freeze
-    
+    # Some default column constructors specifications for most spatial
+    # databases. Individual adapters may add to or override this list.
     
     DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
       :spatial => {:type => 'geometry'},
@@ -54,9 +53,10 @@ module RGeo
       :multi_point => {},
       :multi_polygon => {},
     }.freeze
-        
+    
     
     # The default factory generator for ActiveRecord::Base.
+    
     DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config_|
       if config_.delete(:geographic)
         ::RGeo::Geographic.spherical_factory(config_)
@@ -97,7 +97,7 @@ end
 # :stopdoc:
 
 
-# Make sure a few things are autoloaded.
+# Make sure a few things are autoloaded before we modify them.
 ::Arel::Attributes
 ::ActiveRecord::ConnectionAdapters::AbstractAdapter
 ::ActiveRecord::ConnectionAdapters::TableDefinition
@@ -146,6 +146,8 @@ module ActiveRecord
   end
 end
 
+
+# Provide methods for each geometric subtype during table changes.
 
 module ActiveRecord
   module ConnectionAdapters

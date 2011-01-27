@@ -31,8 +31,8 @@ Generally, \ActiveRecord adapters which depend on this module should be
 installed as gems, and they will install this module automatically as
 a dependency. However, you can also install it manually as a gem:
 
- gem install rgeo
- gem install rgeo-activerecord
+  gem install rgeo
+  gem install rgeo-activerecord
 
 See the README for the "rgeo" gem, a required dependency, for further
 installation information.
