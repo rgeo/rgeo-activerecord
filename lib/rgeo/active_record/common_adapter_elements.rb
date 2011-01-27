@@ -204,7 +204,7 @@ module ActiveRecord
           statement_parts_ << ':unique => true' if index_.unique
           statement_parts_ << ':spatial => true' if index_.respond_to?(:spatial) && index_.spatial
           index_lengths_ = index_.lengths.compact if index_.lengths.is_a?(::Array)
-          statement_parts_ << (':length => ' + ::Hash[*index_.columns.zip(index.lengths).flatten].inspect) if index_lengths_.present?
+          statement_parts_ << (':length => ' + ::Hash[*index_.columns.zip(index_.lengths).flatten].inspect) if index_lengths_.present?
           '  ' + statement_parts_.join(', ')
         end
         stream_.puts add_index_statements_.sort.join("\n")
