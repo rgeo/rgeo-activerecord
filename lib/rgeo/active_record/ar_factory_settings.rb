@@ -88,7 +88,7 @@ module ActiveRecord
       # Returns the factory generator or specific factory to use for this
       # ActiveRecord class and the given column name.
       # If an explicit factory was set for the given column, returns it.
-      # Otherwise, if a params hash is given, passes that has to the
+      # Otherwise, if a params hash is given, passes that hash to the
       # rgeo_factory_generator for this class, and returns the resulting
       # factory. Otherwise, if no params hash is given, just returns the
       # rgeo_factory_generator for this class.

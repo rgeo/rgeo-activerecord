@@ -1,3 +1,7 @@
+=== 0.3.1 / 2011-02-28
+
+* Fixed a bug that could cause some spatial ActiveRecord adapters to fail to create multiple spatial columns in a migration.
+
 === 0.3.0 / 2011-01-26
 
 * Experimental support for complex spatial queries. (Requires Arel 2.1, which is expected to be released with Rails 3.1.) Currently, only a low-level Arel-based interface is supported.
