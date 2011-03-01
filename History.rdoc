@@ -1,3 +1,7 @@
+=== 0.3.2 / 2011-02-28
+
+* Fixed a bug that sometimes caused spatial column detection to fail, which could result in exceptions or incorrect spatial queries.
+
 === 0.3.1 / 2011-02-28
 
 * Fixed a bug that could cause some spatial ActiveRecord adapters to fail to create multiple spatial columns in a migration.

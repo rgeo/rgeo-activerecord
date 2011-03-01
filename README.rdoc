@@ -39,7 +39,14 @@ installation information.
 
 === To-do list
 
-* Arel extensions for constructing more complex spatial queries.
+This gem has not yet been tested in a large variety of environments, and
+we are still rapidly fixing bugs. We still consider it to be in early
+alpha, but we are working toward an initial production deployment at
+GeoPage.
+
+We are also currently working on a mechanism for constructing complex
+spatial queries via extensions to Arel. This work is in the experimental
+stage, and requires the Rails 3.1 / Arel 2.1 head.
 
 === Development and support
 
