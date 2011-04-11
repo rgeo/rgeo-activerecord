@@ -83,11 +83,6 @@ module RGeo
         end
         
         
-        def test_geometry_types
-          [:geometry, :point, :line_string, :polygon, :geometry_collection, :multi_line_string, :multi_point, :multi_polygon].each{ |type_| assert(::RGeo::ActiveRecord::GEOMETRY_TYPES.include?(type_), "Type #{type_.inspect} not found" ) }
-        end
-        
-        
       end
     
     end

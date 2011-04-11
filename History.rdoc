@@ -1,3 +1,7 @@
+=== 0.3.3 / 2011-04-11
+
+* A .gemspec file is now available for gem building and bundler git integration.
+
 === 0.3.2 / 2011-02-28
 
 * Fixed a bug that sometimes caused spatial column detection to fail, which could result in exceptions or incorrect spatial queries.
