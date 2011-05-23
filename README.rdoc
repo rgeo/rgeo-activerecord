@@ -16,7 +16,7 @@ along with a set of geometric analysis operations. See the README for the
 RGeo::ActiveRecord is an optional \RGeo add-on module providing spatial
 extensions for \ActiveRecord, as well as a set of helpers for writing
 spatial \ActiveRecord adapters based on \RGeo. Generally, you will not
-interact directly with this library
+need to interact directly with this library.
 
 === Installation
 
@@ -39,10 +39,10 @@ installation information.
 
 === To-do list
 
-This gem has not yet been tested in a large variety of environments, and
-we are still rapidly fixing bugs. We still consider it to be in early
-alpha, but we are working toward an initial production deployment at
-GeoPage.
+We consider this gem to be in a late alpha state. There are a still a
+few holes in the intended functionality, but it is now being tested in a
+variety of contexts, and we know of several successful production
+deployments.
 
 We are also currently working on a mechanism for constructing complex
 spatial queries via extensions to Arel. This work is in the experimental

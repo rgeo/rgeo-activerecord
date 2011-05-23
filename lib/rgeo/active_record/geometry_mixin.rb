@@ -43,7 +43,7 @@ module RGeo
     # as_json method so that ActiveRecord knows how to generate JSON
     # for a geometry-valued field.
     
-    module DefaultAsJson
+    module GeometryMixin
       
       
       # The default JSON generator Proc. Renders geometry fields as WKT.
@@ -92,7 +92,7 @@ module RGeo
       # Serializes this object as JSON for ActiveRecord.
       
       def as_json(opts_=nil)
-        DefaultAsJson.generate_json(self)
+        GeometryMixin.generate_json(self)
       end
       
       
@@ -105,4 +105,4 @@ end
 
 
 ::RGeo::Feature::MixinCollection::GLOBAL.for_type(::RGeo::Feature::Geometry).
-  add(::RGeo::ActiveRecord::DefaultAsJson)
+  add(::RGeo::ActiveRecord::GeometryMixin)
