@@ -83,6 +83,22 @@ module RGeo
         end
         
         
+        def test_default_as_json_wkt
+          DefaultAsJson.set_json_generator(nil)
+          factory_ = ::RGeo::Cartesian.preferred_factory
+          p_ = factory_.point(1, 2)
+          assert_equal("POINT (1.0 2.0)", p_.as_json)
+        end
+        
+        
+        def test_default_as_json
+          DefaultAsJson.set_json_generator(:geojson)
+          factory_ = ::RGeo::Cartesian.preferred_factory
+          p_ = factory_.point(1, 2)
+          assert_equal({'type' => 'Point', 'coordinates' => [1.0, 2.0]}, p_.as_json)
+        end
+        
+        
       end
     
     end

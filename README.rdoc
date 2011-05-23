@@ -23,7 +23,7 @@ interact directly with this library
 RGeo::ActiveRecord has the following requirements:
 
 * Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
-* \RGeo 0.2.8 or later.
+* \RGeo 0.3.0 or later.
 * \ActiveRecord 3.0.3 or later. Earlier versions will not work.
 * \Arel 2.0.6 or later. Earlier versions will not work.
 

@@ -1,3 +1,7 @@
+=== 0.3.4 / 2011-05-23
+
+* Uses the mixin feature of RGeo 0.3 to add an as_json method to all geometry objects. This should allow ActiveRecord's JSON serialization to function for models with geometry fields. (Reported by thenetduck and tonyc on github.)
+
 === 0.3.3 / 2011-04-11
 
 * A .gemspec file is now available for gem building and bundler git integration.
