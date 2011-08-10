@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Mysqlgeo adapter for ActiveRecord
+# Various Arel hacks to support spatial queries
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2010 Daniel Azuma
@@ -72,30 +72,6 @@ module RGeo
       end
       
       
-      # Returns a true value if the given node is of spatial type-- that
-      # is, if it is a spatial literal or a reference to a spatial
-      # attribute.
-      
-      def node_has_spatial_type?(node_)
-        case node_
-        when ::Arel::Attribute
-          @connection.instance_variable_set(:@_getting_columns, true)
-          begin
-            col_ = node_.column
-            col_ && col_.respond_to?(:spatial?) && col_.spatial? ? true : false
-          ensure
-            @connection.instance_variable_set(:@_getting_columns, false)
-          end
-        when ::RGeo::ActiveRecord::SpatialNamedFunction
-          node_.spatial_result?
-        when ::RGeo::ActiveRecord::SpatialConstantNode, ::RGeo::Feature::Instance
-          true
-        else
-          false
-        end
-      end
-      
-      
       # Generates SQL for a spatial node.
       # The node must be a string (in which case it is treated as WKT),
       # an RGeo feature, or a spatial attribute.
@@ -112,71 +88,52 @@ module RGeo
       end
       
       
-      def _check_equality_for_rgeo(node_, negate_)  # :nodoc:
-        left_ = node_.left
-        right_ = node_.right
-        if !@connection.instance_variable_get(:@_getting_columns) && !right_.nil? && (node_has_spatial_type?(left_) || node_has_spatial_type?(right_))
-          "#{negate_ ? 'NOT ' : ''}#{st_func('ST_Equals')}(#{visit_in_spatial_context(left_)}, #{visit_in_spatial_context(right_)})"
-        else
-          false
-        end
-      end
-      
-      
-      # Override equality nodes to use the ST_Equals function if at least
-      # one of the operands is a spatial node.
-      
-      def visit_Arel_Nodes_Equality(node_)
-        _check_equality_for_rgeo(node_, false) || super
-      end
-      
-      
-      # Override equality nodes to use the ST_Equals function if at least
-      # one of the operands is a spatial node.
-      
-      def visit_Arel_Nodes_NotEqual(node_)
-        _check_equality_for_rgeo(node_, true) || super
-      end
-      
     end
     
     
-  end
-  
-end
-
-
-# :stopdoc:
-
-
-# This node wraps an RGeo feature and gives it spatial expression
-# constructors.
-
-module RGeo
-  module ActiveRecord
+    # This node wraps an RGeo feature and gives it spatial expression
+    # constructors.
     
     class SpatialConstantNode
       
       include ::RGeo::ActiveRecord::SpatialExpressions
       
+      
+      # The delegate should be the RGeo feature.
+      
       def initialize(delegate_)
         @delegate = delegate_
       end
       
+      
+      # Return the RGeo feature
+      
       attr_reader :delegate
+      
       
     end
     
-  end
-end
-
-
-# Make sure the standard Arel visitors can handle RGeo feature objects
-# by default.
-
-module Arel
-  module Visitors
-    class Visitor
+    
+    # :stopdoc:
+    
+    
+    # Hack Arel Attributes dispatcher to recognize geometry columns.
+    # This is deprecated but necessary to support legacy Arel versions.
+    
+    if ::Arel::Attributes.method_defined?(:for)
+      module ArelAttributesLegacyClassMethods
+        def for(column_)
+          column_.type == :spatial ? Attribute : super
+        end
+      end
+      ::Arel::Attributes.extend(ArelAttributesLegacyClassMethods)
+    end
+    
+    
+    # Make sure the standard Arel visitors can handle RGeo feature objects
+    # by default.
+    
+    ::Arel::Visitors::Visitor.class_eval do
       def visit_RGeo_ActiveRecord_SpatialConstantNode(node_)
         if respond_to?(:visit_in_spatial_context)
           visit_in_spatial_context(node_.delegate)
@@ -185,66 +142,69 @@ module Arel
         end
       end
     end
-    class Dot
+    ::Arel::Visitors::Dot.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
     end
-    class DepthFirst
+    ::Arel::Visitors::DepthFirst.class_eval do
       alias :visit_RGeo_Feature_Instance :terminal
     end
-    class ToSql
+    ::Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
     end
+    
+    
+    # Add tools to build spatial structures in the AST.
+    # This stuff requires Arel 2.1 or later.
+    
+    if defined?(::Arel::Nodes::NamedFunction)
+      
+      # Allow chaining of predications from named functions
+      # (Some older versions of Arel didn't do this.)
+      ::Arel::Nodes::NamedFunction.class_eval do
+        include ::Arel::Predications unless include?(::Arel::Predications)
+      end
+      
+      # Allow chaining of spatial expressions from attributes
+      ::Arel::Attribute.class_eval do
+        include ::RGeo::ActiveRecord::SpatialExpressions
+      end
+      
+      
+      # A NamedFunction subclass that keeps track of the spatial-ness of
+      # the arguments and return values, so that it can provide context to
+      # visitors that want to interpret syntax differently when dealing with
+      # spatial elements.
+      
+      class SpatialNamedFunction < ::Arel::Nodes::NamedFunction
+        
+        include ::RGeo::ActiveRecord::SpatialExpressions
+        
+        def initialize(name_, expr_, spatial_flags_=[], aliaz_=nil)
+          super(name_, expr_, aliaz_)
+          @spatial_flags = spatial_flags_
+        end
+        
+        def spatial_result?
+          @spatial_flags.first
+        end
+        
+        def spatial_argument?(index_)
+          @spatial_flags[index_+1]
+        end
+        
+      end
+      
+    else
+      
+      # A dummy SpatialNamedFunction for pre-2.1 versions of Arel.
+      class SpatialNamedFunction; end
+      
+    end
+    
+    
+    # :startdoc:
+    
+    
   end
+  
 end
-
-
-# Add tools to build spatial structures in the AST.
-# This stuff requires Arel 2.1 or later.
-
-if defined?(::Arel::Nodes::NamedFunction)
-  
-  # Allow chaining of predications from named functions
-  # (Hack because Arel doesn't do this but should.)
-  ::Arel::Nodes::NamedFunction.class_eval do
-    include ::Arel::Predications unless include?(::Arel::Predications)
-  end
-  
-  # Allow chaining of spatial expressions from attributes
-  ::Arel::Attribute.class_eval do
-    include ::RGeo::ActiveRecord::SpatialExpressions
-  end
-  
-  
-  # A NamedFunction subclass that keeps track of the spatial-ness of
-  # the arguments and return values, so that it can provide context to
-  # visitors that want to interpret syntax differently when dealing with
-  # spatial elements.
-  
-  class ::RGeo::ActiveRecord::SpatialNamedFunction < ::Arel::Nodes::NamedFunction
-    
-    include ::RGeo::ActiveRecord::SpatialExpressions
-    
-    def initialize(name_, expr_, spatial_flags_=[], aliaz_=nil)
-      super(name_, expr_, aliaz_)
-      @spatial_flags = spatial_flags_
-    end
-    
-    def spatial_result?
-      @spatial_flags.first
-    end
-    
-    def spatial_argument?(index_)
-      @spatial_flags[index_+1]
-    end
-    
-  end
-  
-else
-  
-  # A dummy SpatialNamedFunction for pre-2.1 versions of Arel.
-  class ::RGeo::ActiveRecord::SpatialNamedFunction; end
-  
-end
-
-
-# :startdoc:

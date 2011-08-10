@@ -34,6 +34,11 @@
 ;
 
 
+require 'active_record'
+
+::ActiveRecord::ConnectionAdapters::AbstractAdapter
+
+
 module RGeo
   
   module ActiveRecord
@@ -43,27 +48,16 @@ module RGeo
     # databases. Individual adapters may add to or override this list.
     
     DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
-      :spatial => {:type => 'geometry'},
-      :geometry => {},
-      :point => {},
-      :line_string => {},
-      :polygon => {},
-      :geometry_collection => {},
-      :multi_line_string => {},
-      :multi_point => {},
-      :multi_polygon => {},
+      :spatial => {:type => 'geometry'}.freeze,
+      :geometry => {}.freeze,
+      :point => {}.freeze,
+      :line_string => {}.freeze,
+      :polygon => {}.freeze,
+      :geometry_collection => {}.freeze,
+      :multi_line_string => {}.freeze,
+      :multi_point => {}.freeze,
+      :multi_polygon => {}.freeze,
     }.freeze
-    
-    
-    # The default factory generator for ActiveRecord::Base.
-    
-    DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config_|
-      if config_.delete(:geographic)
-        ::RGeo::Geographic.spherical_factory(config_)
-      else
-        ::RGeo::Cartesian.preferred_factory(config_)
-      end
-    end
     
     
     # Index definition struct with a spatial flag field.
@@ -89,46 +83,12 @@ module RGeo
     end
     
     
-  end
-  
-end
-
-
-# :stopdoc:
-
-
-# Make sure a few things are autoloaded before we modify them.
-::Arel::Attributes
-::ActiveRecord::ConnectionAdapters::AbstractAdapter
-::ActiveRecord::ConnectionAdapters::TableDefinition
-::ActiveRecord::ConnectionAdapters::Table
-::ActiveRecord::Base
-::ActiveRecord::SchemaDumper
-
-
-# Hack Arel Attributes dispatcher to recognize geometry columns.
-# This is deprecated but necessary to support legacy Arel versions.
-
-module Arel
-  module Attributes
-    class << self
-      if method_defined?(:for)
-        alias_method :for_without_rgeo_modification, :for
-        def for(column_)
-          column_.type == :spatial ? Attribute : for_without_rgeo_modification(column_)
-        end
-      end
-    end
-  end
-end
-
-
-# Provide methods for each geometric subtype during table definitions.
-
-module ActiveRecord
-  module ConnectionAdapters
-    class TableDefinition
-      
+    # :stopdoc:
+    
+    
+    # Provide methods for each geometric subtype during table definitions.
+    
+    ::ActiveRecord::ConnectionAdapters::TableDefinition.class_eval do
       alias_method :method_missing_without_rgeo_modification, :method_missing
       def method_missing(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
@@ -142,18 +102,12 @@ module ActiveRecord
           method_missing_without_rgeo_modification(method_name_, *args_, &block_)
         end
       end
-      
     end
-  end
-end
-
-
-# Provide methods for each geometric subtype during table changes.
-
-module ActiveRecord
-  module ConnectionAdapters
-    class Table
-      
+    
+    
+    # Provide methods for each geometric subtype during table changes.
+    
+    ::ActiveRecord::ConnectionAdapters::Table.class_eval do
       alias_method :method_missing_without_rgeo_modification, :method_missing
       def method_missing(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
@@ -167,62 +121,43 @@ module ActiveRecord
           method_missing_without_rgeo_modification(method_name_, *args_, &block_)
         end
       end
-      
     end
-  end
-end
-
-
-# When creating column objects, cause the enclosing ActiveRecord class
-# to be set on any column that recognizes it. This is commonly used by
-# spatial column subclasses.
-
-module ActiveRecord
-  class Base
-    class << self
-      alias_method :columns_without_rgeo_modification, :columns
-      def columns
-        unless defined?(@columns) && @columns
-          columns_without_rgeo_modification.each do |column_|
-            column_.set_ar_class(self) if column_.respond_to?(:set_ar_class)
+    
+    
+    # Hack schema dumper to output spatial index flag
+    
+    ::ActiveRecord::SchemaDumper.class_eval do
+      private
+      def indexes(table_, stream_)
+        if (indexes_ = @connection.indexes(table_)).any?
+          add_index_statements_ = indexes_.map do |index_|
+            statement_parts_ = [
+              ('add_index ' + index_.table.inspect),
+              index_.columns.inspect,
+              (':name => ' + index_.name.inspect),
+            ]
+            statement_parts_ << ':unique => true' if index_.unique
+            statement_parts_ << ':spatial => true' if index_.respond_to?(:spatial) && index_.spatial
+            index_lengths_ = (index_.lengths || []).compact
+            statement_parts_ << (':length => ' + ::Hash[*index_.columns.zip(index_.lengths).flatten].inspect) unless index_lengths.empty?
+            '  ' + statement_parts_.join(', ')
           end
+          stream_.puts add_index_statements_.sort.join("\n")
+          stream_.puts
         end
-        @columns
       end
     end
+    
+    
+    # Tell ActiveRecord to cache spatial attribute values so they don't get
+    # re-parsed on every access.
+    
+    ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
+    
+    
+    # :startdoc:
+    
+    
   end
+  
 end
-
-
-# Hack schema dumper to output spatial index flag
-
-module ActiveRecord
-  class SchemaDumper
-    private
-    def indexes(table_, stream_)
-      if (indexes_ = @connection.indexes(table_)).any?
-        add_index_statements_ = indexes_.map do |index_|
-          statement_parts_ = [ ('add_index ' + index_.table.inspect) ]
-          statement_parts_ << index_.columns.inspect
-          statement_parts_ << (':name => ' + index_.name.inspect)
-          statement_parts_ << ':unique => true' if index_.unique
-          statement_parts_ << ':spatial => true' if index_.respond_to?(:spatial) && index_.spatial
-          index_lengths_ = index_.lengths.compact if index_.lengths.is_a?(::Array)
-          statement_parts_ << (':length => ' + ::Hash[*index_.columns.zip(index_.lengths).flatten].inspect) if index_lengths_.present?
-          '  ' + statement_parts_.join(', ')
-        end
-        stream_.puts add_index_statements_.sort.join("\n")
-        stream_.puts
-      end
-    end
-  end
-end
-
-
-# Tell ActiveRecord to cache spatial attribute values so they don't get
-# re-parsed on every access.
-
-::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
-
-
-# :startdoc:

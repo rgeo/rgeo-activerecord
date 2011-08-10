@@ -37,41 +37,128 @@
 require 'active_record'
 
 
-module ActiveRecord
+module RGeo
   
-  
-  # RGeo extends ActiveRecord::Base to include the following new class
-  # attributes. These attributes are inherited by subclasses, and can
-  # be overridden in subclasses.
-  # 
-  # === ActiveRecord::Base::rgeo_factory_generator
-  # 
-  # The value of this attribute is a RGeo::Feature::FactoryGenerator
-  # that is used to generate the proper factory when loading geometry
-  # objects from the database. For example, if the data being loaded
-  # has M but not Z coordinates, and an embedded SRID, then this
-  # FactoryGenerator is called with the appropriate configuration to
-  # obtain a factory with those properties. This factory is the one
-  # associated with the actual geometry properties of the ActiveRecord
-  # object. The result of this generator can be overridden by setting
-  # an explicit factory for a given class and column using the
-  # column_rgeo_factory method.
-  
-  class Base
+  module ActiveRecord
     
     
-    class_attribute :rgeo_factory_generator, :instance_writer => false
-    self.rgeo_factory_generator = nil
+    # The default factory generator for ActiveRecord::Base.
+    
+    DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config_|
+      if config_.delete(:geographic)
+        ::RGeo::Geographic.spherical_factory(config_)
+      else
+        ::RGeo::Cartesian.preferred_factory(config_)
+      end
+    end
     
     
-    class << self
+    # An object that manages the RGeo factories for a ConnectionPool.
+    
+    class RGeoFactorySettings
+      
+      def initialize  # :nodoc:
+        @factory_generators = {}
+        @column_factories = {}
+      end
+      
+      
+      # Get the default factory generator for the given table
+      
+      def get_factory_generator(table_name_)
+        @factory_generators[table_name_.to_s] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
+      end
+      
+      
+      # Set the default factory generator for the given table
+      
+      def set_factory_generator(table_name_, gen_)
+        @factory_generators[table_name_.to_s] = gen_
+      end
+      
+      
+      # Get the factory or factory generator for the given table name
+      # and column name.
+      
+      def get_column_factory(table_name_, column_name_, params_=nil)
+        table_name_ = table_name_.to_s
+        column_name_ = column_name_.to_s
+        result_ = (@column_factories[table_name_] ||= {})[column_name_] ||
+          @factory_generators[table_name_] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
+        if params_ && !result_.kind_of?(::RGeo::Feature::Factory::Instance)
+          result_ = result_.call(params_)
+        end
+        result_
+      end
+      
+      
+      # Set the factory or factory generator for the given table name
+      # and column name.
+      
+      def set_column_factory(table_name_, column_name_, factory_)
+        (@column_factories[table_name_.to_s] ||= {})[column_name_.to_s] = factory_
+      end
+      
+      
+      # Clear settings for the given table name, or for all tables
+      
+      def clear!(table_name_=nil)
+        if table_name_
+          table_name_ = table_name_.to_s
+          @factory_generators.delete(table_name_)
+          @column_factories.delete(table_name_)
+        else
+          @factory_generators.clear
+          @column_factories.clear
+        end
+      end
+      
+      
+    end
+    
+    
+    # Additional class methods on ::ActiveRecord::Base that provide
+    # a way to control the RGeo factory used for ActiveRecord objects.
+    
+    module ActiveRecordBaseFactorySettings
+      
+      
+      # Return the RGeoFactorySettings object associated with this
+      # class's connection.
+      
+      def rgeo_factory_settings
+        connection_pool.rgeo_factory_settings
+      end
+      
+      
+      # The value of this attribute is a RGeo::Feature::FactoryGenerator
+      # that is used to generate the proper factory when loading geometry
+      # objects from the database. For example, if the data being loaded
+      # has M but not Z coordinates, and an embedded SRID, then this
+      # FactoryGenerator is called with the appropriate configuration to
+      # obtain a factory with those properties. This factory is the one
+      # associated with the actual geometry properties of the ActiveRecord
+      # object. The result of this generator can be overridden by setting
+      # an explicit factory for a given class and column using the
+      # column_rgeo_factory method.
+      
+      def rgeo_factory_generator
+        rgeo_factory_settings.get_factory_generator(table_name)
+      end
+      
+      
+      # Set the rgeo_factory_generator attribute
+      
+      def rgeo_factory_generator=(gen_)
+        rgeo_factory_settings.set_factory_generator(table_name, gen_)
+      end
       
       
       # This is a convenient way to set the rgeo_factory_generator by
       # passing a block.
       
       def to_generate_rgeo_factory(&block_)
-        self.rgeo_factory_generator = block_
+        rgeo_factory_settings.set_factory_generator(table_name, block_)
       end
       
       
@@ -79,9 +166,8 @@ module ActiveRecord
       # column name. This setting, if present, overrides the result of the
       # rgeo_factory_generator.
       
-      def set_rgeo_factory_for_column(column_, factory_)
-        @rgeo_factory_for_column = {} unless defined?(@rgeo_factory_for_column)
-        @rgeo_factory_for_column[column_.to_sym] = factory_
+      def set_rgeo_factory_for_column(column_name_, factory_)
+        rgeo_factory_settings.set_column_factory(table_name, column_name_, factory_)
       end
       
       
@@ -94,18 +180,42 @@ module ActiveRecord
       # rgeo_factory_generator for this class.
       
       def rgeo_factory_for_column(column_, params_=nil)
-        @rgeo_factory_for_column = {} unless defined?(@rgeo_factory_for_column)
-        result_ = @rgeo_factory_for_column[column_.to_sym] || rgeo_factory_generator || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-        if params_ && !result_.kind_of?(::RGeo::Feature::Factory::Instance)
-          result_ = result_.call(params_)
-        end
-        result_
+        rgeo_factory_settings.get_column_factory(table_name, column_name_, params_)
       end
       
       
     end
     
+    ::ActiveRecord::Base.extend(ActiveRecordBaseFactorySettings)
+    
+    
+    # :stopdoc:
+    
+    
+    # Patch for connection pool to track geo factories per table name
+    
+    ::ActiveRecord::ConnectionAdapters::ConnectionPool.class_eval do
+      
+      def rgeo_factory_settings
+        @_rgeo_factory_settings ||= RGeoFactorySettings.new
+      end
+      
+      private
+      alias_method :new_connection_without_rgeo_modification, :new_connection
+      def new_connection
+        result_ = new_connection_without_rgeo_modification
+        if result_.respond_to?(:set_rgeo_factory_settings)
+          result_.set_rgeo_factory_settings(rgeo_factory_settings)
+        end
+        result_
+      end
+      
+    end
+    
+    
+    # :startdoc:
+    
+    
   end
-  
   
 end

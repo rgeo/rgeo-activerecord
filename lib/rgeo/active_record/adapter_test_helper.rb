@@ -106,7 +106,7 @@ module RGeo
       # cartesian factory) and @geographic_factory (a spherical factory)
       
       def setup
-        @factory = ::RGeo::Cartesian.preferred_factory(:srid => 4326)
+        @factory = ::RGeo::Cartesian.preferred_factory(:srid => 3785)
         @geographic_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
         cleanup_tables
       end
@@ -128,6 +128,15 @@ module RGeo
         klass_ = self.class.const_get(:DEFAULT_AR_CLASS)
         if klass_.connection.tables.include?('spatial_test')
           klass_.connection.drop_table(:spatial_test)
+        end
+        # Clear any RGeo factory settings.
+        klass_.connection_pool.rgeo_factory_settings.clear!
+        # Rails 3.1 does more aggressive caching than 3.0 did; need to
+        # clear those because the next test might assume different data.
+        if klass_.connection_pool.respond_to?(:clear_cache!)
+          klass_.connection_pool.clear_cache!
+          klass_.connection.clear_query_cache
+          klass_.connection.clear_cache!
         end
       end
       
