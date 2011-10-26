@@ -179,7 +179,7 @@ module RGeo
       # factory. Otherwise, if no params hash is given, just returns the
       # rgeo_factory_generator for this class.
       
-      def rgeo_factory_for_column(column_, params_=nil)
+      def rgeo_factory_for_column(column_name_, params_=nil)
         rgeo_factory_settings.get_column_factory(table_name, column_name_, params_)
       end
       
