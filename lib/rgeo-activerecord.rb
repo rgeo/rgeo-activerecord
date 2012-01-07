@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 #
-# A tool for hacking ActiveRecord's rake tasks
+# ActiveRecord extensions for RGeo
 #
 # -----------------------------------------------------------------------------
 # Copyright 2010-2012 Daniel Azuma
@@ -33,71 +33,4 @@
 # -----------------------------------------------------------------------------
 ;
 
-
-module RGeo
-
-  module ActiveRecord
-
-
-    # A set of tools for hacking ActiveRecord's Rake tasks.
-
-    module TaskHacker
-
-
-      class Action  # :nodoc:
-
-        def initialize(env_, pattern_, proc_)
-          @env = env_
-          @pattern = pattern_
-          @proc = proc_
-        end
-
-        def call(task_)
-          env_ = @env || ::Rails.env || 'development'
-          config_ = ::ActiveRecord::Base.configurations[env_]
-          if config_
-            if @pattern === config_['adapter']
-              task_.actions.delete_if{ |a_| a_ != self }
-              @proc.call(config_)
-            end
-          else
-            puts "WARNING: Could not find environment #{env_.inspect} in your database.yml"
-          end
-        end
-
-        def arity
-          1
-        end
-
-      end
-
-
-      class << self
-
-
-        # Modify a named ActiveRecord rake task.
-        # The task must be of the form that hinges on the database adapter
-        # name. You must provide the fully-qualified name of the rake task
-        # to modify, the Rails environment for which to get the database
-        # configuration (which may be nil to use the current Rails.env),
-        # a Regexp or String identifying the adapter name for which to
-        # modify the rake task, and a block. If the database adapter
-        # associated with the given environment matches the given pattern,
-        # then the rake task's action(s) will be replaced by the given
-        # block. The block will be passed the environment's database
-        # configuration hash.
-
-        def modify(name_, env_, pattern_, &block_)
-          ::Rake::Task[name_].actions.unshift(Action.new(env_, pattern_, block_))
-        end
-
-
-      end
-
-
-    end
-
-
-  end
-
-end
+require 'rgeo/active_record'

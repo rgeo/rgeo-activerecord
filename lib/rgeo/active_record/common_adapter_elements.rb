@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Common tools for spatial adapters for ActiveRecord
-# 
+#
 # -----------------------------------------------------------------------------
-# Copyright 2010 Daniel Azuma
-# 
+# Copyright 2010-2012 Daniel Azuma
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,13 +40,13 @@ require 'active_record'
 
 
 module RGeo
-  
+
   module ActiveRecord
-    
-    
+
+
     # Some default column constructors specifications for most spatial
     # databases. Individual adapters may add to or override this list.
-    
+
     DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
       :spatial => {:type => 'geometry'}.freeze,
       :geometry => {}.freeze,
@@ -58,16 +58,16 @@ module RGeo
       :multi_point => {}.freeze,
       :multi_polygon => {}.freeze,
     }.freeze
-    
-    
+
+
     # Index definition struct with a spatial flag field.
-    
+
     class SpatialIndexDefinition < ::Struct.new(:table, :name, :unique, :columns, :lengths, :spatial)
     end
-    
-    
+
+
     # Returns a feature type module given a string type.
-    
+
     def self.geometric_type_from_name(name_)
       case name_.to_s
       when /^geometry/i then ::RGeo::Feature::Geometry
@@ -81,13 +81,13 @@ module RGeo
       else nil
       end
     end
-    
-    
+
+
     # :stopdoc:
-    
-    
+
+
     # Provide methods for each geometric subtype during table definitions.
-    
+
     ::ActiveRecord::ConnectionAdapters::TableDefinition.class_eval do
       alias_method :method_missing_without_rgeo_modification, :method_missing
       def method_missing(method_name_, *args_, &block_)
@@ -103,10 +103,10 @@ module RGeo
         end
       end
     end
-    
-    
+
+
     # Provide methods for each geometric subtype during table changes.
-    
+
     ::ActiveRecord::ConnectionAdapters::Table.class_eval do
       alias_method :method_missing_without_rgeo_modification, :method_missing
       def method_missing(method_name_, *args_, &block_)
@@ -122,10 +122,10 @@ module RGeo
         end
       end
     end
-    
-    
+
+
     # Hack schema dumper to output spatial index flag
-    
+
     ::ActiveRecord::SchemaDumper.class_eval do
       private
       def indexes(table_, stream_)
@@ -147,17 +147,17 @@ module RGeo
         end
       end
     end
-    
-    
+
+
     # Tell ActiveRecord to cache spatial attribute values so they don't get
     # re-parsed on every access.
-    
+
     ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
-    
-    
+
+
     # :startdoc:
-    
-    
+
+
   end
-  
+
 end

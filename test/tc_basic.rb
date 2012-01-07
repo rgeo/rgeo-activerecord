@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Tests for basic ActiveRecord extensions
-# 
+#
 # -----------------------------------------------------------------------------
-# Copyright 2010 Daniel Azuma
-# 
+# Copyright 2010-2012 Daniel Azuma
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,66 +41,70 @@ require 'rgeo/active_record'
 module RGeo
   module ActiveRecord
     module Tests  # :nodoc:
-      
+
       class TestBasic < ::Test::Unit::TestCase  # :nodoc:
-        
-        
+
+
+        class MyTable < ::ActiveRecord::Base
+        end
+
+
         def test_has_version
           assert_not_nil(::RGeo::ActiveRecord::VERSION)
         end
-        
-        
+
+
         def test_default_factory_generator
-          ::ActiveRecord::Base.rgeo_factory_generator = nil
-          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:hello).call(:has_z_coordinate => true, :srid => 4326)
+          MyTable.rgeo_factory_generator = nil
+          factory_ = MyTable.rgeo_factory_for_column(:hello).call(:has_z_coordinate => true, :srid => 4326)
           assert_equal(true, factory_.property(:has_z_coordinate))
           assert_equal(true, factory_.property(:is_cartesian))
           assert_nil(factory_.property(:is_geographic))
           assert_equal(4326, factory_.srid)
         end
-        
-        
+
+
         def test_set_factory_generator
-          ::ActiveRecord::Base.rgeo_factory_generator = ::RGeo::Geographic.method(:spherical_factory)
-          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:hello, :has_z_coordinate => true, :srid => 4326)
+          MyTable.rgeo_factory_generator = ::RGeo::Geographic.method(:spherical_factory)
+          factory_ = MyTable.rgeo_factory_for_column(:hello, :has_z_coordinate => true, :srid => 4326)
           assert_equal(true, factory_.property(:has_z_coordinate))
           assert_equal(true, factory_.property(:is_geographic))
           assert_nil(factory_.property(:is_cartesian))
           assert_equal(false, factory_.has_projection?)
           assert_equal(4326, factory_.srid)
         end
-        
-        
+
+
         def test_specific_factory_for_column
-          ::ActiveRecord::Base.rgeo_factory_generator = nil
-          ::ActiveRecord::Base.set_rgeo_factory_for_column(:foo, ::RGeo::Geographic.simple_mercator_factory(:has_z_coordinate => true))
-          factory_ = ::ActiveRecord::Base.rgeo_factory_for_column(:foo)
+          MyTable.rgeo_factory_generator = nil
+          MyTable.set_rgeo_factory_for_column(:foo, ::RGeo::Geographic.simple_mercator_factory(:has_z_coordinate => true))
+          factory_ = MyTable.rgeo_factory_for_column(:foo)
           assert_equal(true, factory_.property(:has_z_coordinate))
           assert_equal(true, factory_.property(:is_geographic))
           assert_nil(factory_.property(:is_cartesian))
           assert_equal(true, factory_.has_projection?)
           assert_equal(4326, factory_.srid)
         end
-        
-        
+
+
         def test_default_as_json_wkt
           GeometryMixin.set_json_generator(nil)
           factory_ = ::RGeo::Cartesian.preferred_factory
           p_ = factory_.point(1, 2)
           assert_equal("POINT (1.0 2.0)", p_.as_json)
         end
-        
-        
+
+
         def test_default_as_json_geojson
           GeometryMixin.set_json_generator(:geojson)
           factory_ = ::RGeo::Cartesian.preferred_factory
           p_ = factory_.point(1, 2)
           assert_equal({'type' => 'Point', 'coordinates' => [1.0, 2.0]}, p_.as_json)
         end
-        
-        
+
+
       end
-    
+
     end
   end
 end

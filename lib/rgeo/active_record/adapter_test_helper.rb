@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Helper methods for ActiveRecord adapter tests
-# 
+#
 # -----------------------------------------------------------------------------
-# Copyright 2010 Daniel Azuma
-# 
+# Copyright 2010-2012 Daniel Azuma
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,26 +41,26 @@ require 'logger'
 
 module RGeo
   module ActiveRecord
-    
-    
+
+
     # A helper module for creating unit tests for adapters.
-    
+
     module AdapterTestHelper
-      
+
       @class_num = 0
-      
-      
+
+
       # When this module is included in a test case class, it
       # automatically attempts to load the database config file from the
       # path specified by the class's DATABASE_CONFIG_FILE constant.
       # It then defines the DATABASE_CONFIG and DEFAULT_AR_CLASS constants
       # in the testcase class.
-      # 
+      #
       # When you define your test methods, you should wrap them in a call
       # to the class method define_test_methods. This will cause them to
       # be defined conditionally based on whether the database config is
       # present.
-      
+
       def self.included(klass_)
         database_config_ = ::YAML.load_file(klass_.const_get(:DATABASE_CONFIG_PATH)) rescue nil
         if database_config_
@@ -85,8 +85,8 @@ module RGeo
           end
         end
       end
-      
-      
+
+
       def self.new_class(param_)  # :nodoc:
         base_ = param_.kind_of?(::Class) ? param_ : ::ActiveRecord::Base
         config_ = param_.kind_of?(::Hash) ? param_ : nil
@@ -99,31 +99,31 @@ module RGeo
         end
         klass_
       end
-      
-      
+
+
       # Default setup method that calls cleanup_tables.
       # It also defines a couple of useful factories: @factory (a
       # cartesian factory) and @geographic_factory (a spherical factory)
-      
+
       def setup
         @factory = ::RGeo::Cartesian.preferred_factory(:srid => 3785)
         @geographic_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
         cleanup_tables
       end
-      
-      
+
+
       # Default teardown method that calls cleanup_tables.
-      
+
       def teardown
         cleanup_tables
       end
-      
-      
+
+
       # Utility method that attempts to clean up any table that was
       # created by a test method. Normally called automatically at setup
       # and teardown. If you override those methods, you'll need to call
       # this from your method.
-      
+
       def cleanup_tables
         klass_ = self.class.const_get(:DEFAULT_AR_CLASS)
         if klass_.connection.tables.include?('spatial_test')
@@ -139,18 +139,18 @@ module RGeo
           klass_.connection.clear_cache!
         end
       end
-      
-      
+
+
       # Utility method that creates and returns a new ActiveRecord class
       # subclassing the DEFAULT_AR_CLASS.
-      
+
       def create_ar_class(opts_={})
         @ar_class = AdapterTestHelper.new_class(self.class.const_get(:DEFAULT_AR_CLASS))
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
 end
