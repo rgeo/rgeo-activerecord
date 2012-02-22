@@ -1,6 +1,6 @@
 === 0.4.3 / 2012-02-22
 
-* Some fixes for Rails 3.2 compatibility
+* Some fixes for Rails 3.2 compatibility.
 
 === 0.4.2 / 2012-01-09
 
