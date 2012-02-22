@@ -95,7 +95,7 @@ module RGeo
         self.const_set("Klass#{@class_num}".to_sym, klass_)
         klass_.class_eval do
           establish_connection(config_) if config_
-          set_table_name(:spatial_test)
+          self.table_name = :spatial_test
         end
         klass_
       end
@@ -131,13 +131,24 @@ module RGeo
         end
         # Clear any RGeo factory settings.
         klass_.connection_pool.rgeo_factory_settings.clear!
-        # Rails 3.1 does more aggressive caching than 3.0 did; need to
-        # clear those because the next test might assume different data.
+        # Clear out any ActiveRecord caches that are present.
+        # Different 3.x versions use different types of caches.
         if klass_.connection_pool.respond_to?(:clear_cache!)
-          klass_.connection_pool.clear_cache!
-          klass_.connection.clear_query_cache
+          if klass_.connection.respond_to?(:schema_cache)
+            # 3.2.x
+            klass_.connection_pool.with_connection do |c_|
+              c_.schema_cache.clear!
+            end
+          else
+            # 3.1.x
+            klass_.connection_pool.clear_cache!
+          end
+        end
+        if klass_.connection.respond_to?(:clear_cache!)
+          # 3.1 and above
           klass_.connection.clear_cache!
         end
+        klass_.connection.clear_query_cache
       end
 
 

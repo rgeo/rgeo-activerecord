@@ -130,7 +130,11 @@ module RGeo
       # class's connection.
 
       def rgeo_factory_settings
-        pool_ = connection_pool
+        pool_ = begin
+          connection_pool
+        rescue ::ActiveRecord::ConnectionNotEstablished
+          nil
+        end
         pool_ ? pool_.rgeo_factory_settings : RGeoFactorySettings::DEFAULT
       end
 
