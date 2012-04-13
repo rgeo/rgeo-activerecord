@@ -1,3 +1,7 @@
+=== 0.4.5 / 2012-04-13
+
+* Task hacker failed ungracefully when attempting to hack a nonexistent task. Fixed.
+
 === 0.4.4 / 2012-04-12
 
 * Support cartesian bounding boxes in queries.

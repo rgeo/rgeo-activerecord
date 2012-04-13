@@ -88,7 +88,9 @@ module RGeo
         # configuration hash.
 
         def modify(name_, env_, pattern_, &block_)
-          ::Rake::Task[name_].actions.unshift(Action.new(env_, pattern_, block_))
+          if ::Rake::Task.task_defined?(name_)
+            ::Rake::Task[name_].actions.unshift(Action.new(env_, pattern_, block_))
+          end
         end
 
 
