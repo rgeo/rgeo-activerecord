@@ -82,6 +82,8 @@ module RGeo
           "#{st_func('ST_WKTToSQL')}(#{visit_String(node_)})"
         when ::RGeo::Feature::Instance
           visit_RGeo_Feature_Instance(node_)
+        when ::RGeo::Cartesian::BoundingBox
+          visit_RGeo_Cartesian_BoundingBox(node_)
         else
           visit(node_)
         end
@@ -144,12 +146,15 @@ module RGeo
     end
     ::Arel::Visitors::Dot.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
+      alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
     ::Arel::Visitors::DepthFirst.class_eval do
       alias :visit_RGeo_Feature_Instance :terminal
+      alias :visit_RGeo_Cartesian_BoundingBox :terminal
     end
     ::Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
+      alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
 
 

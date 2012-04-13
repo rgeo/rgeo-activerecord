@@ -1,3 +1,7 @@
+=== 0.4.4 / 2012-04-12
+
+* Support cartesian bounding boxes in queries.
+
 === 0.4.3 / 2012-02-22
 
 * Some fixes for Rails 3.2 compatibility.

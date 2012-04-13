@@ -37,7 +37,9 @@
 require 'active_support/core_ext/class' # Workaround for a missing require in ActiveRecord 3.2.1
 require 'active_record'
 
-::ActiveRecord::ConnectionAdapters::AbstractAdapter
+# Force AbstractAdapter to autoload
+if ::ActiveRecord::ConnectionAdapters::AbstractAdapter
+end
 
 
 module RGeo
@@ -129,6 +131,7 @@ module RGeo
 
     ::ActiveRecord::SchemaDumper.class_eval do
       private
+      alias_method :_old_indexes_method, :indexes
       def indexes(table_, stream_)
         if (indexes_ = @connection.indexes(table_)).any?
           add_index_statements_ = indexes_.map do |index_|

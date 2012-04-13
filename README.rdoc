@@ -22,7 +22,7 @@ spatial \ActiveRecord adapters based on \RGeo.
 RGeo::ActiveRecord has the following requirements:
 
 * Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
-* rgeo 0.3.4 or later.
+* rgeo 0.3.10 or later.
 * activerecord 3.0.3 or later. Earlier versions will not work.
   Should be compatible with Rails versions through 3.2.x.
 * arel 2.0.6 or later. Earlier versions will not work.
