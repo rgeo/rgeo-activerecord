@@ -50,7 +50,7 @@ stage.
 
 === Development and support
 
-Documentation is available at http://virtuoso.rubyforge.org/rgeo-activerecord/README_rdoc.html
+Documentation is available at http://dazuma.github.com/rgeo-activerecord/rdoc
 
 Source code is hosted on Github at http://github.com/dazuma/rgeo-activerecord
 
