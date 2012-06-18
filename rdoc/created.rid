@@ -1,0 +1,13 @@
+Mon, 18 Jun 2012 00:03:40 -0700
+lib/rgeo/active_record/adapter_test_helper.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/ar_factory_settings.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/arel_spatial_queries.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/common_adapter_elements.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/geometry_mixin.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/spatial_expressions.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/task_hacker.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record/version.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo/active_record.rb	Mon, 18 Jun 2012 00:03:27 -0700
+lib/rgeo-activerecord.rb	Mon, 18 Jun 2012 00:03:27 -0700
+History.rdoc	Mon, 18 Jun 2012 00:03:27 -0700
+README.rdoc	Mon, 18 Jun 2012 00:03:27 -0700

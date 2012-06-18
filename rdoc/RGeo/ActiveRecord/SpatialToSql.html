@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module RGeo::ActiveRecord::SpatialToSql - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rgeo/active_record/arel_spatial_queries.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-st_func">#st_func</a>
+    
+    <li><a href="#method-i-visit_RGeo_ActiveRecord_SpatialNamedFunction">#visit_RGeo_ActiveRecord_SpatialNamedFunction</a>
+    
+    <li><a href="#method-i-visit_in_spatial_context">#visit_in_spatial_context</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../RGeo.html">RGeo</a>
+  
+    <li><a href="../../RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="../../ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="../../Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module RGeo::ActiveRecord::SpatialToSql</h1>
+
+  <div id="description" class="description">
+    
+<p>A set of common <a href="../../Arel.html">Arel</a> visitor hacks for
+spatial ToSql visitors. Generally, a spatial <a
+href="../ActiveRecord.html">ActiveRecord</a> adapter should provide a
+custom ToSql <a href="../../Arel.html">Arel</a> visitor that includes and
+customizes this module. See the existing spatial adapters (i.e. postgis,
+spatialite, mysqlspatial, and mysql2spatial) for usage examples.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-st_func" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">st_func</span><span
+            class="method-args">(standard_name_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Map a standard OGC SQL function name to the actual name used by a
+particular database. This method should take a name and return either the
+changed name or the original name.</p>
+          
+
+          
+          <div class="method-source-code" id="st_func-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/arel_spatial_queries.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">st_func</span>(<span class="ruby-identifier">standard_name_</span>)
+  <span class="ruby-identifier">standard_name_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- st_func-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- st_func-method -->
+
+    
+      <div id="method-i-visit_RGeo_ActiveRecord_SpatialNamedFunction" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">visit_RGeo_ActiveRecord_SpatialNamedFunction</span><span
+            class="method-args">(node_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Visit the SpatialNamedFunction node. This operates similarly to the
+standard NamedFunction node, but it performs function name mapping for the
+database, and it also uses the type information in the node to determine
+when to cast string arguments to WKT,</p>
+          
+
+          
+          <div class="method-source-code" id="visit_RGeo_ActiveRecord_SpatialNamedFunction-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/arel_spatial_queries.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">visit_RGeo_ActiveRecord_SpatialNamedFunction</span>(<span class="ruby-identifier">node_</span>)
+  <span class="ruby-identifier">name_</span> = <span class="ruby-identifier">st_func</span>(<span class="ruby-identifier">node_</span>.<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">exprs_</span> = []
+  <span class="ruby-identifier">node_</span>.<span class="ruby-identifier">expressions</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">expr_</span>, <span class="ruby-identifier">index_</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">exprs_</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">node_</span>.<span class="ruby-identifier">spatial_argument?</span>(<span class="ruby-identifier">index_</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">visit_in_spatial_context</span>(<span class="ruby-identifier">expr_</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">visit</span>(<span class="ruby-identifier">expr_</span>))
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-node">&quot;#{name_}(#{node_.distinct ? 'DISTINCT ' : ''}#{exprs_.join(', ')})#{node_.alias ? &quot; AS #{visit node_.alias}&quot; : ''}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- visit_RGeo_ActiveRecord_SpatialNamedFunction-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- visit_RGeo_ActiveRecord_SpatialNamedFunction-method -->
+
+    
+      <div id="method-i-visit_in_spatial_context" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">visit_in_spatial_context</span><span
+            class="method-args">(node_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Generates SQL for a spatial node. The node must be a string (in which case
+it is treated as WKT), an <a href="../../RGeo.html">RGeo</a> feature, or a
+spatial attribute.</p>
+          
+
+          
+          <div class="method-source-code" id="visit_in_spatial_context-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/arel_spatial_queries.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">visit_in_spatial_context</span>(<span class="ruby-identifier">node_</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">node_</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">String</span>
+    <span class="ruby-node">&quot;#{st_func('ST_WKTToSQL')}(#{visit_String(node_)})&quot;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">Instance</span>
+    <span class="ruby-identifier">visit_RGeo_Feature_Instance</span>(<span class="ruby-identifier">node_</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Cartesian</span><span class="ruby-operator">::</span><span class="ruby-constant">BoundingBox</span>
+    <span class="ruby-identifier">visit_RGeo_Cartesian_BoundingBox</span>(<span class="ruby-identifier">node_</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">visit</span>(<span class="ruby-identifier">node_</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- visit_in_spatial_context-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- visit_in_spatial_context-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

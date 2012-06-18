@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module RGeo::ActiveRecord::GeometryMixin - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rgeo/active_record/geometry_mixin.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-generate_json">::generate_json</a>
+    
+    <li><a href="#method-c-set_json_generator">::set_json_generator</a>
+    
+    <li><a href="#method-i-as_json">#as_json</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../RGeo.html">RGeo</a>
+  
+    <li><a href="../../RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="../../ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="../../Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module RGeo::ActiveRecord::GeometryMixin</h1>
+
+  <div id="description" class="description">
+    
+<p>This module is mixed into all geometry objects. It provides an <a
+href="GeometryMixin.html#method-i-as_json">#as_json</a> method so that <a
+href="../ActiveRecord.html">ActiveRecord</a> knows how to generate JSON for
+a geometry-valued field.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="DEFAULT_JSON_GENERATOR">DEFAULT_JSON_GENERATOR
+        
+        <dd class="description"><p>The default JSON generator Proc. Renders geometry fields as WKT.</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-generate_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">generate_json</span><span
+            class="method-args">(geom_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Given a feature, returns an object that can be serialized as JSON (i.e.
+usually a hash or string), using the current json_generator. This is used
+to generate JSON for geometry-valued <a
+href="../ActiveRecord.html">ActiveRecord</a> fields by default.</p>
+          
+
+          
+          <div class="method-source-code" id="generate_json-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/geometry_mixin.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generate_json</span>(<span class="ruby-identifier">geom_</span>)
+  <span class="ruby-ivar">@json_generator</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">geom_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- generate_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- generate_json-method -->
+
+    
+      <div id="method-c-set_json_generator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_json_generator</span><span
+            class="method-args">(value_=nil, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the style of JSON generation used for geometry fields in an <a
+href="../ActiveRecord.html">ActiveRecord</a> model by default. You may pass
+nil to use <a
+href="GeometryMixin.html#DEFAULT_JSON_GENERATOR">DEFAULT_JSON_GENERATOR</a>,
+a proc that takes a geometry as the argument and returns an object that can
+be converted to JSON (i.e. usually a hash or string), or one of the
+following symbolic values:</p>
+<dl class="rdoc-list note-list"><dt><code>:wkt</code>
+<dd>
+<p>Well-known text format. (Same as <a
+href="GeometryMixin.html#DEFAULT_JSON_GENERATOR">DEFAULT_JSON_GENERATOR</a>.)</p>
+</dd><dt><code>:geojson</code>
+<dd>
+<p>GeoJSON format. Requires the rgeo-geojson gem.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="set_json_generator-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/geometry_mixin.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_json_generator</span>(<span class="ruby-identifier">value_</span>=<span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value_</span>
+    <span class="ruby-identifier">value_</span> = <span class="ruby-identifier">block_</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">value_</span> <span class="ruby-operator">==</span> <span class="ruby-value">:geojson</span>
+    <span class="ruby-identifier">require</span> <span class="ruby-string">'rgeo/geo_json'</span>
+    <span class="ruby-identifier">value_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">geom_</span><span class="ruby-operator">|</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span>.<span class="ruby-identifier">encode</span>(<span class="ruby-identifier">geom_</span>) }
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Proc</span>)
+    <span class="ruby-ivar">@json_generator</span> = <span class="ruby-identifier">value_</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@json_generator</span> = <span class="ruby-constant">DEFAULT_JSON_GENERATOR</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_json_generator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_json_generator-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-as_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">as_json</span><span
+            class="method-args">(opts_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Serializes this object as JSON for <a
+href="../ActiveRecord.html">ActiveRecord</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="as_json-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/geometry_mixin.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">as_json</span>(<span class="ruby-identifier">opts_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-constant">GeometryMixin</span>.<span class="ruby-identifier">generate_json</span>(<span class="ruby-keyword">self</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- as_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- as_json-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

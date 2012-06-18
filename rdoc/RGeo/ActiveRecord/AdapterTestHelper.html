@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module RGeo::ActiveRecord::AdapterTestHelper - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rgeo/active_record/adapter_test_helper.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-included">::included</a>
+    
+    <li><a href="#method-i-cleanup_tables">#cleanup_tables</a>
+    
+    <li><a href="#method-i-create_ar_class">#create_ar_class</a>
+    
+    <li><a href="#method-i-setup">#setup</a>
+    
+    <li><a href="#method-i-teardown">#teardown</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../RGeo.html">RGeo</a>
+  
+    <li><a href="../../RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="../../ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="../../Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module RGeo::ActiveRecord::AdapterTestHelper</h1>
+
+  <div id="description" class="description">
+    
+<p>A helper module for creating unit tests for adapters.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-included" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">included</span><span
+            class="method-args">(klass_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>When this module is included in a test case class, it automatically
+attempts to load the database config file from the path specified by the
+class’s DATABASE_CONFIG_FILE constant. It then defines the DATABASE_CONFIG
+and DEFAULT_AR_CLASS constants in the testcase class.</p>
+
+<p>When you define your test methods, you should wrap them in a call to the
+class method define_test_methods. This will cause them to be defined
+conditionally based on whether the database config is present.</p>
+          
+
+          
+          <div class="method-source-code" id="included-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass_</span>)
+  <span class="ruby-identifier">database_config_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DATABASE_CONFIG_PATH</span>)) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">database_config_</span>
+    <span class="ruby-identifier">database_config_</span>.<span class="ruby-identifier">symbolize_keys!</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:before_open_database</span>)
+      <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">before_open_database</span>(<span class="ruby-value">:config</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">database_config_</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:DATABASE_CONFIG</span>, <span class="ruby-identifier">database_config_</span>)
+    <span class="ruby-identifier">ar_class_</span> = <span class="ruby-constant">AdapterTestHelper</span>.<span class="ruby-identifier">new_class</span>(<span class="ruby-identifier">database_config_</span>)
+    <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:DEFAULT_AR_CLASS</span>, <span class="ruby-identifier">ar_class_</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:initialize_database</span>)
+      <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">initialize_database</span>(<span class="ruby-value">:ar_class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ar_class_</span>, <span class="ruby-value">:connection</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ar_class_</span>.<span class="ruby-identifier">connection</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">define_test_methods</span>
+      <span class="ruby-keyword">yield</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">define_test_methods</span>
+      <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_warning</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;WARNING: Couldn't find database.yml; skipping tests.&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- included-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- included-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-cleanup_tables" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cleanup_tables</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Utility method that attempts to clean up any table that was created by a
+test method. Normally called automatically at setup and teardown. If you
+override those methods, you’ll need to call this from your method.</p>
+          
+
+          
+          <div class="method-source-code" id="cleanup_tables-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cleanup_tables</span>
+  <span class="ruby-identifier">klass_</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DEFAULT_AR_CLASS</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">tables</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'spatial_test'</span>)
+    <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">drop_table</span>(<span class="ruby-value">:spatial_test</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># Clear any RGeo factory settings.</span>
+  <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">clear!</span>
+  <span class="ruby-comment"># Clear out any ActiveRecord caches that are present.</span>
+  <span class="ruby-comment"># Different 3.x versions use different types of caches.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:clear_cache!</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:schema_cache</span>)
+      <span class="ruby-comment"># 3.2.x</span>
+      <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">with_connection</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c_</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">c_</span>.<span class="ruby-identifier">schema_cache</span>.<span class="ruby-identifier">clear!</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment"># 3.1.x</span>
+      <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection_pool</span>.<span class="ruby-identifier">clear_cache!</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:clear_cache!</span>)
+    <span class="ruby-comment"># 3.1 and above</span>
+    <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">clear_cache!</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">clear_query_cache</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cleanup_tables-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cleanup_tables-method -->
+
+    
+      <div id="method-i-create_ar_class" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_ar_class</span><span
+            class="method-args">(opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Utility method that creates and returns a new <a
+href="../ActiveRecord.html">ActiveRecord</a> class subclassing the
+DEFAULT_AR_CLASS.</p>
+          
+
+          
+          <div class="method-source-code" id="create_ar_class-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_ar_class</span>(<span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-ivar">@ar_class</span> = <span class="ruby-constant">AdapterTestHelper</span>.<span class="ruby-identifier">new_class</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DEFAULT_AR_CLASS</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_ar_class-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_ar_class-method -->
+
+    
+      <div id="method-i-setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Default setup method that calls cleanup_tables. It also defines a couple of
+useful factories: @factory (a cartesian factory) and @geographic_factory (a
+spherical factory)</p>
+          
+
+          
+          <div class="method-source-code" id="setup-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
+  <span class="ruby-ivar">@factory</span> = <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Cartesian</span>.<span class="ruby-identifier">preferred_factory</span>(<span class="ruby-value">:srid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3785</span>)
+  <span class="ruby-ivar">@geographic_factory</span> = <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Geographic</span>.<span class="ruby-identifier">spherical_factory</span>(<span class="ruby-value">:srid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4326</span>)
+  <span class="ruby-identifier">cleanup_tables</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup-method -->
+
+    
+      <div id="method-i-teardown" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">teardown</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Default teardown method that calls cleanup_tables.</p>
+          
+
+          
+          <div class="method-source-code" id="teardown-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>
+  <span class="ruby-identifier">cleanup_tables</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- teardown-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- teardown-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>History - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./RGeo.html">RGeo</a>
+  
+    <li><a href="./RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="./RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="./RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="./RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="./RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="./RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="./ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="./Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h3 id="label-0.4.5+%2F+2012-04-13">0.4.5 / 2012-04-13</h3>
+<ul><li>
+<p>Task hacker failed ungracefully when attempting to hack a nonexistent task.
+Fixed.</p>
+</li></ul>
+
+<h3 id="label-0.4.4+%2F+2012-04-12">0.4.4 / 2012-04-12</h3>
+<ul><li>
+<p>Support cartesian bounding boxes in queries.</p>
+</li></ul>
+
+<h3 id="label-0.4.3+%2F+2012-02-22">0.4.3 / 2012-02-22</h3>
+<ul><li>
+<p>Some fixes for Rails 3.2 compatibility.</p>
+</li></ul>
+
+<h3 id="label-0.4.2+%2F+2012-01-09">0.4.2 / 2012-01-09</h3>
+<ul><li>
+<p>Added an “rgeo-activerecord.rb” wrapper so bundler’s auto-require will work
+without modification. (Reported by Mauricio Pasquier Juan.)</p>
+</li><li>
+<p>Fixed unit tests so they actually pass…</p>
+</li></ul>
+
+<h3 id="label-0.4.1+%2F+2011-10-26">0.4.1 / 2011-10-26</h3>
+<ul><li>
+<p>Fixed wrong variable name crash in rgeo_factory_for_column (patch by Andy
+Allan).</p>
+</li></ul>
+
+<h3 id="label-0.4.0+%2F+2011-08-15">0.4.0 / 2011-08-15</h3>
+<ul><li>
+<p>Several compatibility fixes for Rails 3.1.</p>
+</li><li>
+<p>Revamped factory setter mechanism with a system that should be more robust.</p>
+</li><li>
+<p>Some general code cleanup.</p>
+</li></ul>
+
+<h3 id="label-0.3.4+%2F+2011-05-23">0.3.4 / 2011-05-23</h3>
+<ul><li>
+<p>Uses the mixin feature of <a href="RGeo.html">RGeo</a> 0.3 to add an
+as_json method to all geometry objects. This should allow ActiveRecord’s
+JSON serialization to function for models with geometry fields. (Reported
+by thenetduck and tonyc on github.)</p>
+</li></ul>
+
+<h3 id="label-0.3.3+%2F+2011-04-11">0.3.3 / 2011-04-11</h3>
+<ul><li>
+<p>A .gemspec file is now available for gem building and bundler git
+integration.</p>
+</li></ul>
+
+<h3 id="label-0.3.2+%2F+2011-02-28">0.3.2 / 2011-02-28</h3>
+<ul><li>
+<p>Fixed a bug that sometimes caused spatial column detection to fail, which
+could result in exceptions or incorrect spatial queries.</p>
+</li></ul>
+
+<h3 id="label-0.3.1+%2F+2011-02-28">0.3.1 / 2011-02-28</h3>
+<ul><li>
+<p>Fixed a bug that could cause some spatial <a
+href="ActiveRecord.html">ActiveRecord</a> adapters to fail to create
+multiple spatial columns in a migration.</p>
+</li></ul>
+
+<h3 id="label-0.3.0+%2F+2011-01-26">0.3.0 / 2011-01-26</h3>
+<ul><li>
+<p>Experimental support for complex spatial queries. (Requires <a
+href="Arel.html">Arel</a> 2.1, which is expected to be released with Rails
+3.1.) Currently, only a low-level Arel-based interface is supported.</p>
+</li><li>
+<p>Better support for geography types in PostGIS.</p>
+</li><li>
+<p>Adapters can now define additional column constructors.</p>
+</li><li>
+<p>Support for spatial column constructors on change_table.</p>
+</li><li>
+<p>Fixed column type inference for some cases where the column included Z
+and/or M.</p>
+</li><li>
+<p>IS NULL predicates now work properly with spatial types.</p>
+</li><li>
+<p>Preferred attribute type is now :spatial rather than :geometry.</p>
+</li><li>
+<p>The gem version is now accessible via an api.</p>
+</li><li>
+<p>Some code reorganization.</p>
+</li></ul>
+
+<h3 id="label-0.2.4+%2F+2011-01-13">0.2.4 / 2011-01-13</h3>
+<ul><li>
+<p>Fixed a problem that caused a hang during rake db:rollback, as well as
+probably certain other functions that use ActiveRecord::Base directly
+rather than a subclass. (Reported by Alexander Graefe.)</p>
+</li></ul>
+
+<h3 id="label-0.2.3+%2F+2011-01-07">0.2.3 / 2011-01-07</h3>
+<ul><li>
+<p>Updated gem dependencies to include <a href="Arel.html">Arel</a> 2.0.6,
+since some earlier <a href="Arel.html">Arel</a> versions weren’t working.
+(Reported by Pirmin Kalberer.)</p>
+</li></ul>
+
+<h3 id="label-0.2.2+%2F+2011-01-06">0.2.2 / 2011-01-06</h3>
+<ul><li>
+<p>Some adjustments to the <a href="Arel.html">Arel</a> integration for future
+<a href="Arel.html">Arel</a> compatibility. (Thanks to Aaron Patterson.)</p>
+</li><li>
+<p>Support code for hacking ActiveRecord’s rake tasks.</p>
+</li></ul>
+
+<h3 id="label-0.2.1+%2F+2010-12-27">0.2.1 / 2010-12-27</h3>
+<ul><li>
+<p>Support for <a href="RGeo.html">RGeo</a> features as nodes in the <a
+href="Arel.html">Arel</a> AST.</p>
+</li><li>
+<p>Basic utility <a href="Arel.html">Arel</a> visitor methods for handling
+spatial equality nodes in where-expressions.</p>
+</li></ul>
+
+<h3 id="label-0.2.0+%2F+2010-12-07">0.2.0 / 2010-12-07</h3>
+<ul><li>
+<p>Initial public alpha release. Spun rgeo-activerecord off from the core rgeo
+gem.</p>
+</li><li>
+<p>Support for setting factory by column.</p>
+</li></ul>
+
+<p>For earlier history, see the <a href="History_rdoc.html">History</a> file
+for the rgeo gem.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

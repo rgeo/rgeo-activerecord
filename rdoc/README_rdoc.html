@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>README - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./RGeo.html">RGeo</a>
+  
+    <li><a href="./RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="./RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="./RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="./RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="./RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="./RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="./RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="./ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="./Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h2 id="label-RGeo%3A%3AActiveRecord"><a href="RGeo/ActiveRecord.html">RGeo::ActiveRecord</a></h2>
+
+<p><a href="RGeo/ActiveRecord.html">RGeo::ActiveRecord</a> is an optional <a
+href="http://github.com/dazuma/rgeo">RGeo</a> module providing spatial
+extensions for ActiveRecord, as well as a set of helpers for writing
+spatial ActiveRecord adapters based on RGeo.</p>
+
+<h3 id="label-Summary">Summary</h3>
+
+<p>RGeo is a key component for writing location-aware applications in the Ruby
+programming language. At its core is an implementation of the industry
+standard OGC Simple Features Specification, which provides data
+representations of geometric objects such as points, lines, and polygons,
+along with a set of geometric analysis operations. See the <a
+href="README_rdoc.html">README</a> for the “rgeo” gem for more information.</p>
+
+<p><a href="RGeo/ActiveRecord.html">RGeo::ActiveRecord</a> is an optional RGeo
+add-on module providing spatial extensions for ActiveRecord, as well as a
+set of helpers for writing spatial ActiveRecord adapters based on RGeo.</p>
+
+<h3 id="label-Installation">Installation</h3>
+
+<p><a href="RGeo/ActiveRecord.html">RGeo::ActiveRecord</a> has the following
+requirements:</p>
+<ul><li>
+<p>Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.</p>
+</li><li>
+<p>rgeo 0.3.10 or later.</p>
+</li><li>
+<p>activerecord 3.0.3 or later. Earlier versions will not work. Should be
+compatible with Rails versions through 3.2.x.</p>
+</li><li>
+<p>arel 2.0.6 or later. Earlier versions will not work.</p>
+</li></ul>
+
+<p>Generally, ActiveRecord adapters which depend on this module should be
+installed as gems, and they will install this module automatically as a
+dependency. However, you can also install it manually as a gem:</p>
+
+<pre>gem install rgeo
+gem install rgeo-activerecord</pre>
+
+<p>See the <a href="README_rdoc.html">README</a> for the “rgeo” gem, a
+required dependency, for further installation information.</p>
+
+<h3 id="label-To-do+list">To-do list</h3>
+
+<p>We consider this gem to be in a late alpha state. There are a still a few
+holes in the intended functionality, but it is now being tested in a
+variety of contexts, and we know of several successful production
+deployments.</p>
+
+<p>We are also currently working on a mechanism for constructing complex
+spatial queries via extensions to <a href="Arel.html">Arel</a>. This work
+is in the experimental stage.</p>
+
+<h3 id="label-Development+and+support">Development and support</h3>
+
+<p>Documentation is available at <a
+href="http://virtuoso.rubyforge.org/rgeo-activerecord/README_rdoc.html">virtuoso.rubyforge.org/rgeo-activerecord/README_rdoc.html</a></p>
+
+<p>Source code is hosted on Github at <a
+href="http://github.com/dazuma/rgeo-activerecord">github.com/dazuma/rgeo-activerecord</a></p>
+
+<p>Contributions are welcome. Fork the project on Github.</p>
+
+<p>Report bugs on Github issues at <a
+href="http://github.org/dazuma/rgeo-activerecord/issues">github.org/dazuma/rgeo-activerecord/issues</a></p>
+
+<p>Support available on the rgeo-users google group at <a
+href="http://groups.google.com/group/rgeo-users">groups.google.com/group/rgeo-users</a></p>
+
+<p>Contact the author at dazuma at gmail dot com.</p>
+
+<h3 id="label-Acknowledgments">Acknowledgments</h3>
+
+<p>RGeo is written by Daniel Azuma (<a
+href="http://www.daniel-azuma.com">www.daniel-azuma.com</a>).</p>
+
+<p>Development is supported by Pirq. (<a
+href="http://www.pirq.com">www.pirq.com</a>).</p>
+
+<h3 id="label-License">License</h3>
+
+<p>Copyright 2010-2012 Daniel Azuma</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<ul><li>
+<p>Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.</p>
+</li><li>
+<p>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</p>
+</li><li>
+<p>Neither the name of the copyright holder, nor the names of any other
+contributors to this software, may be used to endorse or promote products
+derived from this software without specific prior written permission.</p>
+</li></ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS”
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

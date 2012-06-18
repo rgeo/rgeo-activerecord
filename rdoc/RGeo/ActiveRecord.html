@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module RGeo::ActiveRecord - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rgeo/active_record/adapter_test_helper.rb
+    <li>lib/rgeo/active_record/ar_factory_settings.rb
+    <li>lib/rgeo/active_record/arel_spatial_queries.rb
+    <li>lib/rgeo/active_record/common_adapter_elements.rb
+    <li>lib/rgeo/active_record/geometry_mixin.rb
+    <li>lib/rgeo/active_record/spatial_expressions.rb
+    <li>lib/rgeo/active_record/task_hacker.rb
+    <li>lib/rgeo/active_record/version.rb
+    <li>lib/rgeo/active_record.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-geometric_type_from_name">::geometric_type_from_name</a>
+    
+    <li><a href="#method-c-spatial_expressions_supported-3F">::spatial_expressions_supported?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../RGeo.html">RGeo</a>
+  
+    <li><a href="../RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="../RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="../RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="../RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="../RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="../RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="../RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="../RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="../RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="../RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="../ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="../Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module RGeo::ActiveRecord</h1>
+
+  <div id="description" class="description">
+    
+<p>This module contains a set of <a href="ActiveRecord.html">ActiveRecord</a>
+extensions for <a href="../RGeo.html">RGeo</a>. Generally, you will not
+need to interact with the contents of this module directly, unless you are
+writing a spatial <a href="ActiveRecord.html">ActiveRecord</a> connection
+adapter.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="DEFAULT_FACTORY_GENERATOR">DEFAULT_FACTORY_GENERATOR
+        
+        <dd class="description"><p>The default factory generator for ActiveRecord::Base.</p>
+        
+      
+        <dt id="DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS">DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS
+        
+        <dd class="description"><p>Some default column constructors specifications for most spatial databases.
+Individual adapters may add to or override this list.</p>
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description"><p>Current version of <a href="ActiveRecord.html">RGeo::ActiveRecord</a> as a
+Versionomy object, if the Versionomy gem is available; otherwise equal to
+<a href="ActiveRecord.html#VERSION_STRING">VERSION_STRING</a>.</p>
+        
+      
+        <dt id="VERSION_STRING">VERSION_STRING
+        
+        <dd class="description"><p>Current version of <a href="ActiveRecord.html">RGeo::ActiveRecord</a> as a
+frozen string</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-geometric_type_from_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">geometric_type_from_name</span><span
+            class="method-args">(name_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns a feature type module given a string type.</p>
+          
+
+          
+          <div class="method-source-code" id="geometric_type_from_name-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/common_adapter_elements.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">geometric_type_from_name</span>(<span class="ruby-identifier">name_</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">name_</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^geometry/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">Geometry</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^point/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">Point</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^linestring/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">LineString</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^polygon/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">Polygon</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^geometrycollection/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">GeometryCollection</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^multipoint/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">MultiPoint</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^multilinestring/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">MultiLineString</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^multipolygon/</span> <span class="ruby-keyword">then</span> <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span><span class="ruby-operator">::</span><span class="ruby-constant">MultiPolygon</span>
+  <span class="ruby-keyword">else</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- geometric_type_from_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- geometric_type_from_name-method -->
+
+    
+      <div id="method-c-spatial_expressions_supported-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">spatial_expressions_supported?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if spatial expressions (i.e. the methods in the <a
+href="ActiveRecord/SpatialExpressions.html">SpatialExpressions</a> module)
+are supported. Generally, this is true if <a href="../Arel.html">Arel</a>
+is at version 2.1 or later.</p>
+          
+
+          
+          <div class="method-source-code" id="spatial_expressions_supported-3F-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/spatial_expressions.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">spatial_expressions_supported?</span>
+  <span class="ruby-keyword">defined?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Arel</span><span class="ruby-operator">::</span><span class="ruby-constant">Nodes</span><span class="ruby-operator">::</span><span class="ruby-constant">NamedFunction</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- spatial_expressions_supported-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- spatial_expressions_supported-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

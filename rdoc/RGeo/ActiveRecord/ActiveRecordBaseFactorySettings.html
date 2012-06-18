@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module RGeo::ActiveRecord::ActiveRecordBaseFactorySettings - RGeo::ActiveRecord 0.4.5 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rgeo/active_record/ar_factory_settings.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-rgeo_factory_for_column">#rgeo_factory_for_column</a>
+    
+    <li><a href="#method-i-rgeo_factory_generator">#rgeo_factory_generator</a>
+    
+    <li><a href="#method-i-rgeo_factory_generator-3D">#rgeo_factory_generator=</a>
+    
+    <li><a href="#method-i-rgeo_factory_settings">#rgeo_factory_settings</a>
+    
+    <li><a href="#method-i-set_rgeo_factory_for_column">#set_rgeo_factory_for_column</a>
+    
+    <li><a href="#method-i-to_generate_rgeo_factory">#to_generate_rgeo_factory</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../RGeo.html">RGeo</a>
+  
+    <li><a href="../../RGeo/ActiveRecord.html">RGeo::ActiveRecord</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/ActiveRecordBaseFactorySettings.html">RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/AdapterTestHelper.html">RGeo::ActiveRecord::AdapterTestHelper</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/GeometryMixin.html">RGeo::ActiveRecord::GeometryMixin</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/RGeoFactorySettings.html">RGeo::ActiveRecord::RGeoFactorySettings</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialConstantNode.html">RGeo::ActiveRecord::SpatialConstantNode</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialExpressions.html">RGeo::ActiveRecord::SpatialExpressions</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialIndexDefinition.html">RGeo::ActiveRecord::SpatialIndexDefinition</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/SpatialToSql.html">RGeo::ActiveRecord::SpatialToSql</a>
+  
+    <li><a href="../../RGeo/ActiveRecord/TaskHacker.html">RGeo::ActiveRecord::TaskHacker</a>
+  
+    <li><a href="../../ActiveRecord.html">ActiveRecord</a>
+  
+    <li><a href="../../Arel.html">Arel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module RGeo::ActiveRecord::ActiveRecordBaseFactorySettings</h1>
+
+  <div id="description" class="description">
+    
+<p>Additional class methods on ::ActiveRecord::Base that provide a way to
+control the <a href="../../RGeo.html">RGeo</a> factory used for <a
+href="../ActiveRecord.html">ActiveRecord</a> objects.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-rgeo_factory_for_column" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rgeo_factory_for_column</span><span
+            class="method-args">(column_name_, params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the factory generator or specific factory to use for this <a
+href="../ActiveRecord.html">ActiveRecord</a> class and the given column
+name. If an explicit factory was set for the given column, returns it.
+Otherwise, if a params hash is given, passes that hash to the <a
+href="ActiveRecordBaseFactorySettings.html#method-i-rgeo_factory_generator">#rgeo_factory_generator</a>
+for this class, and returns the resulting factory. Otherwise, if no params
+hash is given, just returns the <a
+href="ActiveRecordBaseFactorySettings.html#method-i-rgeo_factory_generator">#rgeo_factory_generator</a>
+for this class.</p>
+          
+
+          
+          <div class="method-source-code" id="rgeo_factory_for_column-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 190</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rgeo_factory_for_column</span>(<span class="ruby-identifier">column_name_</span>, <span class="ruby-identifier">params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">get_column_factory</span>(<span class="ruby-identifier">table_name</span>, <span class="ruby-identifier">column_name_</span>, <span class="ruby-identifier">params_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rgeo_factory_for_column-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rgeo_factory_for_column-method -->
+
+    
+      <div id="method-i-rgeo_factory_generator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rgeo_factory_generator</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>The value of this attribute is a RGeo::Feature::FactoryGenerator that is
+used to generate the proper factory when loading geometry objects from the
+database. For example, if the data being loaded has M but not Z
+coordinates, and an embedded SRID, then this FactoryGenerator is called
+with the appropriate configuration to obtain a factory with those
+properties. This factory is the one associated with the actual geometry
+properties of the <a href="../ActiveRecord.html">ActiveRecord</a> object.
+The result of this generator can be overridden by setting an explicit
+factory for a given class and column using the column_rgeo_factory method.</p>
+          
+
+          
+          <div class="method-source-code" id="rgeo_factory_generator-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rgeo_factory_generator</span>
+  <span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">get_factory_generator</span>(<span class="ruby-identifier">table_name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rgeo_factory_generator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rgeo_factory_generator-method -->
+
+    
+      <div id="method-i-rgeo_factory_generator-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rgeo_factory_generator=</span><span
+            class="method-args">(gen_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the <a
+href="ActiveRecordBaseFactorySettings.html#method-i-rgeo_factory_generator">#rgeo_factory_generator</a>
+attribute</p>
+          
+
+          
+          <div class="method-source-code" id="rgeo_factory_generator-3D-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rgeo_factory_generator=</span>(<span class="ruby-identifier">gen_</span>)
+  <span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">set_factory_generator</span>(<span class="ruby-identifier">table_name</span>, <span class="ruby-identifier">gen_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rgeo_factory_generator-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rgeo_factory_generator-3D-method -->
+
+    
+      <div id="method-i-rgeo_factory_settings" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rgeo_factory_settings</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return the <a href="RGeoFactorySettings.html">RGeoFactorySettings</a>
+object associated with this class’s connection.</p>
+          
+
+          
+          <div class="method-source-code" id="rgeo_factory_settings-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 132</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rgeo_factory_settings</span>
+  <span class="ruby-identifier">pool_</span> = <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">connection_pool</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">ConnectionNotEstablished</span>
+    <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">pool_</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">pool_</span>.<span class="ruby-identifier">rgeo_factory_settings</span> <span class="ruby-operator">:</span> <span class="ruby-constant">RGeoFactorySettings</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rgeo_factory_settings-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rgeo_factory_settings-method -->
+
+    
+      <div id="method-i-set_rgeo_factory_for_column" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_rgeo_factory_for_column</span><span
+            class="method-args">(column_name_, factory_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set a specific factory for this <a
+href="../ActiveRecord.html">ActiveRecord</a> class and the given column
+name. This setting, if present, overrides the result of the
+rgeo_factory_generator.</p>
+          
+
+          
+          <div class="method-source-code" id="set_rgeo_factory_for_column-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 177</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_rgeo_factory_for_column</span>(<span class="ruby-identifier">column_name_</span>, <span class="ruby-identifier">factory_</span>)
+  <span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">set_column_factory</span>(<span class="ruby-identifier">table_name</span>, <span class="ruby-identifier">column_name_</span>, <span class="ruby-identifier">factory_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_rgeo_factory_for_column-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_rgeo_factory_for_column-method -->
+
+    
+      <div id="method-i-to_generate_rgeo_factory" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_generate_rgeo_factory</span><span
+            class="method-args">(&block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This is a convenient way to set the <a
+href="ActiveRecordBaseFactorySettings.html#method-i-rgeo_factory_generator">#rgeo_factory_generator</a>
+by passing a block.</p>
+          
+
+          
+          <div class="method-source-code" id="to_generate_rgeo_factory-source">
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/ar_factory_settings.rb, line 168</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_generate_rgeo_factory</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">rgeo_factory_settings</span>.<span class="ruby-identifier">set_factory_generator</span>(<span class="ruby-identifier">table_name</span>, <span class="ruby-identifier">block_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_generate_rgeo_factory-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_generate_rgeo_factory-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
