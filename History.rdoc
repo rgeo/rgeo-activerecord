@@ -1,3 +1,7 @@
+=== 0.4.6 / 2012-??-??
+
+* The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
+
 === 0.4.5 / 2012-04-13
 
 * Task hacker failed ungracefully when attempting to hack a nonexistent task. Fixed.
