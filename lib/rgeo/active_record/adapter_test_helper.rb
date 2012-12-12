@@ -52,7 +52,9 @@ module RGeo
 
       # When this module is included in a test case class, it
       # automatically attempts to load the database config file from the
-      # path specified by the class's DATABASE_CONFIG_FILE constant.
+      # path specified by constants defined in the class. It first tries
+      # OVERRIDE_DATABASE_CONFIG_PATH, and then falls back on
+      # DATABASE_CONFIG_PATH.
       # It then defines the DATABASE_CONFIG and DEFAULT_AR_CLASS constants
       # in the testcase class.
       #
@@ -62,7 +64,8 @@ module RGeo
       # present.
 
       def self.included(klass_)
-        database_config_ = ::YAML.load_file(klass_.const_get(:DATABASE_CONFIG_PATH)) rescue nil
+        database_config_ = ::YAML.load_file(klass_.const_get(:OVERRIDE_DATABASE_CONFIG_PATH)) rescue nil
+        database_config_ ||= ::YAML.load_file(klass_.const_get(:DATABASE_CONFIG_PATH)) rescue nil
         if database_config_
           database_config_.symbolize_keys!
           if klass_.respond_to?(:before_open_database)

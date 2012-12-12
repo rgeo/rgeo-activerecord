@@ -1,5 +1,6 @@
-=== 0.4.6 / 2012-??-??
+=== 0.4.6 / 2012-12-11
 
+* You can now provide both a default and an override database config file in the test helper.
 * The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
 
 === 0.4.5 / 2012-04-13
