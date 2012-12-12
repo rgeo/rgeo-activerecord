@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>module RGeo::ActiveRecord::AdapterTestHelper - RGeo::ActiveRecord 0.4.5 Documentation</title>
+<title>module RGeo::ActiveRecord::AdapterTestHelper - RGeo::ActiveRecord 0.4.6 Documentation</title>
 
 <link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
 
@@ -168,9 +168,11 @@
         <div class="method-description">
           
           <p>When this module is included in a test case class, it automatically
-attempts to load the database config file from the path specified by the
-class’s DATABASE_CONFIG_FILE constant. It then defines the DATABASE_CONFIG
-and DEFAULT_AR_CLASS constants in the testcase class.</p>
+attempts to load the database config file from the path specified by
+constants defined in the class. It first tries
+OVERRIDE_DATABASE_CONFIG_PATH, and then falls back on DATABASE_CONFIG_PATH.
+It then defines the DATABASE_CONFIG and DEFAULT_AR_CLASS constants in the
+testcase class.</p>
 
 <p>When you define your test methods, you should wrap them in a call to the
 class method define_test_methods. This will cause them to be defined
@@ -179,9 +181,10 @@ conditionally based on whether the database config is present.</p>
 
           
           <div class="method-source-code" id="included-source">
-            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass_</span>)
-  <span class="ruby-identifier">database_config_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DATABASE_CONFIG_PATH</span>)) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">database_config_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:OVERRIDE_DATABASE_CONFIG_PATH</span>)) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">database_config_</span> <span class="ruby-operator">||=</span> <span class="ruby-operator">::</span><span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DATABASE_CONFIG_PATH</span>)) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">database_config_</span>
     <span class="ruby-identifier">database_config_</span>.<span class="ruby-identifier">symbolize_keys!</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:before_open_database</span>)
@@ -238,7 +241,7 @@ override those methods, you’ll need to call this from your method.</p>
 
           
           <div class="method-source-code" id="cleanup_tables-source">
-            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 130</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cleanup_tables</span>
   <span class="ruby-identifier">klass_</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DEFAULT_AR_CLASS</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass_</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">tables</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'spatial_test'</span>)
@@ -293,7 +296,7 @@ DEFAULT_AR_CLASS.</p>
 
           
           <div class="method-source-code" id="create_ar_class-source">
-            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 158</span>
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_ar_class</span>(<span class="ruby-identifier">opts_</span>={})
   <span class="ruby-ivar">@ar_class</span> = <span class="ruby-constant">AdapterTestHelper</span>.<span class="ruby-identifier">new_class</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:DEFAULT_AR_CLASS</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -325,7 +328,7 @@ spherical factory)</p>
 
           
           <div class="method-source-code" id="setup-source">
-            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 108</span>
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 111</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
   <span class="ruby-ivar">@factory</span> = <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Cartesian</span>.<span class="ruby-identifier">preferred_factory</span>(<span class="ruby-value">:srid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3785</span>)
   <span class="ruby-ivar">@geographic_factory</span> = <span class="ruby-operator">::</span><span class="ruby-constant">RGeo</span><span class="ruby-operator">::</span><span class="ruby-constant">Geographic</span>.<span class="ruby-identifier">spherical_factory</span>(<span class="ruby-value">:srid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4326</span>)
@@ -357,7 +360,7 @@ spherical factory)</p>
 
           
           <div class="method-source-code" id="teardown-source">
-            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 117</span>
+            <pre><span class="ruby-comment"># File lib/rgeo/active_record/adapter_test_helper.rb, line 120</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>
   <span class="ruby-identifier">cleanup_tables</span>
 <span class="ruby-keyword">end</span></pre>
