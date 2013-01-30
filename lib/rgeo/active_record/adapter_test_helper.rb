@@ -67,7 +67,7 @@ module RGeo
         database_config_ = ::YAML.load_file(klass_.const_get(:OVERRIDE_DATABASE_CONFIG_PATH)) rescue nil
         database_config_ ||= ::YAML.load_file(klass_.const_get(:DATABASE_CONFIG_PATH)) rescue nil
         if database_config_
-          database_config_.symbolize_keys!
+          database_config_.stringify_keys!
           if klass_.respond_to?(:before_open_database)
             klass_.before_open_database(:config => database_config_)
           end
@@ -112,6 +112,7 @@ module RGeo
         @factory = ::RGeo::Cartesian.preferred_factory(:srid => 3785)
         @geographic_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
         cleanup_tables
+        cleanup_caches
       end
 
 
@@ -119,6 +120,7 @@ module RGeo
 
       def teardown
         cleanup_tables
+        cleanup_caches
       end
 
 
@@ -132,20 +134,29 @@ module RGeo
         if klass_.connection.tables.include?('spatial_test')
           klass_.connection.drop_table(:spatial_test)
         end
+      end
+
+
+      # Utility method that cleans up any schema info that was cached by
+      # ActiveRecord during a test. Normally called automatically at setup
+      # and teardown. If you override those methods, you'll need to call
+      # this from your method.
+
+      def cleanup_caches
+        klass_ = self.class.const_get(:DEFAULT_AR_CLASS)
         # Clear any RGeo factory settings.
         klass_.connection_pool.rgeo_factory_settings.clear!
         # Clear out any ActiveRecord caches that are present.
-        # Different 3.x versions use different types of caches.
-        if klass_.connection_pool.respond_to?(:clear_cache!)
-          if klass_.connection.respond_to?(:schema_cache)
-            # 3.2.x
-            klass_.connection_pool.with_connection do |c_|
-              c_.schema_cache.clear!
-            end
-          else
-            # 3.1.x
-            klass_.connection_pool.clear_cache!
+        # Different Rails versions use different types of caches.
+        klass_.connection_pool.with_connection do |c_|
+          if c_.respond_to?(:schema_cache)
+            # 3.2.x and 4.0.x
+            c_.schema_cache.clear!
           end
+        end
+        if klass_.connection_pool.respond_to?(:clear_cache!)
+          # 3.1.x
+          klass_.connection_pool.clear_cache!
         end
         if klass_.connection.respond_to?(:clear_cache!)
           # 3.1 and above

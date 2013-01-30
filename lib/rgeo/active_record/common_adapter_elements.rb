@@ -65,7 +65,8 @@ module RGeo
 
     # Index definition struct with a spatial flag field.
 
-    class SpatialIndexDefinition < ::Struct.new(:table, :name, :unique, :columns, :lengths, :spatial)
+    class SpatialIndexDefinition < ::ActiveRecord::ConnectionAdapters::IndexDefinition
+      attr_accessor :spatial
     end
 
 
@@ -92,7 +93,9 @@ module RGeo
     # Provide methods for each geometric subtype during table definitions.
 
     ::ActiveRecord::ConnectionAdapters::TableDefinition.class_eval do
+
       alias_method :method_missing_without_rgeo_modification, :method_missing
+
       def method_missing(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
           info_ = info_.dup
@@ -105,13 +108,16 @@ module RGeo
           method_missing_without_rgeo_modification(method_name_, *args_, &block_)
         end
       end
+
     end
 
 
     # Provide methods for each geometric subtype during table changes.
 
     ::ActiveRecord::ConnectionAdapters::Table.class_eval do
+
       alias_method :method_missing_without_rgeo_modification, :method_missing
+
       def method_missing(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
           info_ = info_.dup
@@ -124,14 +130,18 @@ module RGeo
           method_missing_without_rgeo_modification(method_name_, *args_, &block_)
         end
       end
+
     end
 
 
     # Hack schema dumper to output spatial index flag
 
     ::ActiveRecord::SchemaDumper.class_eval do
+
       private
+
       alias_method :_old_indexes_method, :indexes
+
       def indexes(table_, stream_)
         if (indexes_ = @connection.indexes(table_)).any?
           add_index_statements_ = indexes_.map do |index_|
@@ -150,6 +160,7 @@ module RGeo
           stream_.puts
         end
       end
+
     end
 
 
