@@ -27,6 +27,9 @@ RGeo::ActiveRecord has the following requirements:
   Should be compatible with Rails versions through 3.2.x.
 * arel 2.0.6 or later. Earlier versions will not work.
 
+This version of rgeo-activerecord also includes experimental support for
+the (unreleased as of this writing) version 4.0 of Rails.
+
 Generally, \ActiveRecord adapters which depend on this module should be
 installed as gems, and they will install this module automatically as
 a dependency. However, you can also install it manually as a gem:
@@ -36,17 +39,6 @@ a dependency. However, you can also install it manually as a gem:
 
 See the README for the "rgeo" gem, a required dependency, for further
 installation information.
-
-=== To-do list
-
-We consider this gem to be in a late alpha state. There are a still a
-few holes in the intended functionality, but it is now being tested in a
-variety of contexts, and we know of several successful production
-deployments.
-
-We are also currently working on a mechanism for constructing complex
-spatial queries via extensions to Arel. This work is in the experimental
-stage.
 
 === Development and support
 
@@ -70,7 +62,7 @@ Development is supported by Pirq. (http://pirq.com).
 
 === License
 
-Copyright 2010-2012 Daniel Azuma
+Copyright 2010-2013 Daniel Azuma
 
 All rights reserved.
 

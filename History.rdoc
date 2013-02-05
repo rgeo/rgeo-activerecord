@@ -1,4 +1,4 @@
-=== 0.5.0 / 2013-02-??
+=== 0.5.0.beta1 / 2013-02-04
 
 * Updates for compatibility with Rails 4 and support of Rails 4 oriented adapters.
 * Testing tool is better factored to allow customization of cleanup

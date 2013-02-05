@@ -53,4 +53,7 @@
   s_.add_dependency('rgeo', '>= 0.3.20')
   s_.add_dependency('activerecord', '>= 3.0.3')
   s_.add_dependency('arel', '>= 2.0.6')
+
+  s_.add_development_dependency('rake')
+  s_.add_development_dependency('rdoc')
 end
