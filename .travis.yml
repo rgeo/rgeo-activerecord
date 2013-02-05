@@ -12,7 +12,12 @@ gemfile:
   - travis/ar30.gemfile
   - travis/ar31.gemfile
   - travis/ar32.gemfile
-  - travis/ar40.gemfile
+matrix:
+  include:
+    - rvm: 1.9.3
+      gemfile: travis/ar40.gemfile
+    - rvm: jruby-19mode
+      gemfile: travis/ar40.gemfile
 before_install:
   - sudo apt-get update
   - sudo apt-get install libgeos-dev libproj-dev
