@@ -65,8 +65,7 @@ module RGeo
 
     # Index definition struct with a spatial flag field.
 
-    class SpatialIndexDefinition < ::ActiveRecord::ConnectionAdapters::IndexDefinition
-      attr_accessor :spatial
+    class SpatialIndexDefinition < Struct.new(:table, :name, :unique, :columns, :lengths, :orders, :where, :spatial)
     end
 
 
