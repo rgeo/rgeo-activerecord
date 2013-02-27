@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>RGeo::ActiveRecord 0.4.6 Documentation</title>
+<title>RGeo::ActiveRecord 0.5.0 Documentation</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -130,6 +130,9 @@ compatible with Rails versions through 3.2.x.</p>
 <p>arel 2.0.6 or later. Earlier versions will not work.</p>
 </li></ul>
 
+<p>This version of rgeo-activerecord also includes experimental support for
+the Rails 4.0.</p>
+
 <p>Generally, ActiveRecord adapters which depend on this module should be
 installed as gems, and they will install this module automatically as a
 dependency. However, you can also install it manually as a gem:</p>
@@ -139,17 +142,6 @@ gem install rgeo-activerecord</pre>
 
 <p>See the <a href="README_rdoc.html">README</a> for the “rgeo” gem, a
 required dependency, for further installation information.</p>
-
-<h3 id="label-To-do+list">To-do list</h3>
-
-<p>We consider this gem to be in a late alpha state. There are a still a few
-holes in the intended functionality, but it is now being tested in a
-variety of contexts, and we know of several successful production
-deployments.</p>
-
-<p>We are also currently working on a mechanism for constructing complex
-spatial queries via extensions to <a href="Arel.html">Arel</a>. This work
-is in the experimental stage.</p>
 
 <h3 id="label-Development+and+support">Development and support</h3>
 
@@ -178,7 +170,7 @@ href="http://www.daniel-azuma.com">www.daniel-azuma.com</a>).</p>
 
 <h3 id="label-License">License</h3>
 
-<p>Copyright 2010-2012 Daniel Azuma</p>
+<p>Copyright 2010-2013 Daniel Azuma</p>
 
 <p>All rights reserved.</p>
 
