@@ -85,8 +85,8 @@ module RGeo
         column_name_ = column_name_.to_s
         result_ = (@column_factories[table_name_] ||= {})[column_name_] ||
           @factory_generators[table_name_] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-        if params_ && !result_.kind_of?(::RGeo::Feature::Factory::Instance)
-          result_ = result_.call(params_)
+        unless result_.kind_of?(::RGeo::Feature::Factory::Instance)
+          result_ = result_.call(params_ || {})
         end
         result_
       end
