@@ -34,15 +34,22 @@
 ;
 
 
-require 'test/unit'
 require 'rgeo/active_record'
-
+require 'active_record'
+RAILS_4_1_OR_HIGHER = (ActiveRecord::VERSION::MAJOR < 4) || (ActiveRecord::VERSION::MINOR < 1)
+if RAILS_4_1_OR_HIGHER
+  require 'test/unit'
+  TEST_BASE_CLASS = ::Test::Unit::TestCase
+else
+  require 'minitest'
+  require 'minitest/autorun'
+  TEST_BASE_CLASS = ::Minitest::Test
+end
 
 module RGeo
   module ActiveRecord
     module Tests  # :nodoc:
-
-      class TestBasic < ::Test::Unit::TestCase  # :nodoc:
+      class TestBasic < TEST_BASE_CLASS  # :nodoc:
 
 
         class MyTable < ::ActiveRecord::Base
@@ -50,7 +57,11 @@ module RGeo
 
 
         def test_has_version
-          assert_not_nil(::RGeo::ActiveRecord::VERSION)
+          if RUBY_VERSION < '1.9'
+            assert_not_nil(::RGeo::ActiveRecord::VERSION)
+          else
+            refute_nil(::RGeo::ActiveRecord::VERSION)
+          end
         end
 
 
@@ -101,10 +112,7 @@ module RGeo
           p_ = factory_.point(1, 2)
           assert_equal({'type' => 'Point', 'coordinates' => [1.0, 2.0]}, p_.as_json)
         end
-
-
       end
-
     end
   end
 end

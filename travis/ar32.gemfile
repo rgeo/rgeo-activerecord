@@ -5,4 +5,9 @@ gem('rgeo', '>= 0.3.20')
 gem('rgeo-geojson', '>= 0.2.3')
 gem('activerecord', '~> 3.2.11')
 
+platforms :rbx do
+  gem 'rubysl', '~> 2.0'
+  gem 'rubysl-test-unit'
+end
+
 gemspec :path => "../"
