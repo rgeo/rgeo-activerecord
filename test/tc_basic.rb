@@ -57,7 +57,11 @@ module RGeo
 
 
         def test_has_version
-          refute_nil(::RGeo::ActiveRecord::VERSION)
+          if RUBY_VERSION < '1.9'
+            assert_not_nil(::RGeo::ActiveRecord::VERSION)
+          else
+            refute_nil(::RGeo::ActiveRecord::VERSION)
+          end
         end
 
 
