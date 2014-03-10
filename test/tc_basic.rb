@@ -34,9 +34,7 @@
 ;
 
 
-require 'test/unit'
-require 'rgeo/active_record'
-
+require 'test_helper'
 
 module RGeo
   module ActiveRecord
@@ -102,9 +100,21 @@ module RGeo
           assert_equal({'type' => 'Point', 'coordinates' => [1.0, 2.0]}, p_.as_json)
         end
 
+        def test_arel_visit_SpatialConstantNode
+          visitor = arel_visitor
+          sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)'))
+          assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql)
+        end
 
+        # SpatialNamedFunction is not used in pre-2.1 Arel.
+        if(AREL_VERSION_MAJOR > 2 || (AREL_VERSION_MAJOR == 2 && AREL_VERSION_MINOR >= 1))
+          def test_arel_visit_SpatialNamedFunction
+            visitor = arel_visitor
+            sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)').st_astext)
+            assert_equal("ST_AsText(ST_WKTToSQL('POINT (1.0 2.0)'))", sql)
+          end
+        end
       end
-
     end
   end
 end

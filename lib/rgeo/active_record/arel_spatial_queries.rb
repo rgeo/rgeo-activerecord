@@ -62,13 +62,13 @@ module RGeo
       # mapping for the database, and it also uses the type information
       # in the node to determine when to cast string arguments to WKT,
 
-      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node_)
+      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node_, *args)
         name_ = st_func(node_.name)
         exprs_ = []
         node_.expressions.each_with_index do |expr_, index_|
-          exprs_ << (node_.spatial_argument?(index_) ? visit_in_spatial_context(expr_) : visit(expr_))
+          exprs_ << (node_.spatial_argument?(index_) ? visit_in_spatial_context(expr_, *args) : visit(expr_, *args))
         end
-        "#{name_}(#{node_.distinct ? 'DISTINCT ' : ''}#{exprs_.join(', ')})#{node_.alias ? " AS #{visit node_.alias}" : ''}"
+        "#{name_}(#{node_.distinct ? 'DISTINCT ' : ''}#{exprs_.join(', ')})#{node_.alias ? " AS #{visit(node_.alias, *args)}" : ''}"
       end
 
 
@@ -76,16 +76,16 @@ module RGeo
       # The node must be a string (in which case it is treated as WKT),
       # an RGeo feature, or a spatial attribute.
 
-      def visit_in_spatial_context(node_)
+      def visit_in_spatial_context(node_, *args)
         case node_
         when ::String
-          "#{st_func('ST_WKTToSQL')}(#{visit_String(node_)})"
+          "#{st_func('ST_WKTToSQL')}(#{visit_String(node_, *args)})"
         when ::RGeo::Feature::Instance
-          visit_RGeo_Feature_Instance(node_)
+          visit_RGeo_Feature_Instance(node_, *args)
         when ::RGeo::Cartesian::BoundingBox
-          visit_RGeo_Cartesian_BoundingBox(node_)
+          visit_RGeo_Cartesian_BoundingBox(node_, *args)
         else
-          visit(node_)
+          visit(node_, *args)
         end
       end
 
@@ -136,11 +136,11 @@ module RGeo
     # by default.
 
     ::Arel::Visitors::Visitor.class_eval do
-      def visit_RGeo_ActiveRecord_SpatialConstantNode(node_)
+      def visit_RGeo_ActiveRecord_SpatialConstantNode(node_, *args)
         if respond_to?(:visit_in_spatial_context)
-          visit_in_spatial_context(node_.delegate)
+          visit_in_spatial_context(node_.delegate, *args)
         else
-          visit(node_.delegate)
+          visit(node_.delegate, *args)
         end
       end
     end
