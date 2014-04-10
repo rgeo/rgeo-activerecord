@@ -41,7 +41,6 @@
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.homepage = "http://dazuma.github.com/rgeo-activerecord"
-  s_.rubyforge_project = 'virtuoso'
   s_.required_ruby_version = '>= 2.0.0'
   s_.files = ::Dir.glob("lib/**/*.rb") +
     ::Dir.glob("test/**/*.rb") +
@@ -53,6 +52,7 @@
   s_.add_dependency 'rgeo', '>= 0.3.20'
   s_.add_dependency 'activerecord', '~> 4.1'
 
+  s_.add_development_dependency 'minitest', '~> 5.3'
   s_.add_development_dependency 'rake', '~> 10.2'
   s_.add_development_dependency 'rdoc'
 end
