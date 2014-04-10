@@ -42,7 +42,7 @@
   s_.email = 'dazuma@gmail.com'
   s_.homepage = "http://dazuma.github.com/rgeo-activerecord"
   s_.rubyforge_project = 'virtuoso'
-  s_.required_ruby_version = '>= 1.8.7'
+  s_.required_ruby_version = '>= 2.0.0'
   s_.files = ::Dir.glob("lib/**/*.rb") +
     ::Dir.glob("test/**/*.rb") +
     ::Dir.glob("*.rdoc") +
@@ -50,10 +50,9 @@
   s_.extra_rdoc_files = ::Dir.glob("*.rdoc")
   s_.test_files = ::Dir.glob("test/**/tc_*.rb")
   s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('rgeo', '>= 0.3.20')
-  s_.add_dependency('activerecord', '>= 3.0.3')
-  s_.add_dependency('arel', '>= 2.0.6')
+  s_.add_dependency 'rgeo', '>= 0.3.20'
+  s_.add_dependency 'activerecord', '~> 4.1'
 
-  s_.add_development_dependency('rake')
-  s_.add_development_dependency('rdoc')
+  s_.add_development_dependency 'rake', '~> 10.2'
+  s_.add_development_dependency 'rdoc'
 end
