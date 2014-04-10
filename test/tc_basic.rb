@@ -31,8 +31,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
-
 
 require 'test_helper'
 
@@ -40,7 +38,7 @@ module RGeo
   module ActiveRecord
     module Tests  # :nodoc:
 
-      class TestBasic < ::Test::Unit::TestCase  # :nodoc:
+      class TestBasic < ::MiniTest::Test  # :nodoc:
 
 
         class MyTable < ::ActiveRecord::Base
@@ -48,7 +46,7 @@ module RGeo
 
 
         def test_has_version
-          assert_not_nil(::RGeo::ActiveRecord::VERSION)
+          assert ::RGeo::ActiveRecord::VERSION
         end
 
 
@@ -104,15 +102,6 @@ module RGeo
           visitor = arel_visitor
           sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)'))
           assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql)
-        end
-
-        # SpatialNamedFunction is not used in pre-2.1 Arel.
-        if(AREL_VERSION_MAJOR > 2 || (AREL_VERSION_MAJOR == 2 && AREL_VERSION_MINOR >= 1))
-          def test_arel_visit_SpatialNamedFunction
-            visitor = arel_visitor
-            sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)').st_astext)
-            assert_equal("ST_AsText(ST_WKTToSQL('POINT (1.0 2.0)'))", sql)
-          end
         end
       end
     end
