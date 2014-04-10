@@ -31,15 +31,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
 
-
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gemspec
 
-gem('appraisal', '~> 0.5', :require => false)
-gem('ffi-geos', :platform => :jruby)
-gem('rgeo', '>= 0.3.20')
-gem('rgeo-geojson', '>= 0.2.3')
-gem('activerecord', '~> 3.2')
+gem 'appraisal', require: false
+gem 'rgeo', '>= 0.3.20'
+gem 'rgeo-geojson', '>= 0.2.3'
