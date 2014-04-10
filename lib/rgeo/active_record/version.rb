@@ -31,26 +31,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
-
-
-begin
-  require 'versionomy'
-rescue ::LoadError
-end
-
 
 module RGeo
-
   module ActiveRecord
-
-    # Current version of RGeo::ActiveRecord as a frozen string
-    VERSION_STRING = ::File.read(::File.dirname(__FILE__)+'/../../../Version').strip.freeze
-
-    # Current version of RGeo::ActiveRecord as a Versionomy object, if the
-    # Versionomy gem is available; otherwise equal to VERSION_STRING.
-    VERSION = defined?(::Versionomy) ? ::Versionomy.parse(VERSION_STRING) : VERSION_STRING
-
+    VERSION = '1.0.0'.freeze
   end
-
 end
