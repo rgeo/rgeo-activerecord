@@ -148,12 +148,10 @@ module RGeo
 
         # Clear out any ActiveRecord caches that are present.
         # Different Rails versions use different types of caches.
-        has_schema_cache_ = false
         klass_.connection_pool.with_connection do |c_|
           if c_.respond_to?(:schema_cache)
             # 3.2.x and 4.0.x
             c_.schema_cache.clear!
-            has_schema_cache_ = true
           end
           if c_.respond_to?(:clear_cache!)
             # 3.1 and above
@@ -161,10 +159,6 @@ module RGeo
           end
           # All 3.x and 4.0
           c_.clear_query_cache
-        end
-        if !has_schema_cache_ && klass_.connection_pool.respond_to?(:clear_cache!)
-          # 3.1.x only
-          klass_.connection_pool.clear_cache!
         end
       end
 
