@@ -33,10 +33,7 @@
 # -----------------------------------------------------------------------------
 
 module RGeo
-
   module ActiveRecord
-
-
     # Returns true if spatial expressions (i.e. the methods in the
     # SpatialExpressions module) are supported. Generally, this is true
     # if Arel is at version 2.1 or later.
@@ -45,16 +42,12 @@ module RGeo
       defined?(::Arel::Nodes::NamedFunction)
     end
 
-
     # A set of spatial expression builders.
     # These methods can be chained off other spatial expressions to form
     # complex expressions.
     #
     # These functions require Arel 2.1 or later.
-
     module SpatialExpressions
-
-
       #--
       # Generic functions
       #++
@@ -63,7 +56,6 @@ module RGeo
         spatial_info_ = args_.last.is_a?(::Array) ? args_.pop : []
         ::RGeo::ActiveRecord::SpatialNamedFunction.new(function_, [self] + args_, spatial_info_)
       end
-
 
       #--
       # Geometry functions
@@ -255,7 +247,6 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_PointOnSurface', [self], [true, true])
       end
 
-
       #--
       # Polygon functions
       #++
@@ -274,7 +265,6 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_InteriorRingN', [self, n_.to_i], [true, true, false])
       end
 
-
       #--
       # GeometryCollection functions
       #++
@@ -287,13 +277,15 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_GeometryN', [self, n_.to_i], [true, true, false])
       end
 
-
     end
 
-
   end
-
 end
+
+# Add tools to build spatial structures in the AST.
+
+# Allow chaining of spatial expressions from attributes
+::Arel::Attribute.send :include, ::RGeo::ActiveRecord::SpatialExpressions
 
 
 module Arel

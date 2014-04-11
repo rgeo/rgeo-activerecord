@@ -122,12 +122,6 @@ module RGeo
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
 
-    # Add tools to build spatial structures in the AST.
-
-    # Allow chaining of spatial expressions from attributes
-    ::Arel::Attribute.class_eval do
-      include ::RGeo::ActiveRecord::SpatialExpressions
-    end
 
     # A NamedFunction subclass that keeps track of the spatial-ness of
     # the arguments and return values, so that it can provide context to
