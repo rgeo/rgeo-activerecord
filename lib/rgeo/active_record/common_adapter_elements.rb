@@ -32,9 +32,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 
-require 'active_record'
-
-# Force AbstractAdapter to autoload
+# autoload AbstractAdapter
 ::ActiveRecord::ConnectionAdapters::AbstractAdapter
 
 module RGeo

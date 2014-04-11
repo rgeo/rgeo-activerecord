@@ -32,11 +32,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 
-# Dependencies
-require 'rgeo'
-require 'active_record'
-
-
 # RGeo is a spatial data library for Ruby, provided by the "rgeo" gem.
 #
 # The optional RGeo::ActiveRecord module provides spatial extensions for
@@ -44,8 +39,6 @@ require 'active_record'
 # spatial connection adapters.
 
 module RGeo
-
-
   # This module contains a set of ActiveRecord extensions for RGeo.
   # Generally, you will not need to interact with the contents of this
   # module directly, unless you are writing a spatial ActiveRecord
@@ -53,29 +46,13 @@ module RGeo
 
   module ActiveRecord
   end
-
-
 end
 
-
-# The rgeo-activerecord gem installs several patches to Arel to provide
-# support for spatial queries.
-
-module Arel
-end
-
-
-# The rgeo-activerecord gem installs several patches to ActiveRecord
-# to support services needed by spatial adapters.
-
-module ActiveRecord
-end
-
-
-# Implementation files
-require 'rgeo/active_record/version.rb'
-require 'rgeo/active_record/spatial_expressions.rb'
+require 'rgeo'
+require 'active_record'
+require 'rgeo/active_record/version'
+require 'rgeo/active_record/spatial_expressions'
 require 'rgeo/active_record/arel_spatial_queries'
-require 'rgeo/active_record/common_adapter_elements.rb'
+require 'rgeo/active_record/common_adapter_elements'
 require 'rgeo/active_record/ar_factory_settings'
 require 'rgeo/active_record/geometry_mixin'
