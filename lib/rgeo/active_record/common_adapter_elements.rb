@@ -36,13 +36,9 @@
 ::ActiveRecord::ConnectionAdapters::AbstractAdapter
 
 module RGeo
-
   module ActiveRecord
-
-
     # Some default column constructors specifications for most spatial
     # databases. Individual adapters may add to or override this list.
-
     DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
       :spatial => {:type => 'geometry'}.freeze,
       :geometry => {}.freeze,
@@ -55,12 +51,10 @@ module RGeo
       :multi_polygon => {}.freeze,
     }.freeze
 
-
     # Index definition struct with a spatial flag field.
 
     class SpatialIndexDefinition < Struct.new(:table, :name, :unique, :columns, :lengths, :orders, :where, :spatial)
     end
-
 
     # Returns a feature type module given a string type.
 
@@ -78,17 +72,18 @@ module RGeo
       end
     end
 
-
     # :stopdoc:
 
-
     # Provide methods for each geometric subtype during table definitions.
+    module GeoTableDefinitions
+      def self.included(base)
+        base.class_eval do
+          alias_method :method_missing_without_rgeo, :method_missing
+          alias_method :method_missing, :method_missing_with_rgeo
+        end
+      end
 
-    ::ActiveRecord::ConnectionAdapters::TableDefinition.class_eval do
-
-      alias_method :method_missing_without_rgeo_modification, :method_missing
-
-      def method_missing(method_name_, *args_, &block_)
+      def method_missing_with_rgeo(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
           info_ = info_.dup
           type_ = (info_.delete(:type) || method_name_).to_s
@@ -97,20 +92,24 @@ module RGeo
             column(name_, type_, opts_)
           end
         else
-          method_missing_without_rgeo_modification(method_name_, *args_, &block_)
+          method_missing_without_rgeo(method_name_, *args_, &block_)
         end
       end
-
     end
+
+    ::ActiveRecord::ConnectionAdapters::TableDefinition.send :include, GeoTableDefinitions
 
 
     # Provide methods for each geometric subtype during table changes.
+    module GeoConnectionAdapters
+      def self.included(base)
+        base.class_eval do
+          alias_method :method_missing_without_rgeo, :method_missing
+          alias_method :method_missing, :method_missing_with_rgeo
+        end
+      end
 
-    ::ActiveRecord::ConnectionAdapters::Table.class_eval do
-
-      alias_method :method_missing_without_rgeo_modification, :method_missing
-
-      def method_missing(method_name_, *args_, &block_)
+      def method_missing_with_rgeo(method_name_, *args_, &block_)
         if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
           info_ = info_.dup
           type_ = (info_.delete(:type) || method_name_).to_s
@@ -119,22 +118,26 @@ module RGeo
             @base.add_column(@table_name, name_, type_, opts_)
           end
         else
-          method_missing_without_rgeo_modification(method_name_, *args_, &block_)
+          method_missing_without_rgeo(method_name_, *args_, &block_)
         end
       end
-
     end
+
+    ::ActiveRecord::ConnectionAdapters::Table.send :include, GeoConnectionAdapters
 
 
     # Hack schema dumper to output spatial index flag
-
-    ::ActiveRecord::SchemaDumper.class_eval do
+    module GeoSchemaDumper
+      def self.included(base)
+        base.class_eval do
+          alias_method :indexes_without_rgeo, :indexes
+          alias_method :indexes, :indexes_with_rgeo
+        end
+      end
 
       private
 
-      alias_method :_old_indexes_method, :indexes
-
-      def indexes(table_, stream_)
+      def indexes_with_rgeo(table_, stream_)
         if (indexes_ = @connection.indexes(table_)).any?
           add_index_statements_ = indexes_.map do |index_|
             statement_parts_ = [
@@ -152,19 +155,15 @@ module RGeo
           stream_.puts
         end
       end
-
     end
 
+    ::ActiveRecord::SchemaDumper.send :include, GeoSchemaDumper
 
-    # Tell ActiveRecord to cache spatial attribute values so they don't get
-    # re-parsed on every access.
+
+    # Tell ActiveRecord to cache spatial attribute values so they don't get re-parsed on every access.
 
     ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
 
-
     # :startdoc:
-
-
   end
-
 end
