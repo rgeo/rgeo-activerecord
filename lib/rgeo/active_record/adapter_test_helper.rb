@@ -1,52 +1,12 @@
-# -----------------------------------------------------------------------------
-#
-# Helper methods for ActiveRecord adapter tests
-#
-# -----------------------------------------------------------------------------
-# Copyright 2010-2012 Daniel Azuma
-#
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-# * Redistributions of source code must retain the above copyright notice,
-#   this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright notice,
-#   this list of conditions and the following disclaimer in the documentation
-#   and/or other materials provided with the distribution.
-# * Neither the name of the copyright holder, nor the names of any other
-#   contributors to this software, may be used to endorse or promote products
-#   derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-# -----------------------------------------------------------------------------
-
 require 'rgeo/active_record'
 require 'yaml'
 require 'logger'
 
-
 module RGeo
   module ActiveRecord
-
-
     # A helper module for creating unit tests for adapters.
-
     module AdapterTestHelper
-
       @class_num = 0
-
 
       # When this module is included in a test case class, it
       # automatically attempts to load the database config file from the
@@ -87,7 +47,6 @@ module RGeo
         end
       end
 
-
       def self.new_class(param_)  # :nodoc:
         base_ = param_.kind_of?(::Class) ? param_ : ::ActiveRecord::Base
         config_ = param_.kind_of?(::Hash) ? param_ : nil
@@ -101,7 +60,6 @@ module RGeo
         klass_
       end
 
-
       # Default setup method that calls cleanup_tables.
       # It also defines a couple of useful factories: @factory (a
       # cartesian factory) and @geographic_factory (a spherical factory)
@@ -113,14 +71,12 @@ module RGeo
         cleanup_caches
       end
 
-
       # Default teardown method that calls cleanup_tables.
 
       def teardown
         cleanup_tables
         cleanup_caches
       end
-
 
       # Utility method that attempts to clean up any table that was
       # created by a test method. Normally called automatically at setup
@@ -162,7 +118,6 @@ module RGeo
         end
       end
 
-
       # Utility method that creates and returns a new ActiveRecord class
       # subclassing the DEFAULT_AR_CLASS.
 
@@ -170,9 +125,6 @@ module RGeo
         @ar_class = AdapterTestHelper.new_class(self.class.const_get(:DEFAULT_AR_CLASS))
       end
 
-
     end
-
-
   end
 end
