@@ -35,9 +35,7 @@
 require 'active_record'
 
 # Force AbstractAdapter to autoload
-if ::ActiveRecord::ConnectionAdapters::AbstractAdapter
-end
-
+::ActiveRecord::ConnectionAdapters::AbstractAdapter
 
 module RGeo
 
