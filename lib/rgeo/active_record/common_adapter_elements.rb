@@ -32,8 +32,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 
-
-require 'active_support/core_ext/class' # Workaround for a missing require in ActiveRecord 3.2.1
 require 'active_record'
 
 # Force AbstractAdapter to autoload
