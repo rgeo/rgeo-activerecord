@@ -3,7 +3,7 @@ require 'test_helper'
 module RGeo
   module ActiveRecord
     module Tests  # :nodoc:
-      class TestBasic < ::MiniTest::Test  # :nodoc:
+      class TestBasic < MINITEST_CLASS  # :nodoc:
         class MyTable < ::ActiveRecord::Base
         end
 
