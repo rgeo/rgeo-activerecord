@@ -38,10 +38,8 @@ source "http://rubygems.org"
 
 gemspec
 
-group(:test) do
-  gem('ffi-geos', :platform => :jruby)
-  gem('rgeo', '>= 0.3.20')
-  gem('rgeo-geojson', '>= 0.2.3')
-  gem('activerecord', '~> 3.2')
-  #gem('activerecord', :git => "git://github.com/rails/rails.git", :branch => 'master')
-end
+gem('appraisal', '~> 0.5', :require => false)
+gem('ffi-geos', :platform => :jruby)
+gem('rgeo', '>= 0.3.20')
+gem('rgeo-geojson', '>= 0.2.3')
+gem('activerecord', '~> 3.2')
