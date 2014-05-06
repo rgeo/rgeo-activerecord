@@ -37,7 +37,7 @@
   s_.name = 'rgeo-activerecord'
   s_.summary = 'An RGeo module providing spatial extensions to ActiveRecord.'
   s_.description = "RGeo is a geospatial data library for Ruby. RGeo::ActiveRecord is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
-  s_.version = "#{::File.read('Version').strip}.nonrelease"
+  s_.version = "#{::File.read('Version').strip}"
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.homepage = "http://dazuma.github.com/rgeo-activerecord"
