@@ -1,6 +1,6 @@
 == RGeo::ActiveRecord
 
-RGeo::ActiveRecord is an optional {RGeo}[http://github.com/dazuma/rgeo]
+RGeo::ActiveRecord is an optional {RGeo}[http://github.com/rgeo/rgeo]
 module providing spatial extensions for \ActiveRecord, as well as a set
 of helpers for writing spatial \ActiveRecord adapters based on \RGeo.
 
@@ -42,23 +42,28 @@ installation information.
 
 === Development and support
 
-Documentation is available at http://dazuma.github.com/rgeo-activerecord/rdoc
+Documentation is available at http://rdoc.info/gems/rgeo-activerecord/frames
 
-Source code is hosted on Github at http://github.com/dazuma/rgeo-activerecord
+Source code is hosted at https://github.com/rgeo/rgeo-activerecord
 
 Contributions are welcome. Fork the project on Github.
 
-Report bugs on Github issues at http://github.org/dazuma/rgeo-activerecord/issues
+Report bugs on Github issues at https://github.com/rgeo/rgeo-activerecord/issues
 
 Support available on the rgeo-users google group at http://groups.google.com/group/rgeo-users
 
-Contact the author at dazuma at gmail dot com.
-
 === Acknowledgments
 
-\RGeo is written by Daniel Azuma (http://www.daniel-azuma.com).
+\RGeo was written by {Daniel Azuma}[http://www.daniel-azuma.com].
 
-Development is supported by Pirq. (http://pirq.com).
+{Tee Parham}[https://github.com/teeparham] is the current maintainer.
+
+=== Sponsors
+
+Development is supported by 
+
+* {Pirq}[http://pirq.com]
+* {Neighborland}[https://neighborland.com]
 
 === License
 
