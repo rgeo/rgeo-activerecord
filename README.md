@@ -1,5 +1,6 @@
 ## RGeo::ActiveRecord
 
+[![Gem Version](https://badge.fury.io/rb/rgeo-activerecord.svg)](http://badge.fury.io/rb/rgeo-activerecord)
 [![Build Status](https://travis-ci.org/rgeo/rgeo-activerecord.svg?branch=master)](https://travis-ci.org/rgeo/rgeo-activerecord)
 [![Code Climate](https://codeclimate.com/github/rgeo/rgeo-activerecord.png)](https://codeclimate.com/github/rgeo/rgeo-activerecord)
 
@@ -22,76 +23,58 @@ ActiveRecord adapters based on RGeo.
 
 ### Installation
 
-RGeo::ActiveRecord has the following requirements:
+Gemfile:
 
-*   Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
-*   rgeo 0.3.20 or later.
-*   activerecord 3.0.3 or later. Earlier versions will not work. Should be
-    compatible with Rails versions through 3.2.x.
-*   arel 2.0.6 or later. Earlier versions will not work.
+```ruby
+gem 'rgeo-activerecord'
+```
 
+`rgeo-activerecord` has the following requirements:
 
-This version of rgeo-activerecord also includes experimental support for the
-Rails 4.0.
+* Ruby 1.9.3 or later
+* ActiveRecord 4.0.0 or later
+* rgeo 0.3.20 or later.
 
-Generally, ActiveRecord adapters which depend on this module should be
-installed as gems, and they will install this module automatically as a
-dependency. However, you can also install it manually as a gem:
+Version `0.6.0` supports earlier versions of ruby and activerecord:
 
-    gem install rgeo
-    gem install rgeo-activerecord
+* Ruby 1.8.7 or later
+* ActiveRecord 3.0.3 - 3.2.x
+* rgeo 0.3.20 or later
+* arel 2.0.6 or later
 
 See the README for the "rgeo" gem, a required dependency, for further
 installation information.
 
 ### Development and support
 
-Documentation is available at http://dazuma.github.com/rgeo-activerecord/rdoc
+This README is the official documentation.
 
-Source code is hosted on Github at http://github.com/dazuma/rgeo-activerecord
+RDoc documentation is available at http://rdoc.info/gems/rgeo-activerecord
+
+Source code is hosted on Github at http://github.com/rgeo/rgeo-activerecord
 
 Contributions are welcome. Fork the project on Github.
 
 Report bugs on Github issues at
-http://github.org/dazuma/rgeo-activerecord/issues
+http://github.com/rgeo/rgeo-activerecord/issues
 
 Support available on the rgeo-users google group at
 http://groups.google.com/group/rgeo-users
 
-Contact the author at dazuma at gmail dot com.
-
 ### Acknowledgments
 
-RGeo is written by Daniel Azuma (http://www.daniel-azuma.com).
+[Daniel Azuma](http://www.daniel-azuma.com) created RGeo.
+[Tee Parham](http://twitter.com/teeparham) is the current maintainer.
 
-Development is supported by Pirq. (http://pirq.com).
+Development is supported by:
+
+* [Pirq](http://pirq.com)
+* [Neighborland](https://neighborland.com)
 
 ### License
 
-Copyright 2010-2013 Daniel Azuma
+Copyright 2013 Daniel Azuma
 
-All rights reserved.
+Copyright 2014 Tee Parham
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-*   Redistributions of source code must retain the above copyright notice,
-    this list of conditions and the following disclaimer.
-*   Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-*   Neither the name of the copyright holder, nor the names of any other
-    contributors to this software, may be used to endorse or promote products
-    derived from this software without specific prior written permission.
-
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+https://github.com/rgeo/rgeo-activerecord/blob/master/LICENSE.txt
