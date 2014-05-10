@@ -1,5 +1,8 @@
 ## RGeo::ActiveRecord
 
+[![Build Status](https://travis-ci.org/rgeo/rgeo-activerecord.svg?branch=master)](https://travis-ci.org/rgeo/rgeo-activerecord)
+[![Code Climate](https://codeclimate.com/github/rgeo/rgeo-activerecord.png)](https://codeclimate.com/github/rgeo/rgeo-activerecord)
+
 RGeo::ActiveRecord is an optional [RGeo](http://github.com/dazuma/rgeo) module
 providing spatial extensions for ActiveRecord, as well as a set of helpers for
 writing spatial ActiveRecord adapters based on RGeo.
