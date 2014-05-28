@@ -9,7 +9,7 @@ require './lib/rgeo/active_record/version'
   spec.email = 'dazuma@gmail.com'
   spec.homepage = "http://github.com/rgeo/rgeo-activerecord"
 
-  spec.files = Dir["lib/**/*", "test/**/*", "README.rdoc", "History.rdoc", "LICENSE.txt"]
+  spec.files = Dir["lib/**/*", "test/**/*", "README.md", "History.md", "LICENSE.txt"]
   spec.extra_rdoc_files = Dir["*.rdoc"]
   spec.test_files = Dir["test/**/*"]
   spec.platform = ::Gem::Platform::RUBY
