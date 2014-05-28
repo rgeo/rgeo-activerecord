@@ -4,13 +4,12 @@ require './lib/rgeo/active_record/version'
   spec.name = 'rgeo-activerecord'
   spec.summary = 'An RGeo module providing spatial extensions to ActiveRecord.'
   spec.description = "RGeo is a geospatial data library for Ruby. RGeo::ActiveRecord is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
-  spec.version = "#{::RGeo::ActiveRecord::VERSION}"
+  spec.version = RGeo::ActiveRecord::VERSION
   spec.author = 'Daniel Azuma'
   spec.email = 'dazuma@gmail.com'
   spec.homepage = "http://github.com/rgeo/rgeo-activerecord"
 
   spec.files = Dir["lib/**/*", "test/**/*", "README.md", "History.md", "LICENSE.txt"]
-  spec.extra_rdoc_files = Dir["*.rdoc"]
   spec.test_files = Dir["test/**/*"]
   spec.platform = ::Gem::Platform::RUBY
 
