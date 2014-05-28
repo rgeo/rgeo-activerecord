@@ -1,0 +1,140 @@
+### 0.5.0 / 2013-02-27
+
+*   No changes. Rereleased as 0.5.0 final.
+
+
+### 0.5.0.beta2 / 2013-02-04
+
+*   Revert change made to SpatialIndexDefinition in beta1.
+*   Fix some deprecations in the post-test cache cleanup.
+
+
+### 0.5.0.beta1 / 2013-02-04
+
+*   Updates for compatibility with Rails 4 and support of Rails 4 oriented
+    adapters.
+*   Testing tool is better factored to allow customization of cleanup
+
+
+### 0.4.6 / 2012-12-11
+
+*   You can now provide both a default and an override database config file in
+    the test helper.
+*   The gemspec no longer includes the timestamp in the version, so that
+    bundler can pull from github. (Reported by corneverbruggen)
+
+
+### 0.4.5 / 2012-04-13
+
+*   Task hacker failed ungracefully when attempting to hack a nonexistent
+    task. Fixed.
+
+
+### 0.4.4 / 2012-04-12
+
+*   Support cartesian bounding boxes in queries.
+
+
+### 0.4.3 / 2012-02-22
+
+*   Some fixes for Rails 3.2 compatibility.
+
+
+### 0.4.2 / 2012-01-09
+
+*   Added an "rgeo-activerecord.rb" wrapper so bundler's auto-require will
+    work without modification. (Reported by Mauricio Pasquier Juan.)
+*   Fixed unit tests so they actually pass...
+
+
+### 0.4.1 / 2011-10-26
+
+*   Fixed wrong variable name crash in rgeo_factory_for_column (patch by Andy
+    Allan).
+
+
+### 0.4.0 / 2011-08-15
+
+*   Several compatibility fixes for Rails 3.1.
+*   Revamped factory setter mechanism with a system that should be more
+    robust.
+*   Some general code cleanup.
+
+
+### 0.3.4 / 2011-05-23
+
+*   Uses the mixin feature of RGeo 0.3 to add an as_json method to all
+    geometry objects. This should allow ActiveRecord's JSON serialization to
+    function for models with geometry fields. (Reported by thenetduck and
+    tonyc on github.)
+
+
+### 0.3.3 / 2011-04-11
+
+*   A .gemspec file is now available for gem building and bundler git
+    integration.
+
+
+### 0.3.2 / 2011-02-28
+
+*   Fixed a bug that sometimes caused spatial column detection to fail, which
+    could result in exceptions or incorrect spatial queries.
+
+
+### 0.3.1 / 2011-02-28
+
+*   Fixed a bug that could cause some spatial ActiveRecord adapters to fail to
+    create multiple spatial columns in a migration.
+
+
+### 0.3.0 / 2011-01-26
+
+*   Experimental support for complex spatial queries. (Requires Arel 2.1,
+    which is expected to be released with Rails 3.1.) Currently, only a
+    low-level Arel-based interface is supported.
+*   Better support for geography types in PostGIS.
+*   Adapters can now define additional column constructors.
+*   Support for spatial column constructors on change_table.
+*   Fixed column type inference for some cases where the column included Z
+    and/or M.
+*   IS NULL predicates now work properly with spatial types.
+*   Preferred attribute type is now :spatial rather than :geometry.
+*   The gem version is now accessible via an api.
+*   Some code reorganization.
+
+
+### 0.2.4 / 2011-01-13
+
+*   Fixed a problem that caused a hang during rake db:rollback, as well as
+    probably certain other functions that use ActiveRecord::Base directly
+    rather than a subclass. (Reported by Alexander Graefe.)
+
+
+### 0.2.3 / 2011-01-07
+
+*   Updated gem dependencies to include Arel 2.0.6, since some earlier Arel
+    versions weren't working. (Reported by Pirmin Kalberer.)
+
+
+### 0.2.2 / 2011-01-06
+
+*   Some adjustments to the Arel integration for future Arel compatibility.
+    (Thanks to Aaron Patterson.)
+*   Support code for hacking ActiveRecord's rake tasks.
+
+
+### 0.2.1 / 2010-12-27
+
+*   Support for RGeo features as nodes in the Arel AST.
+*   Basic utility Arel visitor methods for handling spatial equality nodes in
+    where-expressions.
+
+
+### 0.2.0 / 2010-12-07
+
+*   Initial public alpha release. Spun rgeo-activerecord off from the core
+    rgeo gem.
+*   Support for setting factory by column.
+
+
+For earlier history, see the History file for the rgeo gem.
