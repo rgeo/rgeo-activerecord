@@ -36,7 +36,7 @@ module RGeo
       def visit_in_spatial_context(node_, *args)
         case node_
         when ::String
-          "#{st_func('ST_WKTToSQL')}(#{visit_String(node_, *args)})"
+          "#{st_func('ST_WKTToSQL')}(#{quote(node_)})"
         when ::RGeo::Feature::Instance
           visit_RGeo_Feature_Instance(node_, *args)
         when ::RGeo::Cartesian::BoundingBox

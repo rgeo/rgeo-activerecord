@@ -57,7 +57,15 @@ module RGeo
 
         def test_arel_visit_SpatialConstantNode
           visitor = arel_visitor
-          sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)'))
+
+          # :accept API changed in Arel 6.0:
+          # https://github.com/rails/arel/commit/fcd11dcb99d69d
+          sql = if Arel::VERSION > "6.0.0"
+              visitor.accept(Arel.spatial('POINT (1.0 2.0)'), Arel::Collectors::PlainString.new)
+            else
+              visitor.accept(Arel.spatial('POINT (1.0 2.0)'))
+            end
+
           assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql)
         end
       end

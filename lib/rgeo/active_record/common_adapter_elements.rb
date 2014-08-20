@@ -123,9 +123,13 @@ module RGeo
     ::ActiveRecord::SchemaDumper.send :include, GeoSchemaDumper
 
 
-    # Tell ActiveRecord to cache spatial attribute values so they don't get re-parsed on every access.
+    # attribute_types_cached_by_default was removed in ActiveRecord 4.2
+    # :cache_attributes does not work since the connection may not yet be established
 
-    ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
+    if ::ActiveRecord.version < Gem::Version.new("4.2.0.a")
+      # cache spatial attribute values so they don't get re-parsed on every access.
+      ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
+    end
 
     # :startdoc:
   end
