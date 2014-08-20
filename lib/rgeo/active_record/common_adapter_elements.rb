@@ -127,8 +127,7 @@ module RGeo
 
 
     # Tell ActiveRecord to cache spatial attribute values so they don't get re-parsed on every access.
-
-    ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
+    ::ActiveRecord::Base.cache_attributes(:spatial)
 
     # :startdoc:
   end
