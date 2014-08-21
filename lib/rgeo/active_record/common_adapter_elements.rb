@@ -1,3 +1,6 @@
+# autoload AbstractAdapter
+::ActiveRecord::ConnectionAdapters::AbstractAdapter
+
 module RGeo
   module ActiveRecord
     # Some default column constructors specifications for most spatial
