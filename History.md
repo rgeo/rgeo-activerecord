@@ -1,3 +1,21 @@
+### 1.2.0 / 2014-08-21
+
+* Support ActiveRecord 4.2
+
+### 1.1.0 / 2014-06-17
+
+* Relax rgeo gem dependency
+
+### 1.0.0 / 2014-05-06
+
+* Require ruby 1.9.3+
+* Require ActiveRecord 4+
+* General refactoring and cleanup
+
+### 0.6.0 / 2014-05-06
+
+* Support Rails 4, Arel 4
+
 ### 0.5.0 / 2013-02-27
 
 *   No changes. Rereleased as 0.5.0 final.
