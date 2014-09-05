@@ -18,9 +18,9 @@ module RGeo
       # Generic functions
       #++
 
-      def st_function(function_, *args_)
-        spatial_info_ = args_.last.is_a?(::Array) ? args_.pop : []
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new(function_, [self] + args_, spatial_info_)
+      def st_function(function, *args)
+        spatial_info = args.last.is_a?(::Array) ? args.pop : []
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new(function, [self] + args, spatial_info)
       end
 
       #--
@@ -63,70 +63,70 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Envelope', [self], [true, true])
       end
 
-      def st_equals(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Equals', [self, rhs_], [false, true, true])
+      def st_equals(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Equals', [self, rhs], [false, true, true])
       end
 
-      def st_disjoint(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Disjoint', [self, rhs_], [false, true, true])
+      def st_disjoint(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Disjoint', [self, rhs], [false, true, true])
       end
 
-      def st_intersects(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Intersects', [self, rhs_], [false, true, true])
+      def st_intersects(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Intersects', [self, rhs], [false, true, true])
       end
 
-      def st_touches(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Touches', [self, rhs_], [false, true, true])
+      def st_touches(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Touches', [self, rhs], [false, true, true])
       end
 
-      def st_crosses(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Crosses', [self, rhs_], [false, true, true])
+      def st_crosses(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Crosses', [self, rhs], [false, true, true])
       end
 
-      def st_within(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Within', [self, rhs_], [false, true, true])
+      def st_within(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Within', [self, rhs], [false, true, true])
       end
 
-      def st_contains(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Contains', [self, rhs_], [false, true, true])
+      def st_contains(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Contains', [self, rhs], [false, true, true])
       end
 
-      def st_overlaps(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Overlaps', [self, rhs_], [false, true, true])
+      def st_overlaps(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Overlaps', [self, rhs], [false, true, true])
       end
 
-      def st_relate(rhs_, matrix_=nil)
-        args_ = [self, rhs_]
-        args_ << matrix.to_s if matrix_
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Relate', args_, [false, true, true, false])
+      def st_relate(rhs, matrix = nil)
+        args = [self, rhs]
+        args << matrix.to_s if matrix
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Relate', args, [false, true, true, false])
       end
 
-      def st_distance(rhs_, units_=nil)
-        args_ = [self, rhs_]
-        args_ << units.to_s if units_
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Distance', args_, [false, true, true, false])
+      def st_distance(rhs, units = nil)
+        args = [self, rhs]
+        args << units.to_s if units
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Distance', args, [false, true, true, false])
       end
 
-      def st_intersection(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Intersection', [self, rhs_], [true, true, true])
+      def st_intersection(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Intersection', [self, rhs], [true, true, true])
       end
 
-      def st_difference(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Difference', [self, rhs_], [true, true, true])
+      def st_difference(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Difference', [self, rhs], [true, true, true])
       end
 
-      def st_union(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Union', [self, rhs_], [true, true, true])
+      def st_union(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Union', [self, rhs], [true, true, true])
       end
 
-      def st_symdifference(rhs_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_SymDifference', [self, rhs_], [true, true, true])
+      def st_symdifference(rhs)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_SymDifference', [self, rhs], [true, true, true])
       end
 
-      def st_buffer(distance_, units_=nil)
-        args_ = [self, distance_.to_f]
-        args_ << units.to_s if units_
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Buffer', args_, [true, true, false])
+      def st_buffer(distance, units = nil)
+        args = [self, distance.to_f]
+        args << units.to_s if units
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Buffer', args, [true, true, false])
       end
 
       def st_convexhull
@@ -175,10 +175,10 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_IsRing', [self], [false, true])
       end
 
-      def st_length(units_=nil)
-        args_ = [self]
-        args_ << units.to_s if units_
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Length', args_, [false, true, false])
+      def st_length(units = nil)
+        args = [self]
+        args << units.to_s if units
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Length', args, [false, true, false])
       end
 
 
@@ -190,8 +190,8 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_NumPoints', [self], [false, true])
       end
 
-      def st_pointn(n_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_PointN', [self, n_.to_i], [true, true, false])
+      def st_pointn(n)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_PointN', [self, n.to_i], [true, true, false])
       end
 
 
@@ -199,10 +199,10 @@ module RGeo
       # Surface functions
       #++
 
-      def st_area(units_=nil)
-        args_ = [self]
-        args_ << units.to_s if units_
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_StartPoint', args_, [false, true, false])
+      def st_area(units = nil)
+        args = [self]
+        args << units.to_s if units
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_StartPoint', args, [false, true, false])
       end
 
       def st_centroid
@@ -227,8 +227,8 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_NumInteriorRing', [self], [false, true])
       end
 
-      def st_interiorringn(n_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_InteriorRingN', [self, n_.to_i], [true, true, false])
+      def st_interiorringn(n)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_InteriorRingN', [self, n.to_i], [true, true, false])
       end
 
       #--
@@ -239,8 +239,8 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_NumGeometries', [self], [false, true])
       end
 
-      def st_geometryn(n_)
-        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_GeometryN', [self, n_.to_i], [true, true, false])
+      def st_geometryn(n)
+        ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_GeometryN', [self, n.to_i], [true, true, false])
       end
 
     end
@@ -263,8 +263,8 @@ module Arel
   #
   # Requires Arel 2.1 or later.
 
-  def self.spatial(arg_)
-    ::RGeo::ActiveRecord::SpatialConstantNode.new(arg_)
+  def self.spatial(arg)
+    ::RGeo::ActiveRecord::SpatialConstantNode.new(arg)
   end
 
 end
