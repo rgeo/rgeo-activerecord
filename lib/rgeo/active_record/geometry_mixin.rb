@@ -6,7 +6,7 @@ module RGeo
 
     module GeometryMixin
       # The default JSON generator Proc. Renders geometry fields as WKT.
-      DEFAULT_JSON_GENERATOR = ::Proc.new{ |geom_| geom_.to_s }
+      DEFAULT_JSON_GENERATOR = ::Proc.new{ |geom| geom.to_s }
 
       @json_generator = DEFAULT_JSON_GENERATOR
 
@@ -22,15 +22,15 @@ module RGeo
       # <tt>:geojson</tt>::
       #   GeoJSON format. Requires the rgeo-geojson gem.
 
-      def self.set_json_generator(value_=nil, &block_)
-        if block_ && !value_
-          value_ = block_
-        elsif value_ == :geojson
+      def self.set_json_generator(value = nil, &block)
+        if block && !value
+          value = block
+        elsif value == :geojson
           require 'rgeo/geo_json'
-          value_ = ::Proc.new{ |geom_| ::RGeo::GeoJSON.encode(geom_) }
+          value = ::Proc.new{ |geom_| ::RGeo::GeoJSON.encode(geom_) }
         end
-        if value_.is_a?(::Proc)
-          @json_generator = value_
+        if value.is_a?(::Proc)
+          @json_generator = value
         else
           @json_generator = DEFAULT_JSON_GENERATOR
         end
@@ -41,14 +41,13 @@ module RGeo
       # This is used to generate JSON for geometry-valued ActiveRecord
       # fields by default.
 
-      def self.generate_json(geom_)
-        @json_generator.call(geom_)
+      def self.generate_json(geom)
+        @json_generator.call(geom)
       end
-
 
       # Serializes this object as JSON for ActiveRecord.
 
-      def as_json(opts_=nil)
+      def as_json(opts = nil)
         GeometryMixin.generate_json(self)
       end
     end
