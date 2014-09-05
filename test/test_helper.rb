@@ -10,7 +10,3 @@ MINITEST_CLASS = if defined?(::Minitest::Test)
 
 Arel::Visitors::PostgreSQL.send(:include, ::RGeo::ActiveRecord::SpatialToSql)
 Arel::Table.engine = FakeRecord::Base.new
-
-def arel_visitor
-  Arel::Visitors::PostgreSQL.new(Arel::Table.engine.connection)
-end
