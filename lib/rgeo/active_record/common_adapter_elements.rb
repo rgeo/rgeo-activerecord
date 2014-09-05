@@ -107,16 +107,16 @@ module RGeo
         indexes = @connection.indexes(table)
         if indexes.any?
           add_index_statements = indexes.map do |index|
-            statement_parts_ = [
+            statement = [
                 ("add_index #{index.table.inspect}"),
                 index.columns.inspect,
                 ("name: #{index.name.inspect}"),
               ]
-            statement_parts_ << 'unique: true' if index.unique
-            statement_parts_ << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
+            statement << 'unique: true' if index.unique
+            statement << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
             index_lengths = (index.lengths || []).compact
-            statement_parts_ << ("length: #{::Hash[*index.columns.zip(index.lengths).flatten].inspect}") if index_lengths.any?
-            "  #{statement_parts_.join(', ')}"
+            statement << ("length: #{::Hash[*index.columns.zip(index.lengths).flatten].inspect}") if index_lengths.any?
+            "  #{statement.join(', ')}"
           end
           stream.puts add_index_statements.sort.join("\n")
           stream.puts
