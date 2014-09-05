@@ -2,11 +2,11 @@ module RGeo
   module ActiveRecord
     # The default factory generator for ActiveRecord::Base.
 
-    DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config_|
-      if config_.delete(:geographic)
-        ::RGeo::Geographic.spherical_factory(config_)
+    DEFAULT_FACTORY_GENERATOR = ::Proc.new do |config|
+      if config.delete(:geographic)
+        ::RGeo::Geographic.spherical_factory(config)
       else
-        ::RGeo::Cartesian.preferred_factory(config_)
+        ::RGeo::Cartesian.preferred_factory(config)
       end
     end
 
@@ -19,40 +19,38 @@ module RGeo
       end
 
       # Get the default factory generator for the given table
-      def get_factory_generator(table_name_)
-        @factory_generators[table_name_.to_s] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
+      def get_factory_generator(table_name)
+        @factory_generators[table_name.to_s] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
       end
 
       # Set the default factory generator for the given table
-      def set_factory_generator(table_name_, gen_)
-        @factory_generators[table_name_.to_s] = gen_
+      def set_factory_generator(table_name, generator)
+        @factory_generators[table_name.to_s] = generator
       end
 
-      # Get the factory or factory generator for the given table name
-      # and column name.
-      def get_column_factory(table_name_, column_name_, params_=nil)
-        table_name_ = table_name_.to_s
-        column_name_ = column_name_.to_s
-        result_ = (@column_factories[table_name_] ||= {})[column_name_] ||
-          @factory_generators[table_name_] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-        if params_ && !result_.kind_of?(::RGeo::Feature::Factory::Instance)
-          result_ = result_.call(params_)
+      # Get the factory or factory generator for the given table name and column name.
+      def get_column_factory(table_name, column_name, params = nil)
+        table_name = table_name.to_s
+        column_name = column_name.to_s
+        result = (@column_factories[table_name] ||= {})[column_name] ||
+          @factory_generators[table_name] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
+        if params && !result.kind_of?(::RGeo::Feature::Factory::Instance)
+          result = result.call(params)
         end
-        result_
+        result
       end
 
-      # Set the factory or factory generator for the given table name
-      # and column name.
-      def set_column_factory(table_name_, column_name_, factory_)
-        (@column_factories[table_name_.to_s] ||= {})[column_name_.to_s] = factory_
+      # Set the factory or factory generator for the given table name and column name.
+      def set_column_factory(table_name, column_name, factory)
+        (@column_factories[table_name.to_s] ||= {})[column_name.to_s] = factory
       end
 
       # Clear settings for the given table name, or for all tables
-      def clear!(table_name_=nil)
-        if table_name_
-          table_name_ = table_name_.to_s
-          @factory_generators.delete(table_name_)
-          @column_factories.delete(table_name_)
+      def clear!(table_name = nil)
+        if table_name
+          table_name = table_name.to_s
+          @factory_generators.delete(table_name)
+          @column_factories.delete(table_name)
         else
           @factory_generators.clear
           @column_factories.clear
@@ -65,15 +63,14 @@ module RGeo
     # Additional class methods on ::ActiveRecord::Base that provide
     # a way to control the RGeo factory used for ActiveRecord objects.
     module ActiveRecordBaseFactorySettings
-      # Return the RGeoFactorySettings object associated with this
-      # class's connection.
+      # Return the RGeoFactorySettings object associated with this class's connection.
       def rgeo_factory_settings
-        pool_ = begin
+        pool = begin
           connection_pool
         rescue ::ActiveRecord::ConnectionNotEstablished
           nil
         end
-        pool_ ? pool_.rgeo_factory_settings : RGeoFactorySettings::DEFAULT
+        pool ? pool.rgeo_factory_settings : RGeoFactorySettings::DEFAULT
       end
 
       # The value of this attribute is a RGeo::Feature::FactoryGenerator
@@ -92,21 +89,21 @@ module RGeo
       end
 
       # Set the rgeo_factory_generator attribute
-      def rgeo_factory_generator=(gen_)
-        rgeo_factory_settings.set_factory_generator(table_name, gen_)
+      def rgeo_factory_generator=(generator)
+        rgeo_factory_settings.set_factory_generator(table_name, generator)
       end
 
       # This is a convenient way to set the rgeo_factory_generator by
       # passing a block.
-      def to_generate_rgeo_factory(&block_)
-        rgeo_factory_settings.set_factory_generator(table_name, block_)
+      def to_generate_rgeo_factory(&block)
+        rgeo_factory_settings.set_factory_generator(table_name, block)
       end
 
       # Set a specific factory for this ActiveRecord class and the given
       # column name. This setting, if present, overrides the result of the
       # rgeo_factory_generator.
-      def set_rgeo_factory_for_column(column_name_, factory_)
-        rgeo_factory_settings.set_column_factory(table_name, column_name_, factory_)
+      def set_rgeo_factory_for_column(column_name, factory)
+        rgeo_factory_settings.set_column_factory(table_name, column_name, factory)
       end
 
       # Returns the factory generator or specific factory to use for this
@@ -116,8 +113,8 @@ module RGeo
       # rgeo_factory_generator for this class, and returns the resulting
       # factory. Otherwise, if no params hash is given, just returns the
       # rgeo_factory_generator for this class.
-      def rgeo_factory_for_column(column_name_, params_=nil)
-        rgeo_factory_settings.get_column_factory(table_name, column_name_, params_)
+      def rgeo_factory_for_column(column_name, params = nil)
+        rgeo_factory_settings.get_column_factory(table_name, column_name, params)
       end
     end
 
@@ -135,11 +132,11 @@ module RGeo
 
       alias_method :new_connection_without_rgeo_modification, :new_connection
       def new_connection
-        result_ = new_connection_without_rgeo_modification
-        if result_.respond_to?(:set_rgeo_factory_settings)
-          result_.set_rgeo_factory_settings(rgeo_factory_settings)
+        result = new_connection_without_rgeo_modification
+        if result.respond_to?(:set_rgeo_factory_settings)
+          result.set_rgeo_factory_settings(rgeo_factory_settings)
         end
-        result_
+        result
       end
     end
 
