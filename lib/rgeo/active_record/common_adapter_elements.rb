@@ -24,8 +24,8 @@ module RGeo
 
     # Returns a feature type module given a string type.
 
-    def self.geometric_type_from_name(name_)
-      case name_.to_s
+    def self.geometric_type_from_name(name)
+      case name.to_s
       when /^geometry/i then ::RGeo::Feature::Geometry
       when /^point/i then ::RGeo::Feature::Point
       when /^linestring/i then ::RGeo::Feature::LineString
@@ -49,16 +49,16 @@ module RGeo
         end
       end
 
-      def method_missing_with_rgeo(method_name_, *args_, &block_)
-        if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
-          info_ = info_.dup
-          type_ = (info_.delete(:type) || method_name_).to_s
-          opts_ = args_.extract_options!.merge(info_)
-          args_.each do |name_|
-            column(name_, type_, opts_)
+      def method_missing_with_rgeo(method_name, *args, &block)
+        if @base.respond_to?(:spatial_column_constructor) && (info = @base.spatial_column_constructor(method_name))
+          info = info.dup
+          type = (info.delete(:type) || method_name).to_s
+          opts = args.extract_options!.merge(info)
+          args.each do |name|
+            column(name, type, opts)
           end
         else
-          method_missing_without_rgeo(method_name_, *args_, &block_)
+          method_missing_without_rgeo(method_name, *args, &block)
         end
       end
     end
@@ -75,16 +75,16 @@ module RGeo
         end
       end
 
-      def method_missing_with_rgeo(method_name_, *args_, &block_)
-        if @base.respond_to?(:spatial_column_constructor) && (info_ = @base.spatial_column_constructor(method_name_))
-          info_ = info_.dup
-          type_ = (info_.delete(:type) || method_name_).to_s
-          opts_ = args_.extract_options!.merge(info_)
-          args_.each do |name_|
-            @base.add_column(@table_name, name_, type_, opts_)
+      def method_missing_with_rgeo(method_name, *args, &block)
+        if @base.respond_to?(:spatial_column_construcor) && (info = @base.spatial_column_constructor(method_name))
+          info = info.dup
+          type = (info.delete(:type) || method_name).to_s
+          opts = args.extract_options!.merge(info)
+          args.each do |name|
+            @base.add_column(@table_name, name, type, opts)
           end
         else
-          method_missing_without_rgeo(method_name_, *args_, &block_)
+          method_missing_without_rgeo(method_name, *args, &block)
         end
       end
     end
@@ -103,22 +103,22 @@ module RGeo
 
       private
 
-      def indexes_with_rgeo(table_, stream_)
-        if (indexes_ = @connection.indexes(table_)).any?
-          add_index_statements_ = indexes_.map do |index_|
+      def indexes_with_rgeo(table, stream)
+        if (indexes_ = @connection.indexes(table)).any?
+          add_index_statements = indexes_.map do |index|
             statement_parts_ = [
-              ('add_index ' + index_.table.inspect),
-              index_.columns.inspect,
-              ('name: ' + index_.name.inspect),
+              ('add_index ' + index.table.inspect),
+              index.columns.inspect,
+              ('name: ' + index.name.inspect),
             ]
-            statement_parts_ << 'unique: true' if index_.unique
-            statement_parts_ << 'spatial: true' if index_.respond_to?(:spatial) && index_.spatial
-            index_lengths_ = (index_.lengths || []).compact
-            statement_parts_ << ('length: ' + ::Hash[*index_.columns.zip(index_.lengths).flatten].inspect) unless index_lengths_.empty?
+            statement_parts_ << 'unique: true' if index.unique
+            statement_parts_ << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
+            index_lengths_ = (index.lengths || []).compact
+            statement_parts_ << ('length: ' + ::Hash[*index.columns.zip(index.lengths).flatten].inspect) unless index_lengths_.empty?
             '  ' + statement_parts_.join(', ')
           end
-          stream_.puts add_index_statements_.sort.join("\n")
-          stream_.puts
+          stream.puts add_index_statements.sort.join("\n")
+          stream.puts
         end
       end
     end
