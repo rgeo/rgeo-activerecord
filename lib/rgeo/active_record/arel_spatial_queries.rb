@@ -12,8 +12,8 @@ module RGeo
       # a particular database. This method should take a name and
       # return either the changed name or the original name.
 
-      def st_func(standard_name_)
-        standard_name_
+      def st_func(standard_name)
+        standard_name
       end
 
       # Visit the SpatialNamedFunction node. This operates similarly to
@@ -21,40 +21,39 @@ module RGeo
       # mapping for the database, and it also uses the type information
       # in the node to determine when to cast string arguments to WKT,
 
-      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node_, *args)
-        name_ = st_func(node_.name)
-        exprs_ = []
-        node_.expressions.each_with_index do |expr_, index_|
-          exprs_ << (node_.spatial_argument?(index_) ? visit_in_spatial_context(expr_, *args) : visit(expr_, *args))
+      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node, *args)
+        name_ = st_func(node.name)
+        exprs = []
+        node.expressions.each_with_index do |expr, index|
+          exprs << (node.spatial_argument?(index) ? visit_in_spatial_context(expr, *args) : visit(expr, *args))
         end
-        "#{name_}(#{node_.distinct ? 'DISTINCT ' : ''}#{exprs_.join(', ')})#{node_.alias ? " AS #{visit(node_.alias, *args)}" : ''}"
+        "#{name_}(#{node.distinct ? 'DISTINCT ' : ''}#{exprs.join(', ')})#{node.alias ? " AS #{visit(node.alias, *args)}" : ''}"
       end
 
       # Generates SQL for a spatial node.
       # The node must be a string (in which case it is treated as WKT),
       # an RGeo feature, or a spatial attribute.
-      def visit_in_spatial_context(node_, *args)
-        case node_
+      def visit_in_spatial_context(node, *args)
+        case node
         when ::String
-          "#{st_func('ST_WKTToSQL')}(#{quote(node_)})"
+          "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
         when ::RGeo::Feature::Instance
-          visit_RGeo_Feature_Instance(node_, *args)
+          visit_RGeo_Feature_Instance(node, *args)
         when ::RGeo::Cartesian::BoundingBox
-          visit_RGeo_Cartesian_BoundingBox(node_, *args)
+          visit_RGeo_Cartesian_BoundingBox(node, *args)
         else
-          visit(node_, *args)
+          visit(node, *args)
         end
       end
     end
 
-    # This node wraps an RGeo feature and gives it spatial expression
-    # constructors.
+    # This node wraps an RGeo feature and gives it spatial expression constructors.
     class SpatialConstantNode
       include ::RGeo::ActiveRecord::SpatialExpressions
 
       # The delegate should be the RGeo feature.
-      def initialize(delegate_)
-        @delegate = delegate_
+      def initialize(delegate)
+        @delegate = delegate
       end
 
       # Return the RGeo feature
@@ -63,31 +62,32 @@ module RGeo
 
     # :stopdoc:
 
-    # Make sure the standard Arel visitors can handle RGeo feature objects
-    # by default.
+    # Make sure the standard Arel visitors can handle RGeo feature objects by default.
 
     ::Arel::Visitors::Visitor.class_eval do
-      def visit_RGeo_ActiveRecord_SpatialConstantNode(node_, *args)
+      def visit_RGeo_ActiveRecord_SpatialConstantNode(node, *args)
         if respond_to?(:visit_in_spatial_context)
-          visit_in_spatial_context(node_.delegate, *args)
+          visit_in_spatial_context(node.delegate, *args)
         else
-          visit(node_.delegate, *args)
+          visit(node.delegate, *args)
         end
       end
     end
+
     ::Arel::Visitors::Dot.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
+
     ::Arel::Visitors::DepthFirst.class_eval do
       alias :visit_RGeo_Feature_Instance :terminal
       alias :visit_RGeo_Cartesian_BoundingBox :terminal
     end
+
     ::Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
-
 
     # A NamedFunction subclass that keeps track of the spatial-ness of
     # the arguments and return values, so that it can provide context to
@@ -96,19 +96,18 @@ module RGeo
     class SpatialNamedFunction < ::Arel::Nodes::NamedFunction
       include ::RGeo::ActiveRecord::SpatialExpressions
 
-      def initialize(name_, expr_, spatial_flags_=[], aliaz_=nil)
-        super(name_, expr_, aliaz_)
-        @spatial_flags = spatial_flags_
+      def initialize(name, expr, spatial_flags = [], aliaz = nil)
+        super(name, expr, aliaz)
+        @spatial_flags = spatial_flags
       end
 
       def spatial_result?
         @spatial_flags.first
       end
 
-      def spatial_argument?(index_)
-        @spatial_flags[index_+1]
+      def spatial_argument?(index)
+        @spatial_flags[index + 1]
       end
-
     end
 
     # :startdoc:
