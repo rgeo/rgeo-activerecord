@@ -29,12 +29,12 @@ module RGeo
       end
 
       # Get the factory or factory generator for the given table name and column name.
-      def get_column_factory(table_name, column_name, params = nil)
+      def get_column_factory(table_name, column_name, params = {})
         table_name = table_name.to_s
         column_name = column_name.to_s
         result = (@column_factories[table_name] ||= {})[column_name] ||
           @factory_generators[table_name] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-        if params && !result.kind_of?(::RGeo::Feature::Factory::Instance)
+        if !result.kind_of?(::RGeo::Feature::Factory::Instance)
           result = result.call(params)
         end
         result
@@ -113,7 +113,7 @@ module RGeo
       # rgeo_factory_generator for this class, and returns the resulting
       # factory. Otherwise, if no params hash is given, just returns the
       # rgeo_factory_generator for this class.
-      def rgeo_factory_for_column(column_name, params = nil)
+      def rgeo_factory_for_column(column_name, params = {})
         rgeo_factory_settings.get_column_factory(table_name, column_name, params)
       end
     end
