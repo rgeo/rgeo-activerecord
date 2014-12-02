@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BasicTest < MINITEST_CLASS # :nodoc:
+class BasicTest < Minitest::Test # :nodoc:
   class MyTable < ::ActiveRecord::Base
   end
 
