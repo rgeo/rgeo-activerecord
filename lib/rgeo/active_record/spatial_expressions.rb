@@ -1,9 +1,7 @@
 module RGeo
   module ActiveRecord
     # Returns true if spatial expressions (i.e. the methods in the
-    # SpatialExpressions module) are supported. Generally, this is true
-    # if Arel is at version 2.1 or later.
-
+    # SpatialExpressions module) are supported.
     def self.spatial_expressions_supported?
       defined?(::Arel::Nodes::NamedFunction)
     end
@@ -11,8 +9,6 @@ module RGeo
     # A set of spatial expression builders.
     # These methods can be chained off other spatial expressions to form
     # complex expressions.
-    #
-    # These functions require Arel 2.1 or later.
     module SpatialExpressions
       #--
       # Generic functions
@@ -260,9 +256,6 @@ module Arel
   # This node wraps a spatial value (such as an RGeo feature or a text
   # string in WKT format). It supports chaining with the functions
   # defined by RGeo::ActiveRecord::SpatialExpressions.
-  #
-  # Requires Arel 2.1 or later.
-
   def self.spatial(arg)
     ::RGeo::ActiveRecord::SpatialConstantNode.new(arg)
   end
