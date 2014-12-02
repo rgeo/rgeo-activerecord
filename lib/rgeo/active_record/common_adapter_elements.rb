@@ -108,9 +108,9 @@ module RGeo
         if indexes.any?
           add_index_statements = indexes.map do |index|
             statement = [
-                ("add_index #{index.table.inspect}"),
+                "add_index #{index.table.inspect}",
                 index.columns.inspect,
-                ("name: #{index.name.inspect}"),
+                "name: #{index.name.inspect}",
               ]
             statement << 'unique: true' if index.unique
             statement << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
@@ -125,15 +125,6 @@ module RGeo
     end
 
     ::ActiveRecord::SchemaDumper.send :include, GeoSchemaDumper
-
-
-    # attribute_types_cached_by_default was removed in ActiveRecord 4.2
-    # :cache_attributes does not work since the connection may not yet be established
-
-    if ::ActiveRecord.version < Gem::Version.new("4.2.0.a")
-      # cache spatial attribute values so they don't get re-parsed on every access.
-      ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
-    end
 
     # :startdoc:
   end
