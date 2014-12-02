@@ -21,28 +21,28 @@ module RGeo
       # mapping for the database, and it also uses the type information
       # in the node to determine when to cast string arguments to WKT,
 
-      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node, *args)
-        name_ = st_func(node.name)
+      def visit_RGeo_ActiveRecord_SpatialNamedFunction(node, collector)
+        name = st_func(node.name)
         exprs = []
         node.expressions.each_with_index do |expr, index|
-          exprs << (node.spatial_argument?(index) ? visit_in_spatial_context(expr, *args) : visit(expr, *args))
+          exprs << (node.spatial_argument?(index) ? visit_in_spatial_context(expr, collector) : visit(expr, collector))
         end
-        "#{name_}(#{node.distinct ? 'DISTINCT ' : ''}#{exprs.join(', ')})#{node.alias ? " AS #{visit(node.alias, *args)}" : ''}"
+        collector << "#{name}(#{node.distinct ? 'DISTINCT ' : ''}#{exprs.join(', ')})#{node.alias ? " AS #{visit(node.alias, *args)}" : ''}"
       end
 
       # Generates SQL for a spatial node.
       # The node must be a string (in which case it is treated as WKT),
       # an RGeo feature, or a spatial attribute.
-      def visit_in_spatial_context(node, *args)
+      def visit_in_spatial_context(node, collector)
         case node
         when ::String
-          "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
+          collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
         when ::RGeo::Feature::Instance
-          visit_RGeo_Feature_Instance(node, *args)
+          collector << visit_RGeo_Feature_Instance(node, *args)
         when ::RGeo::Cartesian::BoundingBox
-          visit_RGeo_Cartesian_BoundingBox(node, *args)
+          collector << visit_RGeo_Cartesian_BoundingBox(node, *args)
         else
-          visit(node, *args)
+          visit(node, collector)
         end
       end
     end
@@ -65,11 +65,11 @@ module RGeo
     # Make sure the standard Arel visitors can handle RGeo feature objects by default.
 
     ::Arel::Visitors::Visitor.class_eval do
-      def visit_RGeo_ActiveRecord_SpatialConstantNode(node, *args)
+      def visit_RGeo_ActiveRecord_SpatialConstantNode(node, collector)
         if respond_to?(:visit_in_spatial_context)
-          visit_in_spatial_context(node.delegate, *args)
+          visit_in_spatial_context(node.delegate, collector)
         else
-          visit(node.delegate, *args)
+          visit(node.delegate, collector)
         end
       end
     end
