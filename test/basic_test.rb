@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BasicTest < MINITEST_CLASS  # :nodoc:
+class BasicTest < Minitest::Test # :nodoc:
   class MyTable < ::ActiveRecord::Base
   end
 
@@ -54,16 +54,8 @@ class BasicTest < MINITEST_CLASS  # :nodoc:
 
   def test_arel_visit_spatial_constant_node
     visitor = arel_visitor
-
-    # :accept API changed in Arel 6.0:
-    # https://github.com/rails/arel/commit/fcd11dcb99d69d
-    sql = if Arel::VERSION > "6.0.0"
-        visitor.accept(Arel.spatial('POINT (1.0 2.0)'), Arel::Collectors::PlainString.new)
-      else
-        visitor.accept(Arel.spatial('POINT (1.0 2.0)'))
-      end
-
-    assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql)
+    sql = visitor.accept(Arel.spatial('POINT (1.0 2.0)'), Arel::Collectors::PlainString.new)
+    assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql.value)
   end
 
   private

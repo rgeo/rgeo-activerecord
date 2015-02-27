@@ -91,50 +91,6 @@ module RGeo
 
     ::ActiveRecord::ConnectionAdapters::Table.send :include, GeoConnectionAdapters
 
-
-    # Hack schema dumper to output spatial index flag
-    module GeoSchemaDumper
-      def self.included(base)
-        base.class_eval do
-          alias_method :indexes_without_rgeo, :indexes
-          alias_method :indexes, :indexes_with_rgeo
-        end
-      end
-
-      private
-
-      def indexes_with_rgeo(table, stream)
-        indexes = @connection.indexes(table)
-        if indexes.any?
-          add_index_statements = indexes.map do |index|
-            statement = [
-                ("add_index #{index.table.inspect}"),
-                index.columns.inspect,
-                ("name: #{index.name.inspect}"),
-              ]
-            statement << 'unique: true' if index.unique
-            statement << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
-            index_lengths = (index.lengths || []).compact
-            statement << ("length: #{::Hash[*index.columns.zip(index.lengths).flatten].inspect}") if index_lengths.any?
-            "  #{statement.join(', ')}"
-          end
-          stream.puts add_index_statements.sort.join("\n")
-          stream.puts
-        end
-      end
-    end
-
-    ::ActiveRecord::SchemaDumper.send :include, GeoSchemaDumper
-
-
-    # attribute_types_cached_by_default was removed in ActiveRecord 4.2
-    # :cache_attributes does not work since the connection may not yet be established
-
-    if ::ActiveRecord.version < Gem::Version.new("4.2.0.a")
-      # cache spatial attribute values so they don't get re-parsed on every access.
-      ::ActiveRecord::Base.attribute_types_cached_by_default << :spatial
-    end
-
     # :startdoc:
   end
 end
