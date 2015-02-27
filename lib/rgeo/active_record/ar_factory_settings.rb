@@ -34,7 +34,7 @@ module RGeo
         column_name = column_name.to_s
         result = (@column_factories[table_name] ||= {})[column_name] ||
           @factory_generators[table_name] || ::RGeo::ActiveRecord::DEFAULT_FACTORY_GENERATOR
-        if !result.kind_of?(::RGeo::Feature::Factory::Instance)
+        if !result.kind_of?(::RGeo::Feature::Factory::Instance) 
           result = result.call(params)
         end
         result
