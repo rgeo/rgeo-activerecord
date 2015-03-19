@@ -27,7 +27,13 @@ module RGeo
         node.expressions.each_with_index do |expr, index|
           exprs << (node.spatial_argument?(index) ? visit_in_spatial_context(expr, collector) : visit(expr, collector))
         end
-        collector << "#{name}(#{node.distinct ? 'DISTINCT ' : ''}#{exprs.join(', ')})#{node.alias ? " AS #{visit(node.alias, *args)}" : ''}"
+        collector << name
+        collector << "("
+        collector << "DISTINCT " if node.distinct
+        collector << exprs.join(', ')
+        collector << ")"
+        collector << " AS #{ visit(node.alias, collector) }" if node.alias
+        collector
       end
 
       # Generates SQL for a spatial node.
@@ -38,9 +44,9 @@ module RGeo
         when ::String
           collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
         when ::RGeo::Feature::Instance
-          collector << visit_RGeo_Feature_Instance(node, *args)
+          collector << visit_RGeo_Feature_Instance(node, collector)
         when ::RGeo::Cartesian::BoundingBox
-          collector << visit_RGeo_Cartesian_BoundingBox(node, *args)
+          collector << visit_RGeo_Cartesian_BoundingBox(node, collector)
         else
           visit(node, collector)
         end
