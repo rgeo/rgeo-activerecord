@@ -73,8 +73,6 @@ Development is supported by:
 
 ### License
 
-Copyright 2013 Daniel Azuma
-
-Copyright 2014 Tee Parham
+Copyright 2015 Daniel Azuma, Tee Parham
 
 https://github.com/rgeo/rgeo-activerecord/blob/master/LICENSE.txt
