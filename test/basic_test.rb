@@ -10,7 +10,7 @@ class BasicTest < Minitest::Test # :nodoc:
 
   def test_default_factory_generator
     MyTable.rgeo_factory_generator = nil
-    factory = MyTable.rgeo_factory_for_column(:hello).call(has_z_coordinate: true, srid: 4326)
+    factory = MyTable.rgeo_factory_for_column(:hello, has_z_coordinate: true, srid: 4326)
     assert_equal true, factory.property(:has_z_coordinate)
     assert_equal true, factory.property(:is_cartesian)
     assert_nil factory.property(:is_geographic)
