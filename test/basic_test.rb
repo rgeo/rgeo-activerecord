@@ -31,7 +31,7 @@ class BasicTest < Minitest::Test # :nodoc:
   private
 
   def arel_visitor
-    Arel::Visitors::PostgreSQL.new(Arel::Table.engine.connection)
+    Arel::Visitors::PostgreSQL.new(FakeRecord::Connection.new)
   end
 
 end
