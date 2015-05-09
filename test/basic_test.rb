@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class BasicTest < Minitest::Test # :nodoc:
-  class MyTable < ::ActiveRecord::Base
+class BasicTest < Minitest::Test
+  class MyTable < ActiveRecord::Base
   end
 
-  def test_has_version
+  def test_version
     assert RGeo::ActiveRecord::VERSION
   end
 
@@ -33,5 +33,4 @@ class BasicTest < Minitest::Test # :nodoc:
   def arel_visitor
     Arel::Visitors::PostgreSQL.new(FakeRecord::Connection.new)
   end
-
 end
