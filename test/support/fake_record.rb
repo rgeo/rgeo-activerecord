@@ -1,4 +1,4 @@
-# From https://github.com/rails/arel/blob/4-0-stable/test/support/fake_record.rb
+# From https://github.com/rails/arel/master/test/support/fake_record.rb
 module FakeRecord
   class Column < Struct.new(:name, :type)
   end
@@ -61,12 +61,20 @@ module FakeRecord
     end
 
     def quote thing, column = nil
-      if column && column.type == :integer
-        return 'NULL' if thing.nil?
-        return thing.to_i
+      if column && !thing.nil?
+        case column.type
+        when :integer
+          thing = thing.to_i
+        when :string
+          thing = thing.to_s
+        end
       end
 
       case thing
+      when DateTime
+        "'#{thing.strftime("%Y-%m-%d %H:%M:%S")}'"
+      when Date
+        "'#{thing.strftime("%Y-%m-%d")}'"
       when true
         "'t'"
       when false
@@ -76,7 +84,7 @@ module FakeRecord
       when Numeric
         thing
       else
-        "'#{thing}'"
+        "'#{thing.to_s.gsub("'", "\\\\'")}'"
       end
     end
   end
@@ -107,6 +115,10 @@ module FakeRecord
 
     def schema_cache
       connection
+    end
+
+    def quote thing, column = nil
+      connection.quote thing, column
     end
   end
 
