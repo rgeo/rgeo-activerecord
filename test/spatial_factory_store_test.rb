@@ -3,7 +3,7 @@ require "test_helper"
 class SpatialFactoryStoreTest < Minitest::Test
   def test_default
     store.default = nil
-    assert RGeo::Geos::CAPIFactory === store.default
+    assert RGeo::Cartesian.preferred_factory === store.default
   end
 
   def test_set_default
