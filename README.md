@@ -32,10 +32,13 @@ gem 'rgeo-activerecord'
 `rgeo-activerecord` has the following requirements:
 
 * Ruby 1.9.3 or later
-* ActiveRecord 4.0.0 or later
 * rgeo 0.3.20 or later.
 
-Version `0.6.0` supports earlier versions of ruby and activerecord:
+The latest version supports ActiveRecord 4.2 and later.
+
+Version `1.1.0` supports ActiveRecord 4.0 and 4.1
+
+Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 
 * Ruby 1.8.7 or later
 * ActiveRecord 3.0.3 - 3.2.x
