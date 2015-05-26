@@ -1,3 +1,29 @@
+### 4.0.0 / 2015-05-24
+
+* Remove GeoTableDefinitions, GeoConnectionAdapter
+
+### 3.0.0 / 2015-05-09
+
+* Remove AdapterTestHelper module
+* Remove RGeoFactorySettings
+* Remove #set_rgeo_factory_for_column, #rgeo_factory_for_column, etc
+* Add SpatialFactoryStore (see https://github.com/rgeo/rgeo-activerecord/commit/b1da5cb222)
+
+### 2.1.1 / 2015-03-18
+
+* Fix collector calls for arel 6.0 API
+
+### 2.1.0 / 2015-02-07
+
+* Update visit API for arel 6.0
+* Remove attribute caching (removed in AR 4.2)
+* Remove support for `spatial: true` index option (use standard `using: :gist`)
+
+### 2.0.0 / 2014-12-02
+
+* Dump schema using new style hash - https://github.com/rgeo/rgeo-activerecord/pull/18
+* Require ActiveRecord 4.2
+
 ### 1.2.0 / 2014-08-21
 
 * Support ActiveRecord 4.2
