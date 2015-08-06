@@ -19,7 +19,7 @@ module RGeo
 
     # Index definition struct with a spatial flag field.
 
-    class SpatialIndexDefinition < Struct.new(:table, :name, :unique, :columns, :lengths, :orders, :where, :spatial)
+    class SpatialIndexDefinition < Struct.new(:table, :name, :unique, :columns, :lengths, :orders, :where, :using, :type, :spatial)
     end
 
     # Returns a feature type module given a string type.
@@ -116,6 +116,13 @@ module RGeo
             statement << 'spatial: true' if index.respond_to?(:spatial) && index.spatial
             index_lengths = (index.lengths || []).compact
             statement << ("length: #{::Hash[*index.columns.zip(index.lengths).flatten].inspect}") if index_lengths.any?
+
+            index_orders = index.orders || {}
+            statement << "order: #{index.orders.inspect}" if index_orders.any?
+            statement << "where: #{index.where.inspect}" if index.where
+            statement << "using: #{index.using.inspect}" if index.using
+            statement << "type: #{index.type.inspect}" if index.type
+
             "  #{statement.join(', ')}"
           end
           stream.puts add_index_statements.sort.join("\n")
