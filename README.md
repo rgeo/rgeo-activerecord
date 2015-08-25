@@ -45,6 +45,25 @@ Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 * rgeo 0.3.20 or later
 * arel 2.0.6 or later
 
+### Factory Generator Changes
+
+`rgeo_factory_generator` and related methods were removed in version 4.0.
+
+You can register spatial factories (i.e. a particular combination of settings) for data associated 
+with each type in the database.
+
+Here are some examples, given the spatial table defined above:
+
+```ruby
+RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
+  # By default, use the GEOS implementation for spatial columns.
+  config.default = RGeo::Geos.factory_generator
+
+  # But use a geographic implementation for point columns.
+  config.register(RGeo::Geographic.spherical_factory(srid: 4326), geo_type: "point")
+end
+```
+
 See the README for the "rgeo" gem, a required dependency, for further
 installation information.
 
