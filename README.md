@@ -45,14 +45,33 @@ Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 * rgeo 0.3.20 or later
 * arel 2.0.6 or later
 
-### Factory Generator Changes
+### Spatial Factories for Columns
 
-`rgeo_factory_generator` and related methods were removed in version 4.0.
+`rgeo_factory_generator` and related methods were removed in version 4.0, since column types
+are no longer tied to their database colulmn in ActiveRecord 4.2.
 
-You can register spatial factories (i.e. a particular combination of settings) for data associated 
-with each type in the database.
+Register spatial factories in the `SpatialFactoryStore` singleton class. Each spatial type
+in your ActiveRecord models will use the `SpatialFactoryStore` to retrieve
+a factory matching the properties of its type. For example, you can set a different
+spatial factory for point types, or for types matching a specific SRID, or having
+a Z coordinate, or any combination of attributes.
 
-Here are some examples, given the spatial table defined above:
+The supported keys when registering a spatial type are listed here with their default values
+and other allowed values:
+
+```
+geo_type: "geometry", # point, polygon, line_string, geometry_collection, 
+                      # multi_line_string, multi_point, multi_polygon
+has_m:    false,      # true
+has_z:    false,      # true
+sql_type: "geometry", # geography
+srid:     0,          # (any valid SRID)
+```
+
+The default factories are `RGeo::Geographic.spherical_factory` for 
+geographic types, and `RGeo::Cartesian.preferred_factory` for geometric types.
+
+Here is an example setup:
 
 ```ruby
 RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
@@ -64,7 +83,9 @@ RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
 end
 ```
 
-See the README for the "rgeo" gem, a required dependency, for further
+### RGeo Dependency
+
+See the README for the [rgeo](https://github.com/rgeo/rgeo) gem, a dependency, for further
 installation information.
 
 ### Development and support
