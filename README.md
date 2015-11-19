@@ -48,7 +48,7 @@ Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 ### Spatial Factories for Columns
 
 `rgeo_factory_generator` and related methods were removed in version 4.0, since column types
-are no longer tied to their database colulmn in ActiveRecord 4.2.
+are no longer tied to their database column in ActiveRecord 4.2.
 
 Register spatial factories in the `SpatialFactoryStore` singleton class. Each spatial type
 in your ActiveRecord models will use the `SpatialFactoryStore` to retrieve
