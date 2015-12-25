@@ -1,7 +1,6 @@
 # From https://github.com/rails/arel/master/test/support/fake_record.rb
 module FakeRecord
-  class Column < Struct.new(:name, :type)
-  end
+  Column = Struct.new(:name, :type)
 
   class Connection
     attr_reader :tables
@@ -90,8 +89,7 @@ module FakeRecord
   end
 
   class ConnectionPool
-    class Spec < Struct.new(:config)
-    end
+    Spec = Struct.new(:config)
 
     attr_reader :spec, :connection
 

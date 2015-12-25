@@ -88,12 +88,6 @@ Style/FileName:
 Style/MethodName:
   Enabled: false
 
-# Offense count: 3
-Style/StructInheritance:
-  Exclude:
-    - 'lib/rgeo/active_record/common_adapter_elements.rb'
-    - 'test/support/fake_record.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoredMethods.
