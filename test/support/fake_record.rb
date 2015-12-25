@@ -32,27 +32,27 @@ module FakeRecord
       @visitor = visitor
     end
 
-    def columns_hash table_name
+    def columns_hash(table_name)
       @columns_hash[table_name]
     end
 
-    def primary_key name
+    def primary_key(name)
       @primary_keys[name.to_s]
     end
 
-    def table_exists? name
+    def table_exists?(name)
       @tables.include? name.to_s
     end
 
-    def columns name, message = nil
+    def columns(name, message = nil)
       @columns[name.to_s]
     end
 
-    def quote_table_name name
+    def quote_table_name(name)
       "\"#{name.to_s}\""
     end
 
-    def quote_column_name name
+    def quote_column_name(name)
       "\"#{name.to_s}\""
     end
 
@@ -60,7 +60,7 @@ module FakeRecord
       self
     end
 
-    def quote thing, column = nil
+    def quote(thing, column = nil)
       if column && !thing.nil?
         case column.type
         when :integer
@@ -105,7 +105,7 @@ module FakeRecord
       yield connection
     end
 
-    def table_exists? name
+    def table_exists?(name)
       connection.tables.include? name.to_s
     end
 
@@ -117,7 +117,7 @@ module FakeRecord
       connection
     end
 
-    def quote thing, column = nil
+    def quote(thing, column = nil)
       connection.quote thing, column
     end
   end
