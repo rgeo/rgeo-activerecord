@@ -107,12 +107,6 @@ Style/MethodName:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/StringLiteralsInInterpolation:
-  Enabled: false
-
 # Offense count: 3
 Style/StructInheritance:
   Exclude:
@@ -125,13 +119,6 @@ Style/StructInheritance:
 Style/SymbolProc:
   Exclude:
     - 'lib/rgeo/active_record/geometry_mixin.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/TrailingBlankLines:
-  Exclude:
-    - 'Rakefile'
 
 # Offense count: 1
 # Cop supports --auto-correct.
