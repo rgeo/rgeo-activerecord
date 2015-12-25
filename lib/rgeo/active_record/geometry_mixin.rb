@@ -54,5 +54,5 @@ module RGeo
   end
 end
 
-::RGeo::Feature::MixinCollection::GLOBAL.for_type(::RGeo::Feature::Geometry).
-  add(::RGeo::ActiveRecord::GeometryMixin)
+::RGeo::Feature::MixinCollection::GLOBAL.for_type(::RGeo::Feature::Geometry)
+  .add(::RGeo::ActiveRecord::GeometryMixin)

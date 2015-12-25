@@ -80,12 +80,6 @@ Style/Documentation:
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/DotPosition:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/EmptyElse:
   Exclude:
     - 'lib/rgeo/active_record/common_adapter_elements.rb'
