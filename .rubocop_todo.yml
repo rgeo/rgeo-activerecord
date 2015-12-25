@@ -97,12 +97,6 @@ Style/FileName:
     - 'lib/rgeo-activerecord.rb'
 
 # Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues.
-Style/HashSyntax:
-  Enabled: false
-
-# Offense count: 2
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/MethodName:
   Enabled: false
