@@ -6,7 +6,7 @@ module RGeo
 
     module GeometryMixin
       # The default JSON generator Proc. Renders geometry fields as WKT.
-      DEFAULT_JSON_GENERATOR = ::Proc.new { |geom| geom.to_s }
+      DEFAULT_JSON_GENERATOR = ::Proc.new(&:to_s)
 
       @json_generator = DEFAULT_JSON_GENERATOR
 
