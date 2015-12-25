@@ -1,3 +1,8 @@
+### 4.0.1 / 2015-12-25
+
+* Rubocop style cleanup #31
+* Do not distribute test files with gem
+
 ### 4.0.0 / 2015-05-24
 
 * Remove GeoTableDefinitions, GeoConnectionAdapter
