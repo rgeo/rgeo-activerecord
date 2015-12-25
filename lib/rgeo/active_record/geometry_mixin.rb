@@ -26,7 +26,7 @@ module RGeo
         if block && !value
           value = block
         elsif value == :geojson
-          require 'rgeo/geo_json'
+          require "rgeo/geo_json"
           value = ::Proc.new { |geom_| ::RGeo::GeoJSON.encode(geom_) }
         end
         if value.is_a?(::Proc)

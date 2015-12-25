@@ -10,24 +10,24 @@ module FakeRecord
     def initialize(visitor = nil)
       @tables = %w( users photos developers products)
       @columns = {
-        'users' => [
-          Column.new('id', :integer),
-          Column.new('name', :string),
-          Column.new('bool', :boolean),
-          Column.new('created_at', :date)
+        "users" => [
+          Column.new("id", :integer),
+          Column.new("name", :string),
+          Column.new("bool", :boolean),
+          Column.new("created_at", :date)
         ],
-        'products' => [
-          Column.new('id', :integer),
-          Column.new('price', :decimal)
+        "products" => [
+          Column.new("id", :integer),
+          Column.new("price", :decimal)
         ]
       }
       @columns_hash = {
-        'users' => Hash[@columns['users'].map { |x| [x.name, x] }],
-        'products' => Hash[@columns['products'].map { |x| [x.name, x] }]
+        "users" => Hash[@columns["users"].map { |x| [x.name, x] }],
+        "products" => Hash[@columns["products"].map { |x| [x.name, x] }]
       }
       @primary_keys = {
-        'users' => 'id',
-        'products' => 'id'
+        "users" => "id",
+        "products" => "id"
       }
       @visitor = visitor
     end
@@ -80,7 +80,7 @@ module FakeRecord
       when false
         "'f'"
       when nil
-        'NULL'
+        "NULL"
       when Numeric
         thing
       else
@@ -96,7 +96,7 @@ module FakeRecord
     attr_reader :spec, :connection
 
     def initialize
-      @spec = Spec.new(adapter: 'america')
+      @spec = Spec.new(adapter: "america")
       @connection = Connection.new
       @connection.visitor = Arel::Visitors::ToSql.new(connection)
     end

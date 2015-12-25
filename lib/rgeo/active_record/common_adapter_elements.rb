@@ -6,7 +6,7 @@ module RGeo
     # Some default column constructors specifications for most spatial
     # databases. Individual adapters may add to or override this list.
     DEFAULT_SPATIAL_COLUMN_CONSTRUCTORS = {
-      spatial:             { type: 'geometry' }.freeze,
+      spatial:             { type: "geometry" }.freeze,
       geometry:            {}.freeze,
       point:               {}.freeze,
       line_string:         {}.freeze,
