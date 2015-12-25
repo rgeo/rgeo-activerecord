@@ -13,12 +13,6 @@ Lint/HandleExceptions:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Lint/StringConversionInInterpolation:
-  Exclude:
-    - 'test/support/fake_record.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
 Lint/UnusedMethodArgument:
   Exclude:
