@@ -90,20 +90,6 @@ Style/EmptyElse:
   Exclude:
     - 'lib/rgeo/active_record/common_adapter_elements.rb'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-Style/EmptyLines:
-  Exclude:
-    - 'lib/rgeo/active_record/spatial_expressions.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'lib/rgeo/active_record/arel_spatial_queries.rb'
-    - 'lib/rgeo/active_record/spatial_expressions.rb'
-
 # Offense count: 1
 # Configuration parameters: Exclude.
 Style/FileName:

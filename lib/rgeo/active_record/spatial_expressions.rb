@@ -129,7 +129,6 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_ConvexHull', [self], [true, true])
       end
 
-
       #--
       # Point functions
       #++
@@ -149,7 +148,6 @@ module RGeo
       def st_m
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_M', [self], [false, true])
       end
-
 
       #--
       # Curve functions
@@ -177,7 +175,6 @@ module RGeo
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_Length', args, [false, true, false])
       end
 
-
       #--
       # LineString functions
       #++
@@ -189,7 +186,6 @@ module RGeo
       def st_pointn(n)
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_PointN', [self, n.to_i], [true, true, false])
       end
-
 
       #--
       # Surface functions
@@ -238,9 +234,7 @@ module RGeo
       def st_geometryn(n)
         ::RGeo::ActiveRecord::SpatialNamedFunction.new('ST_GeometryN', [self, n.to_i], [true, true, false])
       end
-
     end
-
   end
 end
 
@@ -249,9 +243,7 @@ end
 # Allow chaining of spatial expressions from attributes
 ::Arel::Attribute.send :include, ::RGeo::ActiveRecord::SpatialExpressions
 
-
 module Arel
-
   # Create a spatial constant node.
   # This node wraps a spatial value (such as an RGeo feature or a text
   # string in WKT format). It supports chaining with the functions
@@ -259,5 +251,4 @@ module Arel
   def self.spatial(arg)
     ::RGeo::ActiveRecord::SpatialConstantNode.new(arg)
   end
-
 end

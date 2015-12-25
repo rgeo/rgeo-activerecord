@@ -7,7 +7,6 @@ module RGeo
     # mysqlspatial, and mysql2spatial) for usage examples.
 
     module SpatialToSql
-
       # Map a standard OGC SQL function name to the actual name used by
       # a particular database. This method should take a name and
       # return either the changed name or the original name.
@@ -117,6 +116,5 @@ module RGeo
     end
 
     # :startdoc:
-
   end
 end
