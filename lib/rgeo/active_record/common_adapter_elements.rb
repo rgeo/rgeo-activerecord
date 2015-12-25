@@ -34,7 +34,6 @@ module RGeo
       when /^multipoint/i then ::RGeo::Feature::MultiPoint
       when /^multilinestring/i then ::RGeo::Feature::MultiLineString
       when /^multipolygon/i then ::RGeo::Feature::MultiPolygon
-      else nil
       end
     end
   end

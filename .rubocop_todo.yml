@@ -78,13 +78,6 @@ Style/Documentation:
     - 'lib/rgeo/active_record/version.rb'
 
 # Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyElse:
-  Exclude:
-    - 'lib/rgeo/active_record/common_adapter_elements.rb'
-
-# Offense count: 1
 # Configuration parameters: Exclude.
 Style/FileName:
   Exclude:
