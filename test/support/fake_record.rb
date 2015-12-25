@@ -1,66 +1,65 @@
 # From https://github.com/rails/arel/master/test/support/fake_record.rb
 module FakeRecord
-  class Column < Struct.new(:name, :type)
-  end
+  Column = Struct.new(:name, :type)
 
   class Connection
     attr_reader :tables
     attr_accessor :visitor
 
     def initialize(visitor = nil)
-      @tables = %w{ users photos developers products}
+      @tables = %w( users photos developers products)
       @columns = {
-        'users' => [
-          Column.new('id', :integer),
-          Column.new('name', :string),
-          Column.new('bool', :boolean),
-          Column.new('created_at', :date)
+        "users" => [
+          Column.new("id", :integer),
+          Column.new("name", :string),
+          Column.new("bool", :boolean),
+          Column.new("created_at", :date)
         ],
-        'products' => [
-          Column.new('id', :integer),
-          Column.new('price', :decimal)
+        "products" => [
+          Column.new("id", :integer),
+          Column.new("price", :decimal)
         ]
       }
       @columns_hash = {
-        'users' => Hash[@columns['users'].map { |x| [x.name, x] }],
-        'products' => Hash[@columns['products'].map { |x| [x.name, x] }]
+        "users" => Hash[@columns["users"].map { |x| [x.name, x] }],
+        "products" => Hash[@columns["products"].map { |x| [x.name, x] }]
       }
       @primary_keys = {
-        'users' => 'id',
-        'products' => 'id'
+        "users" => "id",
+        "products" => "id"
       }
       @visitor = visitor
     end
 
-    def columns_hash table_name
+    def columns_hash(table_name)
       @columns_hash[table_name]
     end
 
-    def primary_key name
+    def primary_key(name)
       @primary_keys[name.to_s]
     end
 
-    def table_exists? name
+    def table_exists?(name)
       @tables.include? name.to_s
     end
 
-    def columns name, message = nil
+    def columns(name, message = nil)
       @columns[name.to_s]
     end
 
-    def quote_table_name name
-      "\"#{name.to_s}\""
+    def quote_table_name(name)
+      %("#{name}")
     end
 
-    def quote_column_name name
-      "\"#{name.to_s}\""
+    def quote_column_name(name)
+      %("#{name}")
     end
 
     def schema_cache
       self
     end
 
-    def quote thing, column = nil
+    def quote(thing, column = nil)
       if column && !thing.nil?
         case column.type
         when :integer
@@ -72,15 +71,15 @@ module FakeRecord
 
       case thing
       when DateTime
-        "'#{thing.strftime("%Y-%m-%d %H:%M:%S")}'"
+        "'#{thing.strftime('%Y-%m-%d %H:%M:%S')}'"
       when Date
-        "'#{thing.strftime("%Y-%m-%d")}'"
+        "'#{thing.strftime('%Y-%m-%d')}'"
       when true
         "'t'"
       when false
         "'f'"
       when nil
-        'NULL'
+        "NULL"
       when Numeric
         thing
       else
@@ -90,13 +89,12 @@ module FakeRecord
   end
 
   class ConnectionPool
-    class Spec < Struct.new(:config)
-    end
+    Spec = Struct.new(:config)
 
     attr_reader :spec, :connection
 
     def initialize
-      @spec = Spec.new(:adapter => 'america')
+      @spec = Spec.new(adapter: "america")
       @connection = Connection.new
       @connection.visitor = Arel::Visitors::ToSql.new(connection)
     end
@@ -105,7 +103,7 @@ module FakeRecord
       yield connection
     end
 
-    def table_exists? name
+    def table_exists?(name)
       connection.tables.include? name.to_s
     end
 
@@ -117,7 +115,7 @@ module FakeRecord
       connection
     end
 
-    def quote thing, column = nil
+    def quote(thing, column = nil)
       connection.quote thing, column
     end
   end

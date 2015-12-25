@@ -1,1 +1,1 @@
-require 'rgeo/active_record'
+require "rgeo/active_record"

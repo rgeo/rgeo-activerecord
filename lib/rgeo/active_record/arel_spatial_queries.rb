@@ -7,7 +7,6 @@ module RGeo
     # mysqlspatial, and mysql2spatial) for usage examples.
 
     module SpatialToSql
-
       # Map a standard OGC SQL function name to the actual name used by
       # a particular database. This method should take a name and
       # return either the changed name or the original name.
@@ -30,9 +29,9 @@ module RGeo
         collector << name
         collector << "("
         collector << "DISTINCT " if node.distinct
-        collector << exprs.join(', ')
+        collector << exprs.join(", ")
         collector << ")"
-        collector << " AS #{ visit(node.alias, collector) }" if node.alias
+        collector << " AS #{visit(node.alias, collector)}" if node.alias
         collector
       end
 
@@ -117,6 +116,5 @@ module RGeo
     end
 
     # :startdoc:
-
   end
 end

@@ -6,7 +6,7 @@ module RGeo
 
     module GeometryMixin
       # The default JSON generator Proc. Renders geometry fields as WKT.
-      DEFAULT_JSON_GENERATOR = ::Proc.new{ |geom| geom.to_s }
+      DEFAULT_JSON_GENERATOR = ::Proc.new(&:to_s)
 
       @json_generator = DEFAULT_JSON_GENERATOR
 
@@ -26,8 +26,8 @@ module RGeo
         if block && !value
           value = block
         elsif value == :geojson
-          require 'rgeo/geo_json'
-          value = ::Proc.new{ |geom_| ::RGeo::GeoJSON.encode(geom_) }
+          require "rgeo/geo_json"
+          value = ::Proc.new { |geom_| ::RGeo::GeoJSON.encode(geom_) }
         end
         if value.is_a?(::Proc)
           @json_generator = value
@@ -54,5 +54,5 @@ module RGeo
   end
 end
 
-::RGeo::Feature::MixinCollection::GLOBAL.for_type(::RGeo::Feature::Geometry).
-  add(::RGeo::ActiveRecord::GeometryMixin)
+::RGeo::Feature::MixinCollection::GLOBAL.for_type(::RGeo::Feature::Geometry)
+  .add(::RGeo::ActiveRecord::GeometryMixin)
