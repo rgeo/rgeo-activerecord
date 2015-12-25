@@ -10,7 +10,6 @@ require "./lib/rgeo/active_record/version"
   spec.homepage = "http://github.com/rgeo/rgeo-activerecord"
 
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
-  spec.test_files = Dir["test/**/*"]
   spec.platform = ::Gem::Platform::RUBY
 
   spec.required_ruby_version = ">= 1.9.3"
