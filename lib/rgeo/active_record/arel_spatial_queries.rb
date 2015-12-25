@@ -31,7 +31,7 @@ module RGeo
         collector << "DISTINCT " if node.distinct
         collector << exprs.join(', ')
         collector << ")"
-        collector << " AS #{ visit(node.alias, collector) }" if node.alias
+        collector << " AS #{visit(node.alias, collector)}" if node.alias
         collector
       end
 
