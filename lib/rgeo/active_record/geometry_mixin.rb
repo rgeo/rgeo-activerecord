@@ -27,9 +27,9 @@ module RGeo
           value = block
         elsif value == :geojson
           require "rgeo/geo_json"
-          value = proc { |geom_| GeoJSON.encode(geom_) }
+          value = proc { |geom| GeoJSON.encode(geom) }
         end
-        if value.is_a?(::Proc)
+        if value.is_a?(Proc)
           @json_generator = value
         else
           @json_generator = DEFAULT_JSON_GENERATOR

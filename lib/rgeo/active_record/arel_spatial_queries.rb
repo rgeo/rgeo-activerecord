@@ -40,7 +40,7 @@ module RGeo
       # an RGeo feature, or a spatial attribute.
       def visit_in_spatial_context(node, collector)
         case node
-        when ::String
+        when String
           collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
         when RGeo::Feature::Instance
           collector << visit_RGeo_Feature_Instance(node, collector)
