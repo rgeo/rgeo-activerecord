@@ -1,3 +1,9 @@
+### 4.0.2 / 2015-12-28
+
+* Remove unnecessary root namespacing
+* Remove unnecessary namespace qualifiers
+* Remove lib/rgeo/active_record.rb
+
 ### 4.0.1 / 2015-12-25
 
 * Rubocop style cleanup #31
