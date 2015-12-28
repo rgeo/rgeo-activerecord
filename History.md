@@ -1,3 +1,7 @@
+### 4.0.3 / 2015-12-28
+
+* Fix json parser for rgeo-geojson 0.4.0+
+
 ### 4.0.2 / 2015-12-28
 
 * Remove unnecessary root namespacing
