@@ -42,9 +42,9 @@ module RGeo
         case node
         when ::String
           collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
-        when ::RGeo::Feature::Instance
+        when RGeo::Feature::Instance
           collector << visit_RGeo_Feature_Instance(node, collector)
-        when ::RGeo::Cartesian::BoundingBox
+        when RGeo::Cartesian::BoundingBox
           collector << visit_RGeo_Cartesian_BoundingBox(node, collector)
         else
           visit(node, collector)
@@ -54,7 +54,7 @@ module RGeo
 
     # This node wraps an RGeo feature and gives it spatial expression constructors.
     class SpatialConstantNode
-      include ::RGeo::ActiveRecord::SpatialExpressions
+      include RGeo::ActiveRecord::SpatialExpressions
 
       # The delegate should be the RGeo feature.
       def initialize(delegate)
@@ -69,7 +69,7 @@ module RGeo
 
     # Make sure the standard Arel visitors can handle RGeo feature objects by default.
 
-    ::Arel::Visitors::Visitor.class_eval do
+    Arel::Visitors::Visitor.class_eval do
       def visit_RGeo_ActiveRecord_SpatialConstantNode(node, collector)
         if respond_to?(:visit_in_spatial_context)
           visit_in_spatial_context(node.delegate, collector)
@@ -79,17 +79,17 @@ module RGeo
       end
     end
 
-    ::Arel::Visitors::Dot.class_eval do
+    Arel::Visitors::Dot.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
 
-    ::Arel::Visitors::DepthFirst.class_eval do
+    Arel::Visitors::DepthFirst.class_eval do
       alias :visit_RGeo_Feature_Instance :terminal
       alias :visit_RGeo_Cartesian_BoundingBox :terminal
     end
 
-    ::Arel::Visitors::ToSql.class_eval do
+    Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
@@ -98,8 +98,8 @@ module RGeo
     # the arguments and return values, so that it can provide context to
     # visitors that want to interpret syntax differently when dealing with
     # spatial elements.
-    class SpatialNamedFunction < ::Arel::Nodes::NamedFunction
-      include ::RGeo::ActiveRecord::SpatialExpressions
+    class SpatialNamedFunction < Arel::Nodes::NamedFunction
+      include RGeo::ActiveRecord::SpatialExpressions
 
       def initialize(name, expr, spatial_flags = [], aliaz = nil)
         super(name, expr, aliaz)

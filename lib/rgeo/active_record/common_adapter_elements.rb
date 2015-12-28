@@ -1,5 +1,5 @@
 # autoload AbstractAdapter
-::ActiveRecord::ConnectionAdapters::AbstractAdapter
+ActiveRecord::ConnectionAdapters::AbstractAdapter
 
 module RGeo
   module ActiveRecord
@@ -25,14 +25,14 @@ module RGeo
 
     def self.geometric_type_from_name(name)
       case name.to_s
-      when /^geometry/i then ::RGeo::Feature::Geometry
-      when /^point/i then ::RGeo::Feature::Point
-      when /^linestring/i then ::RGeo::Feature::LineString
-      when /^polygon/i then ::RGeo::Feature::Polygon
-      when /^geometrycollection/i then ::RGeo::Feature::GeometryCollection
-      when /^multipoint/i then ::RGeo::Feature::MultiPoint
-      when /^multilinestring/i then ::RGeo::Feature::MultiLineString
-      when /^multipolygon/i then ::RGeo::Feature::MultiPolygon
+      when /^geometry/i then RGeo::Feature::Geometry
+      when /^point/i then RGeo::Feature::Point
+      when /^linestring/i then RGeo::Feature::LineString
+      when /^polygon/i then RGeo::Feature::Polygon
+      when /^geometrycollection/i then RGeo::Feature::GeometryCollection
+      when /^multipoint/i then RGeo::Feature::MultiPoint
+      when /^multilinestring/i then RGeo::Feature::MultiLineString
+      when /^multipolygon/i then RGeo::Feature::MultiPolygon
       end
     end
   end
