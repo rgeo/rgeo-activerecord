@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "rgeo/active_record"
+require "rgeo-activerecord"
 require "support/fake_record"
 
 Arel::Visitors::PostgreSQL.send(:include, RGeo::ActiveRecord::SpatialToSql)
