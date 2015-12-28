@@ -99,7 +99,7 @@ module RGeo
     # visitors that want to interpret syntax differently when dealing with
     # spatial elements.
     class SpatialNamedFunction < Arel::Nodes::NamedFunction
-      include RGeo::ActiveRecord::SpatialExpressions
+      include SpatialExpressions
 
       def initialize(name, expr, spatial_flags = [], aliaz = nil)
         super(name, expr, aliaz)

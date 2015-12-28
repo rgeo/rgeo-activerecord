@@ -33,9 +33,9 @@ module RGeo
 
       def default_for_attrs(attrs)
         if attrs[:sql_type] =~ /geography/
-          RGeo::Geographic.spherical_factory(to_factory_attrs(attrs))
+          Geographic.spherical_factory(to_factory_attrs(attrs))
         else
-          RGeo::Cartesian.preferred_factory(to_factory_attrs(attrs))
+          Cartesian.preferred_factory(to_factory_attrs(attrs))
         end
       end
 
