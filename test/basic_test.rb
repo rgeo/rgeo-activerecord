@@ -1,9 +1,6 @@
 require "test_helper"
 
 class BasicTest < Minitest::Test
-  class MyTable < ActiveRecord::Base
-  end
-
   def test_version
     assert RGeo::ActiveRecord::VERSION
   end
