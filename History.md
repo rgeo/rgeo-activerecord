@@ -1,3 +1,7 @@
+### 4.0.4 / 2015-12-29
+
+* Restore rgeo/active_record.rb
+
 ### 4.0.3 / 2015-12-28
 
 * Fix json parser for rgeo-geojson 0.4.0+
@@ -6,7 +10,7 @@
 
 * Remove unnecessary root namespacing
 * Remove unnecessary namespace qualifiers
-* Remove lib/rgeo/active_record.rb
+* Remove rgeo/active_record.rb
 
 ### 4.0.1 / 2015-12-25
 
