@@ -17,7 +17,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rgeo", "~> 0.3"
   spec.add_dependency "activerecord", "~> 4.2"
 
-  spec.add_development_dependency "minitest", "~> 5.4"
+  spec.add_development_dependency "minitest", "~> 5.8"
   spec.add_development_dependency "rake", "~> 10.4"
   spec.add_development_dependency "mocha", "~> 1.1"
+  spec.add_development_dependency "appraisal", "~> 2.1"
+  spec.add_development_dependency "rgeo-geojson", ">= 0.4.1"
 end
