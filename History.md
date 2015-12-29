@@ -1,3 +1,7 @@
+### 4.0.5 / 2015-12-29
+
+* Fix #geometric_type_from_name for :geometrycollection
+
 ### 4.0.4 / 2015-12-29
 
 * Restore rgeo/active_record.rb
