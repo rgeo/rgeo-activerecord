@@ -54,7 +54,7 @@ module RGeo
 
     # This node wraps an RGeo feature and gives it spatial expression constructors.
     class SpatialConstantNode
-      include RGeo::ActiveRecord::SpatialExpressions
+      include SpatialExpressions
 
       # The delegate should be the RGeo feature.
       def initialize(delegate)
