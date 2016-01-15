@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
   spec.platform = Gem::Platform::RUBY
 
-  spec.required_ruby_version = ">= 1.9.3"
+  spec.required_ruby_version = ">= 2.2.0"
 
   spec.add_dependency "rgeo", "~> 0.3"
-  spec.add_dependency "activerecord", "~> 4.2"
+  spec.add_dependency "activerecord", "~> 5.0.0.beta"
 
   spec.add_development_dependency "minitest", "~> 5.8"
   spec.add_development_dependency "rake", "~> 10.4"
