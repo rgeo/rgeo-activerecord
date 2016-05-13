@@ -1,5 +1,5 @@
 module RGeo
   module ActiveRecord
-    VERSION = "5.0.0.beta".freeze
+    VERSION = "5.0.0.rc1".freeze
   end
 end
