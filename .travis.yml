@@ -12,5 +12,5 @@ gemfile:
   - gemfiles/ar50.gemfile
 matrix:
   allow_failures:
-    - jruby-9.0.5.0
-    - rbx-2
+    - rvm: jruby-9.0.5.0
+    - rvm: rbx-2
