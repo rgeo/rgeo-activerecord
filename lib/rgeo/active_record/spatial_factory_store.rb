@@ -7,6 +7,7 @@ module RGeo
 
       def initialize
         @registry = {}
+        @default = nil
       end
 
       def register(factory, attrs = {})
