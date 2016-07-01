@@ -2,7 +2,7 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-  - 2.3.0
+  - 2.3.1
   - 2.2.4
   - jruby-9.0.5.0
   - rbx-2
@@ -10,6 +10,7 @@ addons:
   postgresql: "9.4"
 gemfile:
   - gemfiles/ar50.gemfile
-allow_failures:
-  - jruby-9.0.5.0
-  - rbx-2
+matrix:
+  allow_failures:
+    - jruby-9.0.5.0
+    - rbx-2
