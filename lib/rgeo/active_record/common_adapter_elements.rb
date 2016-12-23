@@ -14,10 +14,6 @@ module RGeo
       spatial:             { type: "geometry" }.freeze,
     }.freeze
 
-    # Index definition struct with a spatial flag field.
-
-    SpatialIndexDefinition = Struct.new(:table, :name, :unique, :columns, :lengths, :orders, :where, :spatial)
-
     # Returns a feature type module given a string type.
 
     def self.geometric_type_from_name(name)
