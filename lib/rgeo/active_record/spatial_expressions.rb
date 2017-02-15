@@ -103,6 +103,12 @@ module RGeo
         SpatialNamedFunction.new("ST_Distance", args, [false, true, true, false])
       end
 
+      def st_distance_sphere(rhs, units = nil)
+        args = [self, rhs]
+        args << units.to_s if units
+        SpatialNamedFunction.new("ST_Distance_Sphere", args, [false, true, true, false])
+      end
+      
       def st_intersection(rhs)
         SpatialNamedFunction.new("ST_Intersection", [self, rhs], [true, true, true])
       end
