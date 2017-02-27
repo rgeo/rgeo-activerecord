@@ -1,3 +1,16 @@
+### 5.1.0 / 2017-02-27
+
+* Allow ActiveRecord 5.x
+
+### 5.0.1 / 2016-12-31
+
+* Remove autoload hack
+* Fix ruby warning - uninitialized variable
+
+### 5.0.0 / 2016-07-01
+
+* Require ActiveRecord 5.0
+
 ### 4.0.5 / 2015-12-29
 
 * Fix #geometric_type_from_name for :geometrycollection
