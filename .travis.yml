@@ -2,15 +2,15 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.2
+  - 2.1.10
+  - 2.2.6
   - jruby
-  - rbx-2
 gemfile:
   - gemfiles/ar40.gemfile
   - gemfiles/ar41.gemfile
+  - gemfiles/ar42.gemfile
 allow_failures:
   - jruby
-  - rbx-2
 before_install:
   - sudo apt-get update
   - sudo apt-get install libgeos-dev libproj-dev
