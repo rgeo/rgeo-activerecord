@@ -1,3 +1,8 @@
+### 1.3.0 / 2017-07-02
+
+* Fix indexes in schema dump #25
+* Dump schema using new hash syntax #18
+
 ### 1.2.0 / 2014-08-21
 
 * Support ActiveRecord 4.2
