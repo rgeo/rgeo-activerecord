@@ -2,8 +2,9 @@
 
 source "https://rubygems.org"
 
-gem "appraisal", :require => false
+gem "appraisal", require: false
 gem "rgeo-geojson", ">= 0.2.3"
 gem "activerecord", "~> 4.0.4"
+gem "rgeo", "~> 0.5.2"
 
-gemspec :path => "../"
+gemspec path: "../"
