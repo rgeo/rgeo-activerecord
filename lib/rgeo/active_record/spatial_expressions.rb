@@ -194,7 +194,7 @@ module RGeo
       def st_area(units = nil)
         args = [self]
         args << units.to_s if units
-        SpatialNamedFunction.new("ST_StartPoint", args, [false, true, false])
+        SpatialNamedFunction.new("ST_Area", args, [false, true, false])
       end
 
       def st_centroid
