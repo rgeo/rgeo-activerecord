@@ -29,12 +29,11 @@ Gemfile:
 gem 'rgeo-activerecord'
 ```
 
-`rgeo-activerecord` has the following requirements:
+Version `6.0` supports ActiveRecord 5.0 and 5.1, with `rgeo` 1.0.
 
-* Ruby 1.9.3 or later
-* rgeo 0.3.20 or later.
+Version `5.0` supports ActiveRecord 5.0 and 5.1, with `rgeo` 0.6.
 
-The latest version supports ActiveRecord 4.2 and later.
+Version `4.0` supports ActiveRecord 4.2.
 
 Version `1.1.0` supports ActiveRecord 4.0 and 4.1
 
