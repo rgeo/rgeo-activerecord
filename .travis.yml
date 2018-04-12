@@ -2,14 +2,15 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-  - 2.5.0
-  - 2.4.3
-  - 2.3.6
-  - 2.2.9
+  - 2.5
+  - 2.4
+  - 2.3
+  - 2.2
   - jruby-9.1.9.0
 gemfile:
   - gemfiles/ar50.gemfile
   - gemfiles/ar51.gemfile
+  - gemfiles/ar52.gemfile
 matrix:
   allow_failures:
     - rvm: jruby-9.1.9.0
