@@ -14,3 +14,6 @@ gemfile:
 matrix:
   allow_failures:
     - rvm: jruby-9.1.9.0
+before_install:
+  - gem update --system
+  - gem install bundler
