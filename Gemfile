@@ -2,4 +2,4 @@ source "https://rubygems.org"
 
 gemspec
 
-# gem "byebug", platform: :ruby_23
+gem "byebug" unless ENV["TRAVIS"]

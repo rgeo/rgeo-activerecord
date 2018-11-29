@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rgeo"
 require "active_record"
 require "rgeo/active_record/version"

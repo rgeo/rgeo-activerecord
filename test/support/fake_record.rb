@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # From https://github.com/rails/arel/master/test/support/fake_record.rb
 module FakeRecord
   Column = Struct.new(:name, :type)
@@ -7,7 +9,7 @@ module FakeRecord
     attr_accessor :visitor
 
     def initialize(visitor = nil)
-      @tables = %w(users photos developers products)
+      @tables = %w[users photos developers products]
       @columns = {
         "users" => [
           Column.new("id", :integer),

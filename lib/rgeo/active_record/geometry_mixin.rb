@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RGeo
   module ActiveRecord
     # This module is mixed into all geometry objects. It provides an
@@ -29,11 +31,7 @@ module RGeo
           require "rgeo/geo_json"
           value = proc { |geom| GeoJSON.encode(geom) }
         end
-        if value.is_a?(Proc)
-          @json_generator = value
-        else
-          @json_generator = DEFAULT_JSON_GENERATOR
-        end
+        @json_generator = value.is_a?(Proc) ? value : DEFAULT_JSON_GENERATOR
       end
 
       # Given a feature, returns an object that can be serialized as JSON
@@ -51,8 +49,69 @@ module RGeo
         GeometryMixin.generate_json(self)
       end
     end
+
+    # include this module in every RGeo feature type
+    [
+      Geographic::ProjectedGeometryCollectionImpl,
+      Geographic::ProjectedLinearRingImpl,
+      Geographic::ProjectedLineImpl,
+      Geographic::ProjectedLineStringImpl,
+      Geographic::ProjectedMultiLineStringImpl,
+      Geographic::ProjectedMultiPointImpl,
+      Geographic::ProjectedMultiPolygonImpl,
+      Geographic::ProjectedPointImpl,
+      Geographic::ProjectedPolygonImpl,
+
+      Geographic::SphericalGeometryCollectionImpl,
+      Geographic::SphericalLinearRingImpl,
+      Geographic::SphericalLineImpl,
+      Geographic::SphericalLineStringImpl,
+      Geographic::SphericalMultiLineStringImpl,
+      Geographic::SphericalMultiPointImpl,
+      Geographic::SphericalMultiPolygonImpl,
+      Geographic::SphericalPointImpl,
+      Geographic::SphericalPolygonImpl,
+
+      Geos::ZMGeometryCollectionImpl,
+      Geos::ZMGeometryImpl,
+      Geos::ZMLinearRingImpl,
+      Geos::ZMLineImpl,
+      Geos::ZMLineStringImpl,
+      Geos::ZMMultiLineStringImpl,
+      Geos::ZMMultiPointImpl,
+      Geos::ZMMultiPolygonImpl,
+      Geos::ZMPointImpl,
+      Geos::ZMPolygonImpl,
+    ].each { |klass| klass.include(GeometryMixin) }
+
+    if RGeo::Geos.capi_supported?
+      [
+        Geos::CAPIGeometryCollectionImpl,
+        Geos::CAPIGeometryImpl,
+        Geos::CAPILinearRingImpl,
+        Geos::CAPILineImpl,
+        Geos::CAPILineStringImpl,
+        Geos::CAPIMultiLineStringImpl,
+        Geos::CAPIMultiPointImpl,
+        Geos::CAPIMultiPolygonImpl,
+        Geos::CAPIPointImpl,
+        Geos::CAPIPolygonImpl,
+      ].each { |klass| klass.include(GeometryMixin) }
+    end
+
+    if RGeo::Geos.ffi_supported?
+      [
+        Geos::FFIGeometryCollectionImpl,
+        Geos::FFIGeometryImpl,
+        Geos::FFILinearRingImpl,
+        Geos::FFILineImpl,
+        Geos::FFILineStringImpl,
+        Geos::FFIMultiLineStringImpl,
+        Geos::FFIMultiPointImpl,
+        Geos::FFIMultiPolygonImpl,
+        Geos::FFIPointImpl,
+        Geos::FFIPolygonImpl,
+      ].each { |klass| klass.include(GeometryMixin) }
+    end
   end
 end
-
-RGeo::Feature::MixinCollection::GLOBAL.for_type(RGeo::Feature::Geometry)
-  .add(RGeo::ActiveRecord::GeometryMixin)

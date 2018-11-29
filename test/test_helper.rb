@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "minitest/autorun"
 require "rgeo-activerecord"
 require "support/fake_record"

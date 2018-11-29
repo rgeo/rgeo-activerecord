@@ -1,9 +1,33 @@
 inherit_from: .rubocop_todo.yml
 
-Style/AlignParameters:
+AllCops:
+  TargetRubyVersion: 2.3
+
+Layout/AlignParameters:
   Enabled: false
 
-Style/MultilineOperationIndentation:
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
   Enabled: false
 
 Style/SignalException:
@@ -12,5 +36,31 @@ Style/SignalException:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
-Style/TrailingComma:
+Style/TrailingCommaInArrayLiteral:
   Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ZeroLengthPredicate:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'Appraisals'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.gemspec'
+    - 'gemfiles/*'
+
+Naming/FileName:
+  Exclude:
+    - 'lib/rgeo-activerecord.rb'
+
+Naming/MethodName:
+  Exclude:
+    - 'lib/rgeo/active_record/arel_spatial_queries.rb'
+
