@@ -24,6 +24,9 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
 Metrics/PerceivedComplexity:
   Enabled: false
 
@@ -52,3 +55,12 @@ Style/FrozenStringLiteralComment:
     - 'Rakefile'
     - '*.gemspec'
     - 'gemfiles/*'
+
+Naming/FileName:
+  Exclude:
+    - 'lib/rgeo-activerecord.rb'
+
+Naming/MethodName:
+  Exclude:
+    - 'lib/rgeo/active_record/arel_spatial_queries.rb'
+
