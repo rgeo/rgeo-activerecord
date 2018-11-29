@@ -11,6 +11,7 @@ gemfile:
   - gemfiles/ar50.gemfile
   - gemfiles/ar51.gemfile
   - gemfiles/ar52.gemfile
+  - gemfiles/rgeo1.gemfile
 matrix:
   allow_failures:
     - rvm: jruby-9.1.9.0
