@@ -51,8 +51,65 @@ module RGeo
         GeometryMixin.generate_json(self)
       end
     end
+
+    # include this module in every RGeo feature type
+    [
+      Geographic::ProjectedGeometryCollectionImpl,
+      Geographic::ProjectedLinearRingImpl,
+      Geographic::ProjectedLineImpl,
+      Geographic::ProjectedLineStringImpl,
+      Geographic::ProjectedMultiLineStringImpl,
+      Geographic::ProjectedMultiPointImpl,
+      Geographic::ProjectedMultiPolygonImpl,
+      Geographic::ProjectedPointImpl,
+      Geographic::ProjectedPolygonImpl,
+
+      Geographic::SphericalGeometryCollectionImpl,
+      Geographic::SphericalLinearRingImpl,
+      Geographic::SphericalLineImpl,
+      Geographic::SphericalLineStringImpl,
+      Geographic::SphericalMultiLineStringImpl,
+      Geographic::SphericalMultiPointImpl,
+      Geographic::SphericalMultiPolygonImpl,
+      Geographic::SphericalPointImpl,
+      Geographic::SphericalPolygonImpl,
+
+      Geos::CAPIGeometryCollectionImpl,
+      Geos::CAPIGeometryImpl,
+      Geos::CAPILinearRingImpl,
+      Geos::CAPILineImpl,
+      Geos::CAPILineStringImpl,
+      Geos::CAPIMultiLineStringImpl,
+      Geos::CAPIMultiPointImpl,
+      Geos::CAPIMultiPolygonImpl,
+      Geos::CAPIPointImpl,
+      Geos::CAPIPolygonImpl,
+
+      Geos::ZMGeometryCollectionImpl,
+      Geos::ZMGeometryImpl,
+      Geos::ZMLinearRingImpl,
+      Geos::ZMLineImpl,
+      Geos::ZMLineStringImpl,
+      Geos::ZMMultiLineStringImpl,
+      Geos::ZMMultiPointImpl,
+      Geos::ZMMultiPolygonImpl,
+      Geos::ZMPointImpl,
+      Geos::ZMPolygonImpl,
+    ].each { |klass| klass.include(GeometryMixin) }
+
+    if defined?(::Geos::FFIGeos)
+      [
+        Geos::FFIGeometryCollectionImpl,
+        Geos::FFIGeometryImpl,
+        Geos::FFILinearRingImpl,
+        Geos::FFILineImpl,
+        Geos::FFILineStringImpl,
+        Geos::FFIMultiLineStringImpl,
+        Geos::FFIMultiPointImpl,
+        Geos::FFIMultiPolygonImpl,
+        Geos::FFIPointImpl,
+        Geos::FFIPolygonImpl,
+      ].each { |klass| klass.include(GeometryMixin) }
+    end
   end
 end
-
-RGeo::Feature::MixinCollection::GLOBAL.for_type(RGeo::Feature::Geometry)
-  .add(RGeo::ActiveRecord::GeometryMixin)
