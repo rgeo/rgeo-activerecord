@@ -7,14 +7,16 @@ class BasicTest < Minitest::Test
     assert RGeo::ActiveRecord::VERSION
   end
 
-  def test_json_generator_wkt
-    setup_wkt
-    assert_equal "POINT (1.0 2.0)", cartesian_factory.point(1, 2).as_json
+  if RGeo::Geos.capi_supported?
+    def test_json_generator_wkt
+      setup_wkt
+      assert_equal "POINT (1.0 2.0)", cartesian_factory.point(1, 2).as_json
+    end
   end
 
   def test_json_generator_geojson
     RGeo::ActiveRecord::GeometryMixin.set_json_generator(:geojson)
-    point = cartesian_factory.point(1, 2)
+    point = spherical_factory.point(1, 2)
     assert_equal({ "type" => "Point", "coordinates" => [1.0, 2.0] }, point.as_json)
   end
 
@@ -31,12 +33,14 @@ class BasicTest < Minitest::Test
     assert_equal "POLYGON ((0.0 0.0, 0.0 1.0, 1.0 1.0, 1.0 0.0, 0.0 0.0))", polygon.as_json
   end
 
-  def test_as_json_ffi_line_string
-    setup_wkt
-    line_string = ffi_factory.line(ffi_factory.point(1, 2), ffi_factory.point(3, 4))
-    assert_equal "LINESTRING (1.0 2.0, 3.0 4.0)", line_string.as_json
+  if RGeo::Geos.ffi_supported?
+    def test_as_json_ffi_line_string
+      setup_wkt
+      line_string = ffi_factory.line(ffi_factory.point(1, 2), ffi_factory.point(3, 4))
+      assert_equal "LINESTRING (1.0 2.0, 3.0 4.0)", line_string.as_json
+    end
   end
-
+  
   def test_as_json_zm_point
     setup_wkt
     assert_equal "POINT (1.0 2.0 3.0 4.0)", zm_factory.point(1, 2, 3, 4).as_json

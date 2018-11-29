@@ -72,17 +72,6 @@ module RGeo
       Geographic::SphericalPointImpl,
       Geographic::SphericalPolygonImpl,
 
-      Geos::CAPIGeometryCollectionImpl,
-      Geos::CAPIGeometryImpl,
-      Geos::CAPILinearRingImpl,
-      Geos::CAPILineImpl,
-      Geos::CAPILineStringImpl,
-      Geos::CAPIMultiLineStringImpl,
-      Geos::CAPIMultiPointImpl,
-      Geos::CAPIMultiPolygonImpl,
-      Geos::CAPIPointImpl,
-      Geos::CAPIPolygonImpl,
-
       Geos::ZMGeometryCollectionImpl,
       Geos::ZMGeometryImpl,
       Geos::ZMLinearRingImpl,
@@ -95,7 +84,22 @@ module RGeo
       Geos::ZMPolygonImpl,
     ].each { |klass| klass.include(GeometryMixin) }
 
-    if defined?(::Geos::FFIGeos)
+    if RGeo::Geos.capi_supported?
+      [
+        Geos::CAPIGeometryCollectionImpl,
+        Geos::CAPIGeometryImpl,
+        Geos::CAPILinearRingImpl,
+        Geos::CAPILineImpl,
+        Geos::CAPILineStringImpl,
+        Geos::CAPIMultiLineStringImpl,
+        Geos::CAPIMultiPointImpl,
+        Geos::CAPIMultiPolygonImpl,
+        Geos::CAPIPointImpl,
+        Geos::CAPIPolygonImpl,
+      ].each { |klass| klass.include(GeometryMixin) }
+    end
+
+    if RGeo::Geos.ffi_supported?
       [
         Geos::FFIGeometryCollectionImpl,
         Geos::FFIGeometryImpl,
