@@ -67,14 +67,6 @@ Style/CaseEquality:
   Exclude:
     - 'test/spatial_factory_store_test.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'lib/rgeo/active_record/geometry_mixin.rb'
-
 # Offense count: 8
 Style/Documentation:
   Exclude:

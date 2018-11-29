@@ -31,11 +31,7 @@ module RGeo
           require "rgeo/geo_json"
           value = proc { |geom| GeoJSON.encode(geom) }
         end
-        if value.is_a?(Proc)
-          @json_generator = value
-        else
-          @json_generator = DEFAULT_JSON_GENERATOR
-        end
+        @json_generator = value.is_a?(Proc) ? value : DEFAULT_JSON_GENERATOR
       end
 
       # Given a feature, returns an object that can be serialized as JSON
