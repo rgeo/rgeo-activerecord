@@ -10,7 +10,6 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/rgeo/rgeo-activerecord"
 
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
-  spec.platform = Gem::Platform::RUBY
 
   spec.required_ruby_version = ">= 2.3.0"
 
