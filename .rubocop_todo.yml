@@ -86,14 +86,6 @@ Style/Documentation:
     - 'lib/rgeo/active_record/spatial_expressions.rb'
     - 'lib/rgeo/active_record/spatial_factory_store.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'Rakefile'
-    - 'test/support/fake_record.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, Whitelist.
