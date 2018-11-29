@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # From https://github.com/rails/arel/master/test/support/fake_record.rb
 module FakeRecord
   Column = Struct.new(:name, :type)

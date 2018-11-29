@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RGeo
   module ActiveRecord
     # This module is mixed into all geometry objects. It provides an

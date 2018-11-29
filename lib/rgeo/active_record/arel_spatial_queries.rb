@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RGeo
   module ActiveRecord
     # A set of common Arel visitor hacks for spatial ToSql visitors.

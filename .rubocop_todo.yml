@@ -86,13 +86,6 @@ Style/Documentation:
     - 'lib/rgeo/active_record/spatial_expressions.rb'
     - 'lib/rgeo/active_record/spatial_factory_store.rb'
 
-# Offense count: 21
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: when_needed, always, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.

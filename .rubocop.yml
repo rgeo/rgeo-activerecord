@@ -44,3 +44,11 @@ Style/NumericPredicate:
 
 Style/ZeroLengthPredicate:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'Appraisals'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.gemspec'
+    - 'gemfiles/*'

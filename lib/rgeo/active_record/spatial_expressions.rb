@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RGeo
   module ActiveRecord
     # Returns true if spatial expressions (i.e. the methods in the

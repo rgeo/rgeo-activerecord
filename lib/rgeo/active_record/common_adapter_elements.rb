@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RGeo
   module ActiveRecord
     # Return a feature type module given a string type.
