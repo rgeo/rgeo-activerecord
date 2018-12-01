@@ -28,8 +28,9 @@ Gemfile:
 ```ruby
 gem 'rgeo-activerecord'
 ```
+Version `6.1` supports ActiveRecord 5.0, 5.1, and 5.2 with `rgeo` 1.0+.
 
-Version `6.0` supports ActiveRecord 5.0, 5.1, and 5.2 with `rgeo` 1.0.
+Version `6.0` supports ActiveRecord 5.0, 5.1, and 5.2 with `rgeo` 1.x.
 
 Version `5.0` supports ActiveRecord 5.0 and 5.1, with `rgeo` 0.6.
 
@@ -59,7 +60,7 @@ The supported keys when registering a spatial type are listed here with their de
 and other allowed values:
 
 ```
-geo_type: "geometry", # point, polygon, line_string, geometry_collection, 
+geo_type: "geometry", # point, polygon, line_string, geometry_collection,
                       # multi_line_string, multi_point, multi_polygon
 has_m:    false,      # true
 has_z:    false,      # true
@@ -67,7 +68,7 @@ sql_type: "geometry", # geography
 srid:     0,          # (any valid SRID)
 ```
 
-The default factories are `RGeo::Geographic.spherical_factory` for 
+The default factories are `RGeo::Geographic.spherical_factory` for
 geographic types, and `RGeo::Cartesian.preferred_factory` for geometric types.
 
 Here is an example setup:
