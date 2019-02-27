@@ -10,6 +10,10 @@ appraise "ar52" do
   gem "activerecord", "~> 5.2.0"
 end
 
+appraise "ar60" do
+  gem "activerecord", "~> 6.0.0.beta2"
+end
+
 appraise "rgeo1" do
   gem "activerecord", "~> 5.2.0"
   gem "rgeo", "~> 1.0"

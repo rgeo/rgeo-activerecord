@@ -10,6 +10,7 @@ gemfile:
   - gemfiles/ar50.gemfile
   - gemfiles/ar51.gemfile
   - gemfiles/ar52.gemfile
+  - gemfiles/ar60.gemfile
   - gemfiles/rgeo1.gemfile
 before_install:
   - gem update --system
