@@ -12,6 +12,12 @@ gemfile:
   - gemfiles/ar51.gemfile
   - gemfiles/ar52.gemfile
   - gemfiles/rgeo1.gemfile
+matrix:
+  exclude:
+  - rvm: 2.4
+    gemfile: gemfiles/ar60.gemfile
+  - rvm: 2.3
+    gemfile: gemfiles/ar60.gemfile
 before_install:
   - gem update --system
   - gem install bundler

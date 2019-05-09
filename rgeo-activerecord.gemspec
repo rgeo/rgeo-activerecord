@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.3.0"
 
-  spec.add_dependency "activerecord", "~> 5.0"
+  spec.add_dependency "activerecord", ">= 5.0"
   spec.add_dependency "rgeo", ">= 1.0.0"
 
   spec.add_development_dependency "appraisal", "~> 2.1"
