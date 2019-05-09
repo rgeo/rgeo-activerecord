@@ -1,3 +1,8 @@
+### 6.2.0 / 2019-05-09
+
+* Allow ActiveRecord 6.0 (#50, corneverbruggen)
+
+
 ### 6.1.0 / 2018-12-01
 
 * Allow rgeo 2.0
