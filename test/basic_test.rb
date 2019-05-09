@@ -40,7 +40,7 @@ class BasicTest < Minitest::Test
       assert_equal "LINESTRING (1.0 2.0, 3.0 4.0)", line_string.as_json
     end
   end
-  
+
   def test_as_json_zm_point
     setup_wkt
     assert_equal "POINT (1.0 2.0 3.0 4.0)", zm_factory.point(1, 2, 3, 4).as_json
