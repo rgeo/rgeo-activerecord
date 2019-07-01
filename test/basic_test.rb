@@ -14,6 +14,11 @@ class BasicTest < Minitest::Test
     end
   end
 
+  def test_as_json_simple_cartesian
+    setup_wkt
+    assert_equal "POINT (1.0 2.0)", simple_cartesian_factory.point(1, 2).as_json
+  end
+
   def test_json_generator_geojson
     RGeo::ActiveRecord::GeometryMixin.set_json_generator(:geojson)
     point = spherical_factory.point(1, 2)
@@ -65,6 +70,11 @@ class BasicTest < Minitest::Test
   # builds Geos::CAPI* features
   def cartesian_factory
     RGeo::Cartesian.preferred_factory
+  end
+
+  # builds Cartesian::* features
+  def simple_cartesian_factory
+    RGeo::Cartesian.simple_factory
   end
 
   # builds Geographic::Projected* features
