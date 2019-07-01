@@ -1,3 +1,8 @@
+### 6.2.1 / 2019-07-01
+
+* Include GeometryMixin in Cartesian modules (#52, andreasknoepfle)
+
+
 ### 6.2.0 / 2019-05-09
 
 * Allow ActiveRecord 6.0 (#50, corneverbruggen)
