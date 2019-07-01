@@ -8,15 +8,15 @@ class BasicTest < Minitest::Test
   end
 
   if RGeo::Geos.capi_supported?
-    def test_json_generator_wkt
+    def test_as_json_geos_api
       setup_wkt
-      assert_equal "POINT (1.0 2.0)", cartesian_factory.point(1, 2).as_json
+      assert_equal "POINT (1.0 2.0)", geos_capi_factory.point(1, 2).as_json
     end
   end
 
-  def test_as_json_simple_cartesian
+  def test_as_json_cartesian
     setup_wkt
-    assert_equal "POINT (1.0 2.0)", simple_cartesian_factory.point(1, 2).as_json
+    assert_equal "POINT (1.0 2.0)", cartesian_factory.point(1, 2).as_json
   end
 
   def test_json_generator_geojson
@@ -68,12 +68,12 @@ class BasicTest < Minitest::Test
   end
 
   # builds Geos::CAPI* features
-  def cartesian_factory
+  def geos_capi_factory
     RGeo::Cartesian.preferred_factory
   end
 
   # builds Cartesian::* features
-  def simple_cartesian_factory
+  def cartesian_factory
     RGeo::Cartesian.simple_factory
   end
 
