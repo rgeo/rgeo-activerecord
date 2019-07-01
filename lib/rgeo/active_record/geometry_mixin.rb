@@ -83,15 +83,15 @@ module RGeo
       Geos::ZMPointImpl,
       Geos::ZMPolygonImpl,
 
-      Cartesian::PointImpl,
-      Cartesian::LineStringImpl,
-      Cartesian::LineImpl,
-      Cartesian::LinearRingImpl,
-      Cartesian::PolygonImpl,
       Cartesian::GeometryCollectionImpl,
-      Cartesian::MultiPointImpl,
+      Cartesian::LinearRingImpl,
+      Cartesian::LineImpl,
+      Cartesian::LineStringImpl,
       Cartesian::MultiLineStringImpl,
-      Cartesian::MultiPolygonImpl
+      Cartesian::MultiPointImpl,
+      Cartesian::MultiPolygonImpl,
+      Cartesian::PointImpl,
+      Cartesian::PolygonImpl
     ].each { |klass| klass.include(GeometryMixin) }
 
     if RGeo::Geos.capi_supported?
