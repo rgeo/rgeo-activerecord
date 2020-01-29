@@ -89,7 +89,7 @@ module RGeo
     Arel::Visitors::DepthFirst.class_eval do
       alias :visit_RGeo_Feature_Instance :terminal
       alias :visit_RGeo_Cartesian_BoundingBox :terminal
-    end
+    end if defined?(Arel::Visitors::DepthFirst)
 
     Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
