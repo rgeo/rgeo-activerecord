@@ -17,10 +17,10 @@ gemfile:
 matrix:
   exclude:
     - rvm: 2.4
-      gemfile:
-        - gemfiles/ar60.gemfile
-        - gemfiles/ar61.gemfile
+      gemfile: gemfiles/ar60.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/ar61.gemfile
     - rvm: 2.3
-      gemfile:
-        - gemfiles/ar60.gemfile
-        - gemfiles/ar61.gemfile
+      gemfile: gemfiles/ar60.gemfile
+    - rvm: 2.3
+      gemfile: gemfiles/ar61.gemfile
