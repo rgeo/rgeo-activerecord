@@ -1,3 +1,7 @@
+### Master
+
+* Removed `Arel::Visitor::DepthFirst` for ActiveRecord 6.1 compatibility (kamipo)
+
 ### 6.2.1 / 2019-07-01
 
 * Include GeometryMixin in Cartesian modules (#52, andreasknoepfle)
