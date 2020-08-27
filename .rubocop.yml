@@ -1,9 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Layout/EmptyLineAfterGuardClause:
@@ -50,17 +50,16 @@ Style/ZeroLengthPredicate:
 
 Style/FrozenStringLiteralComment:
   Exclude:
-    - 'Appraisals'
-    - 'Gemfile'
-    - 'Rakefile'
-    - '*.gemspec'
-    - 'gemfiles/*'
+    - "Appraisals"
+    - "Gemfile"
+    - "Rakefile"
+    - "*.gemspec"
+    - "gemfiles/*"
 
 Naming/FileName:
   Exclude:
-    - 'lib/rgeo-activerecord.rb'
+    - "lib/rgeo-activerecord.rb"
 
 Naming/MethodName:
   Exclude:
-    - 'lib/rgeo/active_record/arel_spatial_queries.rb'
-
+    - "lib/rgeo/active_record/arel_spatial_queries.rb"

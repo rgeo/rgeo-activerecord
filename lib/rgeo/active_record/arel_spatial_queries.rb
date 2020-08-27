@@ -86,11 +86,6 @@ module RGeo
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
 
-    Arel::Visitors::DepthFirst.class_eval do
-      alias :visit_RGeo_Feature_Instance :terminal
-      alias :visit_RGeo_Cartesian_BoundingBox :terminal
-    end
-
     Arel::Visitors::ToSql.class_eval do
       alias :visit_RGeo_Feature_Instance :visit_String
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
