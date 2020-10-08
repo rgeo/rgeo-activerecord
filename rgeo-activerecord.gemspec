@@ -5,9 +5,10 @@ Gem::Specification.new do |spec|
   spec.summary = "An RGeo module providing spatial extensions to ActiveRecord."
   spec.description = "RGeo is a geospatial data library for Ruby. RGeo::ActiveRecord is an optional RGeo module providing some spatial extensions to ActiveRecord, as well as common tools used by RGeo-based spatial adapters."
   spec.version = RGeo::ActiveRecord::VERSION
-  spec.author = "Daniel Azuma, Tee Parham"
-  spec.email = "dazuma@gmail.com, parhameter@gmail.com"
+  spec.author = ["Daniel Azuma", "Tee Parham"]
+  spec.email = ["dazuma@gmail.com", "parhameter@gmail.com", "kfdoggett@gmail.com"]
   spec.homepage = "https://github.com/rgeo/rgeo-activerecord"
+  spec.license = "BSD-3-Clause"
 
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
 
