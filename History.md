@@ -1,4 +1,4 @@
-### Master
+### 6.2.2 / 2020-11-20
 
 * Removed `Arel::Visitor::DepthFirst` for ActiveRecord 6.1 compatibility (kamipo)
 
