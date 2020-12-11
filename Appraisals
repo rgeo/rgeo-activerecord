@@ -15,9 +15,7 @@ appraise "ar60" do
 end
 
 appraise "ar61" do
-  git "https://github.com/rails/rails.git", branch: "6-1-stable" do
-    gem "activerecord", "~> 6.1.0.rc2"
-  end
+  gem "activerecord", "~> 6.1.0"
 end
 
 appraise "rgeo1" do
