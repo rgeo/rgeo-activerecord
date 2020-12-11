@@ -1,0 +1,28 @@
+name: Test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [2.7, 2.6, 2.5, jruby]
+        BUNDLE_GEMFILE:
+          - gemfiles/ar50.gemfile
+          - gemfiles/ar51.gemfile
+          - gemfiles/ar52.gemfile
+          - gemfiles/ar60.gemfile
+          - gemfiles/ar61.gemfile
+          - gemfiles/rgeo1.gemfile
+    steps:
+      - name: Set Up Gems
+        uses: actions/checkout@v2
+      - name: Set Up Deps
+        run: sudo apt-get install libgeos-dev
+      - name: Set Up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Test
+        run: bundle exec rake
