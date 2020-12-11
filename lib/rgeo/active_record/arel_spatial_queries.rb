@@ -24,13 +24,14 @@ module RGeo
 
       def visit_RGeo_ActiveRecord_SpatialNamedFunction(node, collector)
         name = st_func(node.name)
+        exprs = []
+        node.expressions.each_with_index do |expr, index|
+          exprs << (node.spatial_argument?(index) ? visit_in_spatial_context(expr, collector) : visit(expr, collector))
+        end
         collector << name
         collector << "("
         collector << "DISTINCT " if node.distinct
-        node.expressions.each_with_index do |expr, index|
-          node.spatial_argument?(index) ? visit_in_spatial_context(expr, collector) : visit(expr, collector)
-          collector << ", " unless index == node.expressions.size - 1
-        end
+        collector << exprs.join(", ")
         collector << ")"
         collector << " AS #{visit(node.alias, collector)}" if node.alias
         collector
@@ -40,13 +41,13 @@ module RGeo
       # The node must be a string (in which case it is treated as WKT),
       # an RGeo feature, or a spatial attribute.
       def visit_in_spatial_context(node, collector)
-        if node.is_a?(String)
+        case node
+        when String
           collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
-        elsif node.is_a?(RGeo::Feature::Instance)
-          collector << "#{st_func('ST_WKTToSQL')}(#{quote(node.to_s)})"
-        elsif node.is_a?(RGeo::Cartesian::BoundingBox)
-          geom = node.to_geometry
-          collector << "#{st_func('ST_WKTToSQL')}(#{quote(geom.to_s)})"
+        when RGeo::Feature::Instance
+          collector << visit_RGeo_Feature_Instance(node, collector)
+        when RGeo::Cartesian::BoundingBox
+          collector << visit_RGeo_Cartesian_BoundingBox(node, collector)
         else
           visit(node, collector)
         end
@@ -85,6 +86,10 @@ module RGeo
       alias :visit_RGeo_Cartesian_BoundingBox :visit_String
     end
 
+    Arel::Visitors::ToSql.class_eval do
+      alias :visit_RGeo_Feature_Instance :visit_String
+      alias :visit_RGeo_Cartesian_BoundingBox :visit_String
+    end
 
     # A NamedFunction subclass that keeps track of the spatial-ness of
     # the arguments and return values, so that it can provide context to
