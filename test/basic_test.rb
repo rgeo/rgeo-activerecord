@@ -54,7 +54,7 @@ class BasicTest < Minitest::Test
   def test_arel_visit_spatial_constant_node
     visitor = arel_visitor
     sql = visitor.accept(Arel.spatial("POINT (1.0 2.0)"), Arel::Collectors::PlainString.new)
-    assert_equal("ST_WKTToSQL('POINT (1.0 2.0)')", sql.value)
+    assert_equal("ST_GeomFromText('POINT (1.0 2.0)')", sql.value)
   end
 
   def test_spatial_expressions
@@ -76,7 +76,7 @@ class BasicTest < Minitest::Test
                                                                "LINESTRING (1.0 2.0, 2.0 3.0)"],
                                                               [false, true, true])
     sql = visitor.accept(named_func, Arel::Collectors::PlainString.new)
-    assert_equal("SPATIAL_FUNC(ST_WKTToSQL('POINT (1.0 2.0)'), ST_WKTToSQL('LINESTRING (1.0 2.0, 2.0 3.0)'))", sql.value)
+    assert_equal("SPATIAL_FUNC(ST_GeomFromText('POINT (1.0 2.0)'), ST_GeomFromText('LINESTRING (1.0 2.0, 2.0 3.0)'))", sql.value)
   end
 
   def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_feature
@@ -86,17 +86,18 @@ class BasicTest < Minitest::Test
     line = geos_capi_factory.line_string([pt1, pt2])
     named_func = RGeo::ActiveRecord::SpatialNamedFunction.new("SPATIAL_FUNC", [pt1, line], [false, true, true])
     sql = visitor.accept(named_func, Arel::Collectors::PlainString.new)
-    assert_equal("SPATIAL_FUNC(ST_WKTToSQL('POINT (1.0 2.0)'), ST_WKTToSQL('LINESTRING (1.0 2.0, 2.0 3.0)'))", sql.value)
+    assert_equal("SPATIAL_FUNC(ST_GeomFromText('POINT (1.0 2.0)', 0), ST_GeomFromText('LINESTRING (1.0 2.0, 2.0 3.0)', 0))", sql.value)
   end
 
   def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_bbox
     visitor = arel_visitor
-    pt1 = geos_capi_factory.point(1, 2)
-    pt2 = geos_capi_factory.point(2, 3)
+    merc_factory = RGeo::Geos.factory(srid: 3857)
+    pt1 = merc_factory.point(1, 2)
+    pt2 = merc_factory.point(2, 3)
     bbox = RGeo::Cartesian::BoundingBox.create_from_points(pt1, pt2)
     named_func = RGeo::ActiveRecord::SpatialNamedFunction.new("SPATIAL_FUNC", [bbox], [false, true])
     sql = visitor.accept(named_func, Arel::Collectors::PlainString.new)
-    assert_equal("SPATIAL_FUNC(ST_WKTToSQL('POLYGON ((1.0 2.0, 2.0 2.0, 2.0 3.0, 1.0 3.0, 1.0 2.0))'))", sql.value)
+    assert_equal("SPATIAL_FUNC(ST_GeomFromText('POLYGON ((1.0 2.0, 2.0 2.0, 2.0 3.0, 1.0 3.0, 1.0 2.0))', 3857))", sql.value)
   end
 
   private

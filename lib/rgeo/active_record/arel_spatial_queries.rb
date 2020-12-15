@@ -41,12 +41,14 @@ module RGeo
       # an RGeo feature, or a spatial attribute.
       def visit_in_spatial_context(node, collector)
         if node.is_a?(String)
-          collector << "#{st_func('ST_WKTToSQL')}(#{quote(node)})"
+          collector << "#{st_func('ST_GeomFromText')}(#{quote(node)})"
         elsif node.is_a?(RGeo::Feature::Instance)
-          collector << "#{st_func('ST_WKTToSQL')}(#{quote(node.to_s)})"
+          srid = node.srid
+          collector << "#{st_func('ST_GeomFromText')}(#{quote(node.to_s)}, #{srid})"
         elsif node.is_a?(RGeo::Cartesian::BoundingBox)
           geom = node.to_geometry
-          collector << "#{st_func('ST_WKTToSQL')}(#{quote(geom.to_s)})"
+          srid = geom.srid
+          collector << "#{st_func('ST_GeomFromText')}(#{quote(geom.to_s)}, #{srid})"
         else
           visit(node, collector)
         end
