@@ -1,10 +1,10 @@
 ## RGeo::ActiveRecord
 
 [![Gem Version](https://badge.fury.io/rb/rgeo-activerecord.svg)](http://badge.fury.io/rb/rgeo-activerecord)
-[![Build Status](https://travis-ci.org/rgeo/rgeo-activerecord.svg?branch=master)](https://travis-ci.org/rgeo/rgeo-activerecord)
+[![Status](https://github.com/rgeo/rgeo-activerecord/workflows/Tests/badge.svg?branch=v7-dev)](https://github.com/rgeo/rgeo-activerecord/actions)
 [![Code Climate](https://codeclimate.com/github/rgeo/rgeo-activerecord.png)](https://codeclimate.com/github/rgeo/rgeo-activerecord)
 
-RGeo::ActiveRecord is an optional [RGeo](http://github.com/dazuma/rgeo) module
+RGeo::ActiveRecord is an optional [RGeo](http://github.com/rgeo/rgeo) module
 providing spatial extensions for ActiveRecord, as well as a set of helpers for
 writing spatial ActiveRecord adapters based on RGeo.
 
@@ -28,6 +28,7 @@ Gemfile:
 ```ruby
 gem 'rgeo-activerecord'
 ```
+
 Version `6.1` supports ActiveRecord 5.x and 6.0 with `rgeo` 1.0+.
 
 Version `6.0` supports ActiveRecord 5.x with `rgeo` 1.x.
@@ -40,15 +41,12 @@ Version `1.1.0` supports ActiveRecord 4.0 and 4.1
 
 Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 
-* Ruby 1.8.7 or later
-* ActiveRecord 3.0.3 - 3.2.x
-* rgeo 0.3.20 or later
-* arel 2.0.6 or later
+- Ruby 1.8.7 or later
+- ActiveRecord 3.0.3 - 3.2.x
+- rgeo 0.3.20 or later
+- arel 2.0.6 or later
 
 ### Spatial Factories for Columns
-
-`rgeo_factory_generator` and related methods were removed in version 4.0, since column types
-are no longer tied to their database column in ActiveRecord 4.2.
 
 Register spatial factories in the `SpatialFactoryStore` singleton class. Each spatial type
 in your ActiveRecord models will use the `SpatialFactoryStore` to retrieve
@@ -56,16 +54,15 @@ a factory matching the properties of its type. For example, you can set a differ
 spatial factory for point types, or for types matching a specific SRID, or having
 a Z coordinate, or any combination of attributes.
 
-The supported keys when registering a spatial type are listed here with their default values
-and other allowed values:
+The supported keys when registering a spatial type are listed here with their expected values:
 
 ```
-geo_type: "geometry", # point, polygon, line_string, geometry_collection,
-                      # multi_line_string, multi_point, multi_polygon
-has_m:    false,      # true
-has_z:    false,      # true
-sql_type: "geometry", # geography
-srid:     0,          # (any valid SRID)
+geo_type: string  # geometry, point, polygon, line_string, geometry_collection,
+                  # multi_line_string, multi_point, multi_polygon
+has_m:    boolean # true, false
+has_z:    boolean # true, false
+sql_type: string  # geometry, geography
+srid:     int     # (any valid SRID)
 ```
 
 The default factories are `RGeo::Geographic.spherical_factory` for
@@ -73,7 +70,7 @@ geographic types, and `RGeo::Cartesian.preferred_factory` for geometric types.
 
 Here is an example setup:
 
-```ruby
+```rb
 RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
   # By default, use the GEOS implementation for spatial columns.
   config.default = RGeo::Geos.factory_generator
@@ -82,6 +79,35 @@ RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
   config.register(RGeo::Geographic.spherical_factory(srid: 4326), geo_type: "point")
 end
 ```
+
+A more detailed description is available in the [wiki](https://github.com/rgeo/rgeo-activerecord/wiki/Spatial-Factory-Store).
+
+_NOTE: `rgeo_factory_generator` and related methods were removed in version 4.0, since column types
+are no longer tied to their database column in ActiveRecord 4.2._
+
+### Spatial Queries
+
+RGeo-ActiveRecord provides an Arel interface to use functions commonly found in spatial databases. The interface also allows for the creation of your own spatial functions if they are not defined.
+
+Here is an example using `st_contains`:
+
+```rb
+point = RGeo::Geos.factory(srid: 0).point(1,1)
+
+buildings = Building.arel_table
+containing_buiildings = Building.where(buildings[:geom].st_contains(point))
+```
+
+or using the `Arel.spatial` node:
+
+```rb
+point = "SRID=0;POINT(1,1)"
+
+buildings = Building.arel_table
+containing_buiildings = Building.where(buildings[:geom].st_contains(Arel.spatial(point)))
+```
+
+_Note: If you pass a WKT representation into an st_function, you should prepend the string with SRID=your_srid, otherwise the database will assume SRID=0 which may cause errors on certain operations._
 
 ### RGeo Dependency
 
@@ -107,15 +133,12 @@ http://groups.google.com/group/rgeo-users
 ### Acknowledgments
 
 [Daniel Azuma](http://www.daniel-azuma.com) created RGeo.
-[Tee Parham](http://twitter.com/teeparham) is the current maintainer.
-
-Development is supported by:
-
-* [Pirq](http://pirq.com)
-* [Neighborland](https://neighborland.com)
+[Tee Parham](http://twitter.com/teeparham) is a former maintainer.
+[Keith Doggett](http://www.github.com/keithdoggett) is a current maintainer.
+[Ulysse Buonomo](http://www.github.com/BuonOmo) is a current maintainer.
 
 ### License
 
-Copyright 2015 Daniel Azuma, Tee Parham
+Copyright 2020 Daniel Azuma, Tee Parham
 
 https://github.com/rgeo/rgeo-activerecord/blob/master/LICENSE.txt
