@@ -1,7 +1,7 @@
 ## RGeo::ActiveRecord
 
-[![Gem Version](https://badge.fury.io/rb/rgeo-activerecord.svg)](http://badge.fury.io/rb/rgeo-activerecord)
-[![Status](https://github.com/rgeo/rgeo-activerecord/workflows/Tests/badge.svg?branch=v7-dev)](https://github.com/rgeo/rgeo-activerecord/actions)
+[![Gem version](https://img.shields.io/gem/v/rgeo-activerecord)](https://rubygems.org/gems/rgeo-activerecord)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rgeo/rgeo-activerecord/Tests)](https://github.com/rgeo/rgeo-activerecord/actions?query=workflow%3A%22Tests%22)
 [![Code Climate](https://codeclimate.com/github/rgeo/rgeo-activerecord.png)](https://codeclimate.com/github/rgeo/rgeo-activerecord)
 
 RGeo::ActiveRecord is an optional [RGeo](http://github.com/rgeo/rgeo) module
@@ -48,6 +48,8 @@ Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 
 ### Spatial Factories for Columns
 
+**_This is an introduction. More details are available in the [wiki entry](https://github.com/rgeo/rgeo-activerecord/wiki/Spatial-Factory-Store)._**
+
 Register spatial factories in the `SpatialFactoryStore` singleton class. Each spatial type
 in your ActiveRecord models will use the `SpatialFactoryStore` to retrieve
 a factory matching the properties of its type. For example, you can set a different
@@ -79,8 +81,6 @@ RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
   config.register(RGeo::Geographic.spherical_factory(srid: 4326), geo_type: "point")
 end
 ```
-
-A more detailed description is available in the [wiki](https://github.com/rgeo/rgeo-activerecord/wiki/Spatial-Factory-Store).
 
 _NOTE: `rgeo_factory_generator` and related methods were removed in version 4.0, since column types
 are no longer tied to their database column in ActiveRecord 4.2._
@@ -136,6 +136,11 @@ http://groups.google.com/group/rgeo-users
 [Tee Parham](http://twitter.com/teeparham) is a former maintainer.
 [Keith Doggett](http://www.github.com/keithdoggett) is a current maintainer.
 [Ulysse Buonomo](http://www.github.com/BuonOmo) is a current maintainer.
+
+Development is supported by:
+
+- [Klaxit](https://www.klaxit.com)
+- Goldfish Ads
 
 ### License
 
