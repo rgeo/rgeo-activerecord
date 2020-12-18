@@ -50,10 +50,8 @@ Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
 
 **_This is an introduction. More details are available in the [wiki entry](https://github.com/rgeo/rgeo-activerecord/wiki/Spatial-Factory-Store)._**
 
-Register spatial factories in the `SpatialFactoryStore` singleton class. Each spatial type
-in your ActiveRecord models will use the `SpatialFactoryStore` to retrieve
-a factory matching the properties of its type. For example, you can set a different
-spatial factory for point types, or for types matching a specific SRID, or having
+Register spatial factories in the `SpatialFactoryStore` singleton class to parse spatial data. Each spatial column
+in your models will use the `SpatialFactoryStore` to parse the stored WKB into an RGeo Feature. The factory from the `SpatialFactoryStore` is chosen based on metadata from the spatial column and the attributes with which the factory was registered to the store. For example, you can set a factory for point types, for types matching a specific SRID, having
 a Z coordinate, or any combination of attributes.
 
 The supported keys when registering a spatial type are listed here with their expected values:
