@@ -2,6 +2,6 @@
 
 module RGeo
   module ActiveRecord
-    VERSION = "6.2.2"
+    VERSION = "7.0.0"
   end
 end

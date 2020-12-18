@@ -1,3 +1,8 @@
+### 7.0.0 / 2020-12-15
+
+* Update visit_* methods and Arel interface to support RGeo features.
+* Rework SpatialFactoryStore to support hierarchical matches and fallbacks.
+
 ### 6.2.2 / 2020-11-20
 
 * Removed `Arel::Visitor::DepthFirst` for ActiveRecord 6.1 compatibility (kamipo)
