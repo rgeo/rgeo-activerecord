@@ -4,11 +4,17 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{matrix.gemfile}}
     strategy:
-      env:
-        BUNDLE_GEMFILE: ${{matrix.gemfile}}
       matrix:
-        ruby: [2.7, 2.6, 2.5, jruby]
+        ruby:
+          - head
+          - "3.0"
+          - "2.7"
+          - "2.6"
+          - "2.5"
+          - jruby
         gemfile:
           - gemfiles/ar50.gemfile
           - gemfiles/ar51.gemfile
