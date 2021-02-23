@@ -1,4 +1,4 @@
-require "./lib/rgeo/active_record/version"
+require_relative "./lib/rgeo/active_record/version"
 
 Gem::Specification.new do |spec|
   spec.name = "rgeo-activerecord"
@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
 
-  spec.required_ruby_version = ">= 2.3.0"
+  spec.required_ruby_version = ">= 2.5.0"
 
   spec.add_dependency "activerecord", ">= 5.0"
   spec.add_dependency "rgeo", ">= 1.0.0"

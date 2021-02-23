@@ -100,10 +100,35 @@ class BasicTest < Minitest::Test
     assert_equal("SPATIAL_FUNC(ST_GeomFromText('POLYGON ((1.0 2.0, 2.0 2.0, 2.0 3.0, 1.0 3.0, 1.0 2.0))', 3857))", sql.value)
   end
 
+  def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_with_alias
+    visitor = arel_visitor
+    table = Arel::Table.new("spatial_models")
+
+    geo_factory = RGeo::Geographic.spherical_factory(srid: 4326)
+    pt = geo_factory.point(1, 1)
+
+    stmt = table.project(Arel.star, table[:lonlat].st_distance(Arel.spatial(pt)).as("distance"))
+    sql = visitor.accept(stmt, Arel::Collectors::SQLString.new)
+
+    assert_equal("(SELECT *, ST_Distance(\"spatial_models\".\"lonlat\", ST_GeomFromText('POINT (1.0 1.0)', 4326)) AS distance FROM \"spatial_models\")", sql.value)
+  end
+
+  def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_with_distinct
+    visitor = arel_visitor
+    named_func = RGeo::ActiveRecord::SpatialNamedFunction.new("SPATIAL_FUNC",
+                                                              ["POINT (1.0 2.0)",
+                                                               "LINESTRING (1.0 2.0, 2.0 3.0)"],
+                                                              [false, true, true])
+    named_func.distinct = true
+    sql = visitor.accept(named_func, Arel::Collectors::PlainString.new)
+    assert_equal("SPATIAL_FUNC(DISTINCT ST_GeomFromText('POINT (1.0 2.0)'), ST_GeomFromText('LINESTRING (1.0 2.0, 2.0 3.0)'))", sql.value)
+  end
+
   private
 
   def arel_visitor
-    Arel::Visitors::PostgreSQL.new(FakeRecord::Connection.new)
+    conn = FakeRecord::Base.new
+    Arel::Visitors::ToSql.new(conn.connection)
   end
 
   def setup_wkt

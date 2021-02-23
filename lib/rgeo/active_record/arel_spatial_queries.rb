@@ -32,7 +32,10 @@ module RGeo
           collector << ", " unless index == node.expressions.size - 1
         end
         collector << ")"
-        collector << " AS #{visit(node.alias, collector)}" if node.alias
+        if node.alias
+          collector << " AS "
+          visit node.alias, collector
+        end
         collector
       end
 
