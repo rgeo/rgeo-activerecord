@@ -1,3 +1,7 @@
+### 7.0.1 / 2021-02-23
+
+* Fix malformed Arel queries using `as` (ugisozols)
+
 ### 7.0.0 / 2020-12-15
 
 * Update visit_* methods and Arel interface to support RGeo features.
