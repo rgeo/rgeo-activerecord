@@ -12,8 +12,6 @@ jobs:
           - head
           - "3.0"
           - "2.7"
-          - "2.6"
-          - "2.5"
           - jruby
         gemfile:
           - gemfiles/ar50.gemfile
