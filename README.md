@@ -29,6 +29,8 @@ Gemfile:
 gem 'rgeo-activerecord'
 ```
 
+Version `7.0+` supports ActiveRecord 5.x, 6.x, and 7.x with `rgeo` 1.0+
+
 Version `6.2+` supports ActiveRecord 5.x and 6.x with `rgeo` 1.0+
 
 Version `6.1` supports ActiveRecord 5.x and 6.0 with `rgeo` 1.0+.
