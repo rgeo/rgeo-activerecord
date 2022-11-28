@@ -49,7 +49,6 @@ jobs:
           - gemfiles/ar60.gemfile
           - gemfiles/ar61.gemfile
           - gemfiles/rgeo1.gemfile
-          - gemfiles/rgeo3.gemfile
     steps:
       - name: Set Up Gems
         uses: actions/checkout@v2
