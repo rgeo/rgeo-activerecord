@@ -91,7 +91,7 @@ class BasicTest < Minitest::Test
 
   def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_bbox
     visitor = arel_visitor
-    merc_factory = RGeo::Geos.factory(srid: 3857)
+    merc_factory = RGeo::Geos.factory(srid: 3857, wkt_generator: ruby_wkt_generator_opts)
     pt1 = merc_factory.point(1, 2)
     pt2 = merc_factory.point(2, 3)
     bbox = RGeo::Cartesian::BoundingBox.create_from_points(pt1, pt2)
@@ -135,9 +135,17 @@ class BasicTest < Minitest::Test
     RGeo::ActiveRecord::GeometryMixin.set_json_generator(nil)
   end
 
+  def ruby_wkt_generator_opts
+    {
+      convert_case: :upper
+    }
+  end
+
   # builds Geos::CAPI* features
   def geos_capi_factory
-    RGeo::Cartesian.preferred_factory
+    RGeo::Cartesian.preferred_factory(
+      wkt_generator: ruby_wkt_generator_opts
+    )
   end
 
   # builds Cartesian::* features
@@ -157,7 +165,7 @@ class BasicTest < Minitest::Test
 
   # builds Geos::FFI* features
   def ffi_factory
-    RGeo::Geos.factory(native_interface: :ffi)
+    RGeo::Geos.factory(native_interface: :ffi, wkt_generator: ruby_wkt_generator_opts)
   end
 
   # builds Geos::ZM* features
