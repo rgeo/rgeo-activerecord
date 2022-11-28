@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - jruby
+          - "jruby-9.3.7.0"
           - "2.6"
         gemfile:
           - gemfiles/ar50.gemfile
