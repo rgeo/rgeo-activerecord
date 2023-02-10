@@ -24,7 +24,7 @@ end
 
 appraise "rgeo3" do
   gem "activerecord", "~> 7.0.0"
-  gem "rgeo", "~> 3.0.0.pre.rc.3"
+  gem "rgeo", "~> 3.0.0"
 end
 
 appraise "rgeo1" do
