@@ -1,8 +1,8 @@
 ## RGeo::ActiveRecord
 
 [![Gem version](https://img.shields.io/gem/v/rgeo-activerecord)](https://rubygems.org/gems/rgeo-activerecord)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rgeo/rgeo-activerecord/Tests)](https://github.com/rgeo/rgeo-activerecord/actions?query=workflow%3A%22Tests%22)
-[![Code Climate](https://codeclimate.com/github/rgeo/rgeo-activerecord.png)](https://codeclimate.com/github/rgeo/rgeo-activerecord)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rgeo/rgeo-activerecord/test.yml?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a2c8d3082dbc1b223cd2/maintainability)](https://codeclimate.com/github/rgeo/rgeo-activerecord/maintainability)
 
 RGeo::ActiveRecord is an optional [RGeo](http://github.com/rgeo/rgeo) module
 providing spatial extensions for ActiveRecord, as well as a set of helpers for
