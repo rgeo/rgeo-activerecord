@@ -1,6 +1,9 @@
 name: Tests
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   test-27-plus:
     runs-on: ubuntu-latest
@@ -9,21 +12,67 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - head
+          - "3.3"
+          - "3.2"
+          - "3.1"
           - "3.0"
           - "2.7"
         gemfile:
-          - gemfiles/ar50.gemfile
-          - gemfiles/ar51.gemfile
-          - gemfiles/ar52.gemfile
-          - gemfiles/ar60.gemfile
-          - gemfiles/ar61.gemfile
+          - gemfiles/ar72.gemfile
+          - gemfiles/ar71.gemfile
           - gemfiles/ar70.gemfile
-          - gemfiles/rgeo1.gemfile
           - gemfiles/rgeo3.gemfile
+          - gemfiles/rgeo1.gemfile
+        channel: ['stable']
+        include:
+          # Test legacy AR 5.x/6.x series
+          - ruby: '2.7'
+            gemfile: gemfiles/ar50.gemfile
+            channel: 'stable'
+          - ruby: '2.7'
+            gemfile: gemfiles/ar51.gemfile
+            channel: 'stable'
+          - ruby: '2.7'
+            gemfile: gemfiles/ar52.gemfile
+            channel: 'stable'
+          - ruby: '2.7'
+            gemfile: gemfiles/ar60.gemfile
+            channel: 'stable'
+          - ruby: '2.7'
+            gemfile: gemfiles/ar61.gemfile
+            channel: 'stable'
+          - ruby: '3.0'
+            gemfile: gemfiles/ar60.gemfile
+            channel: 'stable'
+          - ruby: '3.0'
+            gemfile: gemfiles/ar61.gemfile
+            channel: 'stable'
+          - ruby: '3.1'
+            gemfile: gemfiles/ar61.gemfile
+            channel: 'stable'
+          # Test against Ruby head
+          - ruby: head
+            gemfile: gemfiles/ar71.gemfile
+            channel: 'experimental'
+          - ruby: head
+            gemfile: gemfiles/ar72.gemfile
+            channel: 'experimental'
+          - ruby: head
+            gemfile: gemfiles/rgeo3.gemfile
+            channel: 'experimental'
+        exclude:
+          - ruby: '2.7'
+            gemfile: gemfiles/ar72.gemfile
+          - ruby: '2.7'
+            gemfile: gemfiles/rgeo3.gemfile
+          - ruby: '3.0'
+            gemfile: gemfiles/ar72.gemfile
+          - ruby: '3.0'
+            gemfile: gemfiles/rgeo3.gemfile
+    continue-on-error: ${{ matrix.channel != 'stable' }}
     steps:
       - name: Set Up Gems
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set Up Deps
         run: sudo apt-get install libgeos-dev
       - name: Set Up Ruby
@@ -51,7 +100,7 @@ jobs:
           - gemfiles/rgeo1.gemfile
     steps:
       - name: Set Up Gems
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set Up Deps
         run: sudo apt-get install libgeos-dev
       - name: Set Up Ruby

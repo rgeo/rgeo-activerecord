@@ -11,7 +11,7 @@ appraise "ar52" do
 end
 
 appraise "ar60" do
-  gem "activerecord", "~> 6.0.0.rc1"
+  gem "activerecord", "~> 6.0.0"
 end
 
 appraise "ar61" do
@@ -22,9 +22,17 @@ appraise "ar70" do
   gem "activerecord", "~> 7.0.0"
 end
 
+appraise "ar71" do
+  gem "activerecord", "~> 7.1.0"
+end
+
+appraise "ar72" do
+  gem "activerecord", "~> 7.2.0"
+end
+
 appraise "rgeo3" do
-  gem "activerecord", "~> 7.0.0"
-  gem "rgeo", "~> 3.0.0"
+  gem "activerecord", "~> 7.2.0"
+  gem "rgeo", "~> 3.0"
 end
 
 appraise "rgeo1" do
