@@ -1,3 +1,8 @@
+### 8.0.0 / 2024-09-11
+
+* Drop support for legacy dependencies (tagliala)
+* Support ActiveRecord 7.2 (tagliala)
+
 ### 7.0.1 / 2021-02-23
 
 * Fix malformed Arel queries using `as` (ugisozols)
