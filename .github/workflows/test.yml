@@ -1,57 +1,43 @@
 name: Tests
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
-  test-27-plus:
+  tests:
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{matrix.gemfile}}
     strategy:
       matrix:
         ruby:
-          - head
-          - "3.0"
-          - "2.7"
+          - "3.3"
+          - "3.2"
+          - "3.1"
+          - "jruby-9.4.8.0"
         gemfile:
-          - gemfiles/ar50.gemfile
-          - gemfiles/ar51.gemfile
-          - gemfiles/ar52.gemfile
-          - gemfiles/ar60.gemfile
-          - gemfiles/ar61.gemfile
+          - gemfiles/ar72.gemfile
+          - gemfiles/ar71.gemfile
           - gemfiles/ar70.gemfile
-          - gemfiles/rgeo1.gemfile
-          - gemfiles/rgeo3.gemfile
+        channel: ['stable']
+        include:
+          - ruby: head
+            gemfile: gemfiles/ar71.gemfile
+            channel: 'experimental'
+          - ruby: head
+            gemfile: gemfiles/ar72.gemfile
+            channel: 'experimental'
+          - ruby: jruby-head
+            gemfile: gemfiles/ar71.gemfile
+            channel: 'experimental'
+          - ruby: jruby-head
+            gemfile: gemfiles/ar72.gemfile
+            channel: 'experimental'
+    continue-on-error: ${{ matrix.channel != 'stable' }}
     steps:
       - name: Set Up Gems
-        uses: actions/checkout@v2
-      - name: Set Up Deps
-        run: sudo apt-get install libgeos-dev
-      - name: Set Up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Test
-        run: bundle exec rake
-  test-26-lower:
-    runs-on: ubuntu-latest
-    env:
-      BUNDLE_GEMFILE: ${{matrix.gemfile}}
-    strategy:
-      matrix:
-        ruby:
-          - "jruby-9.3.7.0"
-          - "2.6"
-        gemfile:
-          - gemfiles/ar50.gemfile
-          - gemfiles/ar51.gemfile
-          - gemfiles/ar52.gemfile
-          - gemfiles/ar60.gemfile
-          - gemfiles/ar61.gemfile
-          - gemfiles/rgeo1.gemfile
-    steps:
-      - name: Set Up Gems
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set Up Deps
         run: sudo apt-get install libgeos-dev
       - name: Set Up Ruby

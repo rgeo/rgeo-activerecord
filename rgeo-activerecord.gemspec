@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["lib/**/*", "README.md", "History.md", "LICENSE.txt"]
 
-  spec.required_ruby_version = ">= 2.5.0"
+  spec.required_ruby_version = ">= 3.1.0"
 
-  spec.add_dependency "activerecord", ">= 5.0"
-  spec.add_dependency "rgeo", ">= 1.0.0"
+  spec.add_dependency "activerecord", ">= 7.0"
+  spec.add_dependency "rgeo", ">= 3.0"
 
   spec.add_development_dependency "appraisal", "~> 2.1"
   spec.add_development_dependency "ffi-geos", "~> 1.2"
