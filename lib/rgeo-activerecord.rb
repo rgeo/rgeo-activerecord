@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require "rgeo/active_record"
+require_relative "rgeo/active_record"
