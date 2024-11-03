@@ -124,6 +124,16 @@ class BasicTest < Minitest::Test
     assert_equal("SPATIAL_FUNC(DISTINCT ST_GeomFromText('POINT (1.0 2.0)'), ST_GeomFromText('LINESTRING (1.0 2.0, 2.0 3.0)'))", sql.value)
   end
 
+  def test_multi_geom_sanitization
+    multi_geom = RGeo::Geos.factory.parse_wkt("MULTIPOLYGON (((0 0, 0 1, 1 1, 0 0)),((1 1, 0 0, 0 1, 1 1)))")
+    sql = "ST_DWithin(geom, :geom, :buffer)"
+
+    assert_equal(
+      "ST_DWithin(geom, 'MULTIPOLYGON (((0 0, 0 1, 1 1, 0 0)), ((1 1, 0 0, 0 1, 1 1)))', '10')",
+      FakeRecord::Base.sanitize_sql([ sql, geom: multi_geom, buffer: 10 ])
+    )
+  end
+
   private
 
   def arel_visitor
