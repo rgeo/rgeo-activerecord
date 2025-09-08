@@ -1,3 +1,8 @@
+### 9.0.0 / Unreleased
+
+* Drop support for legacy dependencies (t27duck)
+* Support ActiveRecord 8.0 and 8.1 beta (t27duck)
+
 ### 8.0.0 / 2024-09-11
 
 * Drop support for legacy dependencies (tagliala)
