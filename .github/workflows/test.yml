@@ -17,7 +17,7 @@ jobs:
           - "3.2"
           - "jruby-9.4.14.0"
         gemfile:
-          - gemfiles/ar81-beta.gemfile
+          - gemfiles/ar81_beta.gemfile
           - gemfiles/ar80.gemfile
           - gemfiles/ar72.gemfile
         channel: ['stable']
