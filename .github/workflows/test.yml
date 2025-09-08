@@ -21,6 +21,13 @@ jobs:
           - gemfiles/ar80.gemfile
           - gemfiles/ar72.gemfile
         channel: ['stable']
+        exclude:
+          - ruby: "jruby-9.4.14.0"
+            gemfile: gemfiles/ar81_beta.gemfile
+            channel: 'stable'
+          - ruby: "jruby-9.4.14.0"
+            gemfile: gemfiles/ar80.gemfile
+            channel: 'stable'
         include:
           - ruby: head
             gemfile: gemfiles/ar80.gemfile
