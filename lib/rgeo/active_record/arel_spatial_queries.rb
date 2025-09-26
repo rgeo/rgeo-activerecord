@@ -98,7 +98,12 @@ module RGeo
       include SpatialExpressions
 
       def initialize(name, expr, spatial_flags = [], aliaz = nil)
-        super(name, expr, aliaz)
+        if Arel::Nodes::NamedFunction.instance_method(:initialize).parameters.size == 2 # ActiveRecord 8.1+
+          super(name, expr)
+          @aliaz = aliaz
+        else # ActiveRecord 8.0 and earlier
+          super(name, expr, aliaz)
+        end
         @spatial_flags = spatial_flags
       end
 
@@ -108,6 +113,10 @@ module RGeo
 
       def spatial_argument?(index)
         @spatial_flags[index + 1]
+      end
+
+      def alias
+        @aliaz || (instance_variable_defined?(:@alias) ? @alias : nil)
       end
     end
 

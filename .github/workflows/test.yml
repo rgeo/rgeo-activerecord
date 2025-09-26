@@ -12,24 +12,31 @@ jobs:
     strategy:
       matrix:
         ruby:
+          - "3.4"
           - "3.3"
           - "3.2"
-          - "3.1"
-          - "jruby-9.4.8.0"
+          - "jruby-9.4.14.0"
         gemfile:
+          - gemfiles/ar81_beta.gemfile
+          - gemfiles/ar80.gemfile
           - gemfiles/ar72.gemfile
-          - gemfiles/ar71.gemfile
-          - gemfiles/ar70.gemfile
         channel: ['stable']
+        exclude:
+          - ruby: "jruby-9.4.14.0"
+            gemfile: gemfiles/ar81_beta.gemfile
+            channel: 'stable'
+          - ruby: "jruby-9.4.14.0"
+            gemfile: gemfiles/ar80.gemfile
+            channel: 'stable'
         include:
           - ruby: head
-            gemfile: gemfiles/ar71.gemfile
+            gemfile: gemfiles/ar80.gemfile
             channel: 'experimental'
           - ruby: head
             gemfile: gemfiles/ar72.gemfile
             channel: 'experimental'
           - ruby: jruby-head
-            gemfile: gemfiles/ar71.gemfile
+            gemfile: gemfiles/ar80.gemfile
             channel: 'experimental'
           - ruby: jruby-head
             gemfile: gemfiles/ar72.gemfile
