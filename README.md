@@ -29,28 +29,17 @@ Gemfile:
 gem 'rgeo-activerecord'
 ```
 
-Version `8.0+` supports ActiveRecord 7.x with `rgeo` 3.0+
-
-Version `7.0+` supports ActiveRecord 5.x, 6.x, and 7.x with `rgeo` 1.0+
-
-Version `6.2+` supports ActiveRecord 5.x and 6.x with `rgeo` 1.0+
-
-Version `6.1` supports ActiveRecord 5.x and 6.0 with `rgeo` 1.0+.
-
-Version `6.0` supports ActiveRecord 5.x with `rgeo` 1.x.
-
-Version `5.0` supports ActiveRecord 5.0 and 5.1, with `rgeo` 0.6.
-
-Version `4.0` supports ActiveRecord 4.2.
-
-Version `1.1.0` supports ActiveRecord 4.0 and 4.1
-
-Version `0.6.0` supports earlier versions of ruby and ActiveRecord:
-
-- Ruby 1.8.7 or later
-- ActiveRecord 3.0.3 - 3.2.x
-- rgeo 0.3.20 or later
-- arel 2.0.6 or later
+| Version | Supported ActiveRecord Versions | Supported rgeo Versions |
+| ------- | ------------------------------- | ----------------------- |
+| 8.1     | 8.1                             | 3.0+                    |
+| 8.0     | 7.x, 8.0                        | 3.0+                    |
+| 7.0+    | 5.x, 6.x, 7.x                   | 1.0+                    |
+| 6.2+    | 5.x, 6.x                        | 1.0+                    |
+| 6.1     | 5.x, 6.0                        | 1.0+                    |
+| 6.0     | 5.x                             | 1.x                     |
+| 5.0     | 5.0, 5.1                        | 0.6                     |
+| 4.0     | 4.2                             |                         |
+| 1.1.0   | 4.0, 4.1                        |                         |
 
 ### Spatial Factories for Columns
 
