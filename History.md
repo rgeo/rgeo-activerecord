@@ -1,4 +1,4 @@
-### 9.0.0 / Unreleased
+### 8.1.0 / 2025-10-23
 
 * Drop support for legacy dependencies (t27duck)
 * Support ActiveRecord 8.0 and 8.1 beta (t27duck)

@@ -1,10 +1,30 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  # Triggers the workflow on pull request events.
+  pull_request:
+    types: [opened, reopened, synchronize]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This allows a subsequently queued workflow run to interrupt previous runs.
+concurrency:
+  group: "${{ github.workflow }} @ ${{ github.ref }}"
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  test_results:
+    name: Verify Stable Test Results
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check stable test results
+        run: |
+          [[ "${{ needs.tests.outputs.stable_failed }}" != "1" ]]
   tests:
     runs-on: ubuntu-latest
     env:
@@ -17,31 +37,22 @@ jobs:
           - "3.2"
           - "jruby-9.4.14.0"
         gemfile:
-          - gemfiles/ar81_beta.gemfile
-          - gemfiles/ar80.gemfile
-          - gemfiles/ar72.gemfile
-        channel: ['stable']
+          - gemfiles/ar81.gemfile
+        channel: ["stable"]
         exclude:
           - ruby: "jruby-9.4.14.0"
-            gemfile: gemfiles/ar81_beta.gemfile
-            channel: 'stable'
-          - ruby: "jruby-9.4.14.0"
-            gemfile: gemfiles/ar80.gemfile
-            channel: 'stable'
+            gemfile: gemfiles/ar81.gemfile
+            channel: "stable"
         include:
           - ruby: head
-            gemfile: gemfiles/ar80.gemfile
-            channel: 'experimental'
-          - ruby: head
-            gemfile: gemfiles/ar72.gemfile
-            channel: 'experimental'
+            gemfile: gemfiles/ar81.gemfile
+            channel: "experimental"
           - ruby: jruby-head
-            gemfile: gemfiles/ar80.gemfile
-            channel: 'experimental'
-          - ruby: jruby-head
-            gemfile: gemfiles/ar72.gemfile
-            channel: 'experimental'
+            gemfile: gemfiles/ar81.gemfile
+            channel: "experimental"
     continue-on-error: ${{ matrix.channel != 'stable' }}
+    outputs:
+      stable_failed: ${{ steps.mark_failure.outputs.failure }}
     steps:
       - name: Set Up Gems
         uses: actions/checkout@v4
@@ -54,3 +65,7 @@ jobs:
           bundler-cache: true
       - name: Test
         run: bundle exec rake
+      - name: Mark failure
+        id: mark_failure
+        if: ${{ failure() && matrix.channel == 'stable' }}
+        run: echo "failure=1" >> $GITHUB_OUTPUT
