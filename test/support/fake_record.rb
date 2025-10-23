@@ -88,6 +88,10 @@ module FakeRecord
         "'#{thing.to_s.gsub("'", "\\\\'")}'"
       end
     end
+
+    def cast_bound_value(value)
+      value.to_s
+    end
   end
 
   class ConnectionPool
@@ -123,7 +127,13 @@ module FakeRecord
   end
 
   class Base
+    include ActiveRecord::Sanitization
+
     attr_accessor :connection_pool
+
+    def self.with_connection
+      yield new.connection
+    end
 
     def initialize
       @connection_pool = ConnectionPool.new
