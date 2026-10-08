@@ -31,6 +31,7 @@ gem 'rgeo-activerecord'
 
 | Version | Supported ActiveRecord Versions | Supported rgeo Versions |
 | ------- | ------------------------------- | ----------------------- |
+| 8.2     | 8.1, 8.2                        | 3.0+                    |
 | 8.1     | 8.1                             | 3.0+                    |
 | 8.0     | 7.x, 8.0                        | 3.0+                    |
 | 7.0+    | 5.x, 6.x, 7.x                   | 1.0+                    |

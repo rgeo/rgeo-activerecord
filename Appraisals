@@ -9,3 +9,7 @@ end
 appraise "ar81" do
   gem "activerecord", "~> 8.1.0"
 end
+
+appraise "armain" do
+  gem "activerecord", github: "rails/rails", branch: "main"
+end
