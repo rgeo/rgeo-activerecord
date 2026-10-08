@@ -102,7 +102,7 @@ class BasicTest < Minitest::Test
 
   def test_arel_visit_RGeo_ActiveRecord_SpatialNamedFunction_with_alias
     visitor = arel_visitor
-    table = Arel::Table.new("spatial_models")
+    table = arel_table("spatial_models")
 
     geo_factory = RGeo::Geographic.spherical_factory(srid: 4326)
     pt = geo_factory.point(1, 1)
@@ -129,6 +129,15 @@ class BasicTest < Minitest::Test
   def arel_visitor
     conn = FakeRecord::Base.new
     Arel::Visitors::ToSql.new(conn.connection)
+  end
+
+  # Rails 8.2 changed Arel::Table#initialize to take the name as a keyword argument.
+  def arel_table(name)
+    if Arel::Table.instance_method(:initialize).parameters.include?(%i[key name])
+      Arel::Table.new(name: name)
+    else
+      Arel::Table.new(name)
+    end
   end
 
   def setup_wkt

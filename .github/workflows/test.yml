@@ -50,6 +50,13 @@ jobs:
           - ruby: jruby-head
             gemfile: gemfiles/ar81.gemfile
             channel: "experimental"
+          # Rails main requires Ruby >= 3.3.5.
+          - ruby: "3.4"
+            gemfile: gemfiles/armain.gemfile
+            channel: "experimental"
+          - ruby: "3.3"
+            gemfile: gemfiles/armain.gemfile
+            channel: "experimental"
     continue-on-error: ${{ matrix.channel != 'stable' }}
     outputs:
       stable_failed: ${{ steps.mark_failure.outputs.failure }}
