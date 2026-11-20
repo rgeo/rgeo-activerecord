@@ -1,3 +1,7 @@
+### 8.2.0 / 2026-10-08
+
+* Support ActiveRecord 8.2 (theonlyriddle)
+
 ### 8.1.0 / 2025-10-23
 
 * Drop support for legacy dependencies (t27duck)
